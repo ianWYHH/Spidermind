@@ -1,0 +1,477 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>解析结果审查 - Spidermind</title>
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.1.3/dist/css/bootstrap.min.css" rel="stylesheet">
+    <link href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0/css/all.min.css" rel="stylesheet">
+    <style>
+        .stats-card {
+            background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+            color: white;
+            border-radius: 15px;
+        }
+        .progress-card {
+            background: linear-gradient(135deg, #f093fb 0%, #f5576c 100%);
+            color: white;
+            border-radius: 15px;
+        }
+        .coverage-card {
+            background: linear-gradient(135deg, #4facfe 0%, #00f2fe 100%);
+            color: white;
+            border-radius: 15px;
+        }
+        .operation-success {
+            background-color: #d4edda;
+            border-left: 4px solid #28a745;
+        }
+        .operation-reset {
+            background-color: #fff3cd;
+            border-left: 4px solid #ffc107;
+        }
+        .tags-container {
+            max-height: 100px;
+            overflow-y: auto;
+        }
+        .tag-badge {
+            font-size: 0.75rem;
+            margin: 0.125rem;
+        }
+    </style>
+</head>
+<body>
+    <nav class="navbar navbar-expand-lg navbar-dark bg-primary">
+        <div class="container">
+            <a class="navbar-brand" href="/">
+                <i class="fas fa-spider me-2"></i>Spidermind
+            </a>
+            <div class="navbar-nav ms-auto">
+                <a class="nav-link" href="/"><i class="fas fa-home me-1"></i>首页</a>
+                <a class="nav-link" href="/candidates"><i class="fas fa-users me-1"></i>候选人</a>
+                <a class="nav-link active" href="/parse/review"><i class="fas fa-cogs me-1"></i>解析管理</a>
+            </div>
+        </div>
+    </nav>
+
+    <div class="container mt-4">
+        <!-- 面包屑导航 -->
+        <nav aria-label="breadcrumb">
+            <ol class="breadcrumb">
+                <li class="breadcrumb-item"><a href="/">首页</a></li>
+                <li class="breadcrumb-item active">解析结果审查</li>
+            </ol>
+        </nav>
+
+        <div class="d-flex justify-content-between align-items-center mb-4">
+            <h2><i class="fas fa-cogs me-2"></i>解析结果审查</h2>
+            <div>
+                <button class="btn btn-success me-2" onclick="startParsing()">
+                    <i class="fas fa-play me-1"></i>启动解析
+                </button>
+                <button class="btn btn-info" onclick="refreshPage()">
+                    <i class="fas fa-sync-alt me-1"></i>刷新
+                </button>
+            </div>
+        </div>
+
+        <!-- 统计卡片 -->
+        <div class="row mb-4">
+            <div class="col-md-4">
+                <div class="card stats-card">
+                    <div class="card-body text-center">
+                        <i class="fas fa-users fa-2x mb-2"></i>
+                        <h4>{{ statistics.total_candidates }}</h4>
+                        <p class="mb-0">总候选人数</p>
+                    </div>
+                </div>
+            </div>
+            <div class="col-md-4">
+                <div class="card progress-card">
+                    <div class="card-body text-center">
+                        <i class="fas fa-chart-line fa-2x mb-2"></i>
+                        <h4>{{ "%.1f"|format(statistics.parsing_progress) }}%</h4>
+                        <p class="mb-0">解析进度</p>
+                        <small>{{ statistics.parsed_candidates }}/{{ statistics.candidates_with_texts }}</small>
+                    </div>
+                </div>
+            </div>
+            <div class="col-md-4">
+                <div class="card coverage-card">
+                    <div class="card-body text-center">
+                        <i class="fas fa-tags fa-2x mb-2"></i>
+                        <h4>{{ statistics.pending_candidates }}</h4>
+                        <p class="mb-0">待解析候选人</p>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+        <!-- 覆盖率统计 -->
+        <div class="row mb-4">
+            <div class="col-md-6">
+                <div class="card">
+                    <div class="card-header">
+                        <h6 class="mb-0"><i class="fas fa-chart-pie me-2"></i>标签覆盖率</h6>
+                    </div>
+                    <div class="card-body">
+                        <div class="mb-3">
+                            <div class="d-flex justify-content-between">
+                                <span>研究方向标签</span>
+                                <span>{{ "%.1f"|format(statistics.research_tags_coverage) }}%</span>
+                            </div>
+                            <div class="progress">
+                                <div class="progress-bar bg-info" style="width: {{ statistics.research_tags_coverage }}%"></div>
+                            </div>
+                        </div>
+                        <div>
+                            <div class="d-flex justify-content-between">
+                                <span>技能标签</span>
+                                <span>{{ "%.1f"|format(statistics.skill_tags_coverage) }}%</span>
+                            </div>
+                            <div class="progress">
+                                <div class="progress-bar bg-success" style="width: {{ statistics.skill_tags_coverage }}%"></div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+            <div class="col-md-6">
+                <div class="card">
+                    <div class="card-header">
+                        <h6 class="mb-0"><i class="fas fa-info-circle me-2"></i>统计详情</h6>
+                    </div>
+                    <div class="card-body">
+                        <div class="row">
+                            <div class="col-6">
+                                <div class="text-center">
+                                    <h5 class="text-success">{{ statistics.candidates_with_research_tags }}</h5>
+                                    <small class="text-muted">有研究标签</small>
+                                </div>
+                            </div>
+                            <div class="col-6">
+                                <div class="text-center">
+                                    <h5 class="text-info">{{ statistics.candidates_with_skill_tags }}</h5>
+                                    <small class="text-muted">有技能标签</small>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+        <!-- 解析结果列表 -->
+        <div class="card">
+            <div class="card-header d-flex justify-content-between align-items-center">
+                <h6 class="mb-0"><i class="fas fa-history me-2"></i>最近解析记录</h6>
+                <div>
+                    <button class="btn btn-sm btn-warning me-2" onclick="resetSelected()">
+                        <i class="fas fa-undo me-1"></i>重置选中
+                    </button>
+                    <input type="checkbox" id="selectAll" class="form-check-input me-1" onchange="toggleSelectAll()">
+                    <label for="selectAll" class="form-check-label small">全选</label>
+                </div>
+            </div>
+            <div class="card-body p-0">
+                {% if results %}
+                <div class="table-responsive">
+                    <table class="table table-hover mb-0">
+                        <thead class="table-light">
+                            <tr>
+                                <th width="40">选择</th>
+                                <th>候选人</th>
+                                <th>操作类型</th>
+                                <th>标签统计</th>
+                                <th>研究方向</th>
+                                <th>技能标签</th>
+                                <th>时间</th>
+                                <th>操作</th>
+                            </tr>
+                        </thead>
+                        <tbody>
+                            {% for result in results %}
+                            <tr class="{% if result.operation == 'tags_extraction' %}operation-success{% else %}operation-reset{% endif %}">
+                                <td>
+                                    {% if result.can_reset %}
+                                    <input type="checkbox" class="form-check-input candidate-checkbox" value="{{ result.candidate_id }}">
+                                    {% endif %}
+                                </td>
+                                <td>
+                                    <div>
+                                        <strong>{{ result.candidate_name }}</strong>
+                                        <br><small class="text-muted">ID: {{ result.candidate_id }}</small>
+                                    </div>
+                                </td>
+                                <td>
+                                    {% if result.operation == 'tags_extraction' %}
+                                    <span class="badge bg-success">标签提取</span>
+                                    {% elif result.operation == 'reset_parsing' %}
+                                    <span class="badge bg-warning">重置解析</span>
+                                    {% else %}
+                                    <span class="badge bg-secondary">{{ result.operation }}</span>
+                                    {% endif %}
+                                </td>
+                                <td>
+                                    {% if result.operation == 'tags_extraction' %}
+                                    <div class="text-center">
+                                        <span class="badge bg-info">研究: {{ result.research_tags_count or 0 }}</span>
+                                        <br>
+                                        <span class="badge bg-primary">技能: {{ result.skill_tags_count or 0 }}</span>
+                                    </div>
+                                    {% else %}
+                                    <span class="text-muted">-</span>
+                                    {% endif %}
+                                </td>
+                                <td>
+                                    {% if result.research_tags %}
+                                    <div class="tags-container">
+                                        {% for tag in result.research_tags %}
+                                        <span class="badge bg-info tag-badge">{{ tag }}</span>
+                                        {% endfor %}
+                                    </div>
+                                    {% else %}
+                                    <span class="text-muted">无</span>
+                                    {% endif %}
+                                </td>
+                                <td>
+                                    {% if result.skill_tags %}
+                                    <div class="tags-container">
+                                        {% for tag in result.skill_tags %}
+                                        <span class="badge bg-primary tag-badge">{{ tag }}</span>
+                                        {% endfor %}
+                                    </div>
+                                    {% else %}
+                                    <span class="text-muted">无</span>
+                                    {% endif %}
+                                </td>
+                                <td>
+                                    <small>{{ result.created_at[:16] if result.created_at else '未知' }}</small>
+                                </td>
+                                <td>
+                                    <a href="/candidates/{{ result.candidate_id }}" class="btn btn-sm btn-outline-primary">
+                                        <i class="fas fa-eye"></i>
+                                    </a>
+                                    {% if result.can_reset %}
+                                    <button class="btn btn-sm btn-outline-warning ms-1" onclick="resetCandidate({{ result.candidate_id }})">
+                                        <i class="fas fa-undo"></i>
+                                    </button>
+                                    {% endif %}
+                                </td>
+                            </tr>
+                            {% endfor %}
+                        </tbody>
+                    </table>
+                </div>
+
+                <!-- 分页 -->
+                {% if total_pages > 1 %}
+                <div class="d-flex justify-content-between align-items-center p-3 border-top">
+                    <div class="text-muted">
+                        显示第 {{ ((page - 1) * limit + 1) }} - {{ ((page - 1) * limit + results|length) }} 条，
+                        共 {{ total_count }} 条记录
+                    </div>
+                    
+                    <nav aria-label="解析结果分页">
+                        <ul class="pagination mb-0">
+                            {% if has_prev %}
+                            <li class="page-item">
+                                <a class="page-link" href="?page={{ prev_page }}">
+                                    <i class="fas fa-chevron-left"></i> 上一页
+                                </a>
+                            </li>
+                            {% else %}
+                            <li class="page-item disabled">
+                                <span class="page-link"><i class="fas fa-chevron-left"></i> 上一页</span>
+                            </li>
+                            {% endif %}
+                            
+                            {% for page_num in range(max(1, page - 2), min(total_pages + 1, page + 3)) %}
+                            <li class="page-item {% if page_num == page %}active{% endif %}">
+                                <a class="page-link" href="?page={{ page_num }}">{{ page_num }}</a>
+                            </li>
+                            {% endfor %}
+                            
+                            {% if has_next %}
+                            <li class="page-item">
+                                <a class="page-link" href="?page={{ next_page }}">
+                                    下一页 <i class="fas fa-chevron-right"></i>
+                                </a>
+                            </li>
+                            {% else %}
+                            <li class="page-item disabled">
+                                <span class="page-link">下一页 <i class="fas fa-chevron-right"></i></span>
+                            </li>
+                            {% endif %}
+                        </ul>
+                    </nav>
+                </div>
+                {% endif %}
+
+                {% else %}
+                <div class="text-center py-5">
+                    <i class="fas fa-search fa-3x text-muted mb-3"></i>
+                    <h5 class="text-muted">暂无解析记录</h5>
+                    <p class="text-muted">尚未进行任何解析操作</p>
+                    <button class="btn btn-primary" onclick="startParsing()">
+                        <i class="fas fa-play me-1"></i>开始解析
+                    </button>
+                </div>
+                {% endif %}
+            </div>
+        </div>
+    </div>
+
+    <!-- 启动解析模态框 -->
+    <div class="modal fade" id="parseModal" tabindex="-1">
+        <div class="modal-dialog">
+            <div class="modal-content">
+                <div class="modal-header">
+                    <h5 class="modal-title">启动解析任务</h5>
+                    <button type="button" class="btn-close" data-bs-dismiss="modal"></button>
+                </div>
+                <div class="modal-body">
+                    <form id="parseForm">
+                        <div class="mb-3">
+                            <label class="form-label">批次大小</label>
+                            <input type="number" class="form-control" name="batch_size" value="10" min="1" max="50">
+                            <div class="form-text">每批处理的候选人数量</div>
+                        </div>
+                        <div class="mb-3">
+                            <label class="form-label">最大候选人数</label>
+                            <input type="number" class="form-control" name="max_candidates" placeholder="留空处理所有">
+                            <div class="form-text">限制本次处理的候选人总数</div>
+                        </div>
+                        <div class="mb-3">
+                            <div class="form-check">
+                                <input class="form-check-input" type="checkbox" name="force_reparse" id="forceReparse">
+                                <label class="form-check-label" for="forceReparse">强制重新解析</label>
+                                <div class="form-text">重新解析已处理过的候选人</div>
+                            </div>
+                        </div>
+                    </form>
+                </div>
+                <div class="modal-footer">
+                    <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">取消</button>
+                    <button type="button" class="btn btn-primary" onclick="submitParsing()">启动解析</button>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.1.3/dist/js/bootstrap.bundle.min.js"></script>
+    <script>
+        // 启动解析
+        function startParsing() {
+            new bootstrap.Modal(document.getElementById('parseModal')).show();
+        }
+
+        // 提交解析任务
+        async function submitParsing() {
+            const form = document.getElementById('parseForm');
+            const formData = new FormData(form);
+            
+            const request = {
+                batch_size: parseInt(formData.get('batch_size')),
+                max_candidates: formData.get('max_candidates') ? parseInt(formData.get('max_candidates')) : null,
+                force_reparse: formData.has('force_reparse')
+            };
+            
+            try {
+                const response = await fetch('/parse/start', {
+                    method: 'POST',
+                    headers: {'Content-Type': 'application/json'},
+                    body: JSON.stringify(request)
+                });
+                
+                const result = await response.json();
+                
+                if (response.ok) {
+                    alert('解析任务已启动！');
+                    bootstrap.Modal.getInstance(document.getElementById('parseModal')).hide();
+                    setTimeout(() => location.reload(), 1000);
+                } else {
+                    alert('启动失败: ' + result.detail);
+                }
+            } catch (error) {
+                alert('启动失败: ' + error.message);
+            }
+        }
+
+        // 全选/取消全选
+        function toggleSelectAll() {
+            const selectAll = document.getElementById('selectAll');
+            const checkboxes = document.querySelectorAll('.candidate-checkbox');
+            
+            checkboxes.forEach(checkbox => {
+                checkbox.checked = selectAll.checked;
+            });
+        }
+
+        // 重置选中的候选人
+        async function resetSelected() {
+            const selected = Array.from(document.querySelectorAll('.candidate-checkbox:checked'))
+                .map(cb => parseInt(cb.value));
+            
+            if (selected.length === 0) {
+                alert('请先选择要重置的候选人');
+                return;
+            }
+            
+            if (!confirm(`确定要重置 ${selected.length} 个候选人的解析状态吗？`)) {
+                return;
+            }
+            
+            try {
+                const response = await fetch('/parse/reset', {
+                    method: 'POST',
+                    headers: {'Content-Type': 'application/json'},
+                    body: JSON.stringify({candidate_ids: selected})
+                });
+                
+                const result = await response.json();
+                
+                if (response.ok) {
+                    alert(result.message);
+                    location.reload();
+                } else {
+                    alert('重置失败: ' + result.detail);
+                }
+            } catch (error) {
+                alert('重置失败: ' + error.message);
+            }
+        }
+
+        // 重置单个候选人
+        async function resetCandidate(candidateId) {
+            if (!confirm('确定要重置此候选人的解析状态吗？')) {
+                return;
+            }
+            
+            try {
+                const response = await fetch('/parse/reset', {
+                    method: 'POST',
+                    headers: {'Content-Type': 'application/json'},
+                    body: JSON.stringify({candidate_ids: [candidateId]})
+                });
+                
+                const result = await response.json();
+                
+                if (response.ok) {
+                    alert(result.message);
+                    location.reload();
+                } else {
+                    alert('重置失败: ' + result.detail);
+                }
+            } catch (error) {
+                alert('重置失败: ' + error.message);
+            }
+        }
+
+        // 刷新页面
+        function refreshPage() {
+            location.reload();
+        }
+    </script>
+</body>
+</html>

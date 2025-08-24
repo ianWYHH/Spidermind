@@ -1,0 +1,11 @@
+# venv
+venv/
+__pycache__/
+*.pyc
+
+# IDE
+.vscode/
+.idea/
+
+# Env file (可选，避免泄露密码)
+.env

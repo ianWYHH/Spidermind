@@ -1,18 +1,10 @@
 {
   "tokens": [
     {
-      "token": "your_github_token_1",
-      "user": "user1",
-      "remaining": 51,
-      "reset_time": "2025-08-23T16:33:07",
-      "cooldown_until": null,
-      "active": true
-    },
-    {
-      "token": "your_github_token_2",
-      "user": "user2",
-      "remaining": 5000,
-      "reset_time": null,
+      "token": "",
+      "user": "authenticated_user",
+      "remaining": 4997,
+      "reset_time": "2025-08-24T13:37:33",
       "cooldown_until": null,
       "active": true
     }

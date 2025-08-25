@@ -11,7 +11,12 @@ import logging
 import asyncio
 import trafilatura
 from typing import Dict, Any, Optional
-from playwright.async_api import async_playwright, Browser, BrowserContext, Page
+
+# 可选依赖检查
+try:
+    from playwright.async_api import async_playwright, Browser, BrowserContext, Page
+except ImportError:
+    raise RuntimeError("Playwright not installed. Install with: pip install playwright && playwright install")
 
 logger = logging.getLogger(__name__)
 

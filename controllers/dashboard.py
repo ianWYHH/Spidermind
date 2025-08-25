@@ -176,6 +176,60 @@ async def get_recent_activity(limit: int = 20, db: Session = Depends(get_db)):
         raise HTTPException(status_code=500, detail="获取最近活动失败")
 
 
+@router.get("/health/db")
+async def get_database_health(db: Session = Depends(get_db)):
+    """
+    获取数据库健康状态和表计数
+    
+    Args:
+        db: 数据库会话
+    
+    Returns:
+        Dict: 数据库状态和各表计数
+    """
+    try:
+        # 导入所有模型以确保表定义完整
+        from models.candidate import (
+            Candidate, CandidateEmail, CandidateInstitution, 
+            CandidateHomepage, CandidateFile, CandidateRepo, 
+            CandidatePaper, RawText
+        )
+        from models.crawl import CrawlTask, CrawlLog, CrawlLogCandidate
+        from models.mapping import GitHubUser, OpenReviewUser
+        
+        # 计算各表数量
+        table_counts = {
+            "candidates": db.query(Candidate).count(),
+            "candidate_emails": db.query(CandidateEmail).count(),
+            "candidate_institutions": db.query(CandidateInstitution).count(),
+            "candidate_homepages": db.query(CandidateHomepage).count(),
+            "candidate_files": db.query(CandidateFile).count(),
+            "candidate_repos": db.query(CandidateRepo).count(),
+            "candidate_papers": db.query(CandidatePaper).count(),
+            "raw_texts": db.query(RawText).count(),
+            "crawl_tasks": db.query(CrawlTask).count(),
+            "crawl_logs": db.query(CrawlLog).count(),
+            "crawl_log_candidates": db.query(CrawlLogCandidate).count(),
+            "github_users": db.query(GitHubUser).count(),
+            "openreview_users": db.query(OpenReviewUser).count(),
+        }
+        
+        total_records = sum(table_counts.values())
+        
+        return {
+            "status": "connected",
+            "database": "MySQL",
+            "total_tables": len(table_counts),
+            "total_records": total_records,
+            "table_counts": table_counts,
+            "timestamp": db.execute("SELECT NOW()").scalar()
+        }
+        
+    except Exception as e:
+        logger.error(f"获取数据库健康状态失败: {e}")
+        raise HTTPException(status_code=500, detail="数据库连接失败")
+
+
 @router.get("/dashboard/health")
 async def get_system_health(db: Session = Depends(get_db)):
     """

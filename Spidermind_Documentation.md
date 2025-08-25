@@ -796,3 +796,385 @@ M10 的标准提问模板
 然后直接让 Cursor/Claude 写代码
 
 📌 这样你就完全不用动脑，只要复制粘贴，就能稳定驱动 Cursor/Claude 按照你设计的蓝图生成代码。
+
+
+第一版修改
+
+
+老王，我把你这个仓库看了（结构基本对齐你之前那份蓝图），先给你一份“审阅报告 + 立刻能丢给 Cursor 的改造指令包”。我会把每条结论都落到可执行的 Cursor 提示词上，方便你一段段贴进去让它改。
+
+— 仓库：`ianWYHH/Spidermind`（我能看到的文件树、README 概述与部署指引等）([GitHub][1])
+— 设计蓝图：你上传的《项目说明 / 架构设计 / 开发顺序 + Cursor 提示词手册（v1）》
+
+---
+
+# 总评（TL;DR）
+
+* ✅ 目录结构与蓝图基本一致（controllers/services/crawlers/models/config/...）。
+* ⚠️ 若干关键点与蓝图不一致或易踩坑：
+
+  1. **配置来源分裂**：README 走 `config/database.json`，蓝图要求 `.env` 的 `MYSQL_DSN`；建议统一为“.env 优先、JSON 兜底”。([GitHub][1])&#x20;
+  2. **GitHub token 文件格式不一致**：README 用“字符串数组”，蓝图要求带状态的对象结构并含速率控制参数。([GitHub][1])&#x20;
+  3. **验收关键项需要补齐/自检**：按钮触发→“消费 pending 直到为空即停”、日志 since\_id 增量拉取、覆盖率与解析进度卡片等。
+  4. **解析服务**应“规则优先 + LLM 仅在必要时”，且默认在无 API Key 时**不触发外部推理**。
+  5. **通用爬虫兜底**要严格：正文 <200 字或请求失败再走 Playwright，并记录兜底标记到日志。
+  6. **唯一约束/索引**：需对照蓝图全面核对（特别是子表唯一键、raw\_texts 唯一、github\_users/openreview\_users 映射）。
+
+下面是按“最高优先级 → 快速见效”的**6 个改造任务**，每个任务都附带你可以直接粘到 Cursor 的**精准提示词**（会让 Cursor 只输出修改文件的完整代码，且与蓝图对齐）。
+
+---
+
+# 改造任务 A：统一配置读取（.env 优先，database.json 兜底）
+
+**为什么**：蓝图规定 `config/settings.py` 读取 `.env` 里的 `MYSQL_DSN`；你仓库 README 用的是 `config/database.json`。建议**向下兼容**两者：若 `.env` 存在则优先，缺省再拼接 JSON。&#x20;
+
+**给 Cursor 的提示词（直接粘）**：
+
+> 你是资深 Python 工程师。对齐我的设计文档。
+> 目标：统一配置入口（.env 优先，config/database.json 兜底），不破坏现有代码。
+>
+> **修改/新增文件**：
+>
+> 1. `config/settings.py`：
+>
+>    * 用 `python-dotenv` 读取 `.env`；优先取 `MYSQL_DSN`。
+>    * 若无 `MYSQL_DSN`，尝试读取 `config/database.json`（`host/port/username/password/database`）并拼成 `mysql+pymysql://...`。
+>    * 提供 `get_mysql_dsn()` 方法给其他模块使用。
+> 2. `models/base.py`：改为**统一**从 `get_mysql_dsn()` 拿连接串构建 engine。
+> 3. `.gitignore`：确认包含 `.env` 与 `config/database.json`。
+> 4. `README.md`：更新“配置”章节，说明“.env 优先，JSON 兜底”的策略（保留示例）。
+>
+> **约束**：
+>
+> * 仅使用 pip 依赖，保持现有结构与蓝图一致；不要引入新框架。
+> * 只输出修改过的文件**完整代码**。
+>
+> 参考：蓝图明确 `settings.py (.env)`、`.env` 示例。&#x20;
+
+---
+
+# 改造任务 B：标准化 GitHub Token 池与轮换退避
+
+**为什么**：README 用数组；蓝图是对象结构+冷却/退避参数，便于限速与 403 轮换。([GitHub][1])&#x20;
+
+**给 Cursor 的提示词**：
+
+> 目标：`crawlers/github_client.py` 支持**两种 tokens 配置**：
+>
+> * 旧格式：`["ghp_xxx1", "ghp_xxx2"]`
+> * 新格式（蓝图）：
+>
+>   ```json
+>   {
+>     "tokens":[{"value":"ghp_xxx1","status":"active","last_used_at":null},{"value":"ghp_xxx2","status":"active","last_used_at":null}],
+>     "per_request_sleep_seconds":0.8,
+>     "rate_limit_backoff_seconds":60
+>   }
+>   ```
+>
+> 实现：
+>
+> * Round-Robin 取 token；遇 403/速率耗尽：标记该 token 冷却，按 `rate_limit_backoff_seconds` 退避并切到下一枚。
+> * 每次请求间 sleep `per_request_sleep_seconds`。
+> * 兼容两种配置并记录日志（source=github，status=fail/skip，message 里包含“rate\_limit/backoff/rotated\_token”）。
+>
+> **改动文件**：`crawlers/github_client.py`（完整代码）+ 必要的 `services/github_service.py` 里调用处（若有）。
+> **日志规范**：与蓝图一致。
+
+---
+
+# 改造任务 C：校准 ORM 模型（唯一约束 / 时间戳 / 索引）
+
+**为什么**：保证“去重不脏写、统计与查询高效”，对齐蓝图列出的**所有表 + 唯一键**。
+
+**给 Cursor 的提示词**：
+
+> 目标：严格按设计蓝图核对并修补 ORM：
+>
+> * 表集合：`candidates, candidate_emails, candidate_institutions, candidate_homepages, candidate_files, candidate_repos, candidate_papers, raw_texts, crawl_tasks, crawl_logs, crawl_log_candidates, github_users, openreview_users`。
+> * 唯一键：详见蓝图（子表各自唯一组合、raw\_texts 按 `(candidate_id, url)`、crawl\_tasks 去重键、github\_users/openreview\_users 唯一）。
+> * 每表 `created_at/updated_at`（`server_default=func.now()`, `onupdate=func.now()`）。
+> * 常用查询字段加索引（如 `crawl_tasks.status/source/type`、`github_users.github_login`、`openreview_users.openreview_profile_id`）。
+> * 在 `main.py` 启动事件执行 `Base.metadata.create_all(engine)`。
+> * 新增 `GET /health/db`：返回各表 count。
+>
+> **改动文件**：`models/*.py`、`controllers/dashboard.py`（health）如缺则新增；只输出修改文件完整代码。
+> 参考蓝图章节。&#x20;
+
+---
+
+# 改造任务 D：通用“任务消费循环”与“增量日志 API”
+
+**为什么**：满足“按钮触发→消费 `pending` 直到为空即停”，以及日志 since\_id 轮询。
+
+**给 Cursor 的提示词**：
+
+> 目标：实现通用任务消费器与日志增量拉取：
+>
+> 1. `services/task_runner.py`：
+>
+>    * `run_until_empty(source: str, handler: Callable, filter_types: Optional[List[str]] = None)`
+>    * 循环拉取 `crawl_tasks(status='pending', source=source)`；每处理一条写 `crawl_logs`（success/fail/skip），空则停止；提供内存计数器。
+> 2. `controllers/logs.py`：`GET /logs/{source}?since_id=` 按自增 id 返回日志列表（含 `candidate_ids[]`）。
+> 3. `services/progress_service.py`：维护本轮 processed/success/fail/skip；`GET /progress/{source}` 返回统计。
+> 4. `controllers/crawl_github.py`（以及 openreview/homepage）：`POST /crawl/{source}/start` 接入消费器，参数如 `recent_n/star_n`。
+>
+> **日志 message 规范**：包含跳过原因/兜底标记/唯一约束冲突说明。
+> **改动文件**：按需新增/补全上述模块；只输出修改文件完整代码。
+> 参考蓝图。
+
+---
+
+# 改造任务 E：GitHub 服务“智能选仓库 + README 抽取 + homepage 派生”
+
+**为什么**：核心命中率来源；需要严格遵守“≤10 全取；>10 取 recent\_n + star\_n，记录 picked\_reason；从 README 正则邮箱/主页；发现 github.io/blog → 插 homepage 任务；同一用户不重复爬”。
+
+**给 Cursor 的提示词**：
+
+> 目标：在 `services/github_service.py` 落实：
+>
+> * 任务类型：profile / repo / follow\_scan；“同一用户不重复爬”（检查 `github_users`）。
+> * 智能选仓库策略（见上）；`candidate_repos` 记录 `picked_reason`、stars、forks、last\_commit。
+> * `extractors/regex_extractors.py`：提供邮箱/URL 抽取函数；从 README 抽邮箱与 homepage 入 `candidate_emails` 与 `candidate_homepages`。
+> * 发现 `*.github.io` / “blog/个人站” → 创建 `crawl_tasks(source='homepage', type='homepage', url=...)`。
+> * 全流程写 `crawl_logs`；唯一约束与跳过要写明原因。
+>
+> **改动文件**：`services/github_service.py`、`extractors/regex_extractors.py`、必要的 `crawlers/github_client.py` 调用；只输出修改文件完整代码。
+> 参考蓝图策略。
+
+---
+
+# 改造任务 F：通用主页爬虫（requests→Playwright 兜底）+ 原文入库
+
+**为什么**：保障个人主页/简历命中率与文本供解析；小于 200 字或失败才兜底。
+
+**给 Cursor 的提示词**：
+
+> 目标：实现/完善以下模块：
+>
+> * `crawlers/fetcher.py`：requests + 超时 + UA + 重试（少量），用 trafilatura 抽正文；返回 (html, text)。
+> * `crawlers/playwright_fetcher.py`：渲染后再抽正文。
+> * `services/homepage_service.py`：
+>
+>   1. 消费 `source=homepage` pending 任务；
+>   2. 先走 fetcher，若失败或正文 `< 200` 字 → 走 Playwright；
+>   3. 全文保存到 `raw_texts(candidate_id,url,plain_text,source)`；
+>   4. 正则抽邮箱/电话/社交，若发现 pdf/image 简历则写入 `candidate_files(status='unparsed')`；
+>   5. 日志 message 标注是否触发兜底（如 `"fallback=playwright"`）。
+>
+> **改动文件**：上述 3 个模块如缺则新增；只输出修改文件完整代码。
+> 参考蓝图兜底策略。
+
+---
+
+# 加固项（建议列入后续批次）
+
+* **解析服务**：规则优先、LLM 占位；增加 `/parse/review` 与“重置”入口；无 Key 时自动跳过 LLM。
+* **前端**：首页四按钮 + 统计卡片、日志 Tab `since_id` 轮询、候选人列表缺失提示、详情+补录表单。
+* **验收脚本/步骤**：手工插入示例任务→跑三爬虫→日志→homepage 派生→通用爬虫→解析→列表/详情可见数据。
+
+---
+
+# 你现在就可以做的验证（3 步）
+
+1. **配置**：在根目录放 `.env`（`MYSQL_DSN=...`），保留 `config/database.json` 作为兜底；启动 `/health/db` 看表统计是否正常（Cursor 完成任务 A/C 后）。
+2. **按钮运行**：用 `POST /crawl/github/start` 跑到“无 pending 即停”，观察 `/logs/github?since_id=` 是否有规范化 message。
+3. **兜底验证**：给 homepage 任务一条 JS-heavy 的学者主页，确认日志里出现 `fallback=playwright`，且 `raw_texts` 有入库记录。
+
+---
+
+# 接下来怎么干？
+
+* 先把 **A→F** 六条改造跑完（都是“高收益/低风险”的基础项），跑通后我们再上“解析/前端/统计”的体验优化一批（我再给你第二包 Cursor 指令）。
+* 你把 Cursor 改完的关键文件（或运行报错）发我，我就按错误栈继续细化“修 BUG 提示词”。
+
+如果你愿意，我也可以把上面六条再合并成**一个“大提示词”**，让 Cursor 一次性批量修改；但分步做更稳。👉 你先从**任务 A**开始贴给 Cursor，改完我就给你第二批（解析/前端/统计）的精准提示词。
+
+（以上结论与改造方向以你的蓝图为准：`settings.py (.env)`、tokens 结构、兜底策略、验收要点与表结构等都来自你那份文档。）  &#x20;
+
+[1]: https://github.com/ianWYHH/Spidermind "GitHub - ianWYHH/Spidermind"
+
+
+收到老王！你先冲 A–F。我又把仓库（能看到的 README、目录和指令）过了一遍，基于当前结构和说明再补一批**高概率问题/隐患**，你把下面这批也列进待办，一次性让 Cursor 改掉就行。
+
+小前提（我引用到的都是你仓库里的 README/结构说明）：
+
+* 项目用 **MySQL 8**、FastAPI、Playwright（可选）等；README 以 `config/database.json` 为主并给出了 `tokens.github.json` 的数组格式，以及通义千问 Qwen 的可选配置与安装步骤。([GitHub][1])
+
+---
+
+# 额外疑似 BUG / 隐患清单（G → N）
+
+**G. 后台长任务阻塞事件循环**
+症状：如果 `POST /crawl/*/start` 在协程里直接做网络 IO / DB 重任务，可能阻塞 uvicorn 导致页面卡顿；多次点击会叠加重复跑。
+修法：把消费循环放到**单例后台 runner**里（`asyncio.create_task` + 互斥锁），重复点击直接返回“已在运行”。（与 A–F 的“run\_until\_empty”配套）
+
+**给 Cursor：**
+
+> 目标：防止 `/crawl/*/start` 重复并发与事件循环阻塞。
+> 修改：
+>
+> 1. `services/task_runner.py` 增加模块级 `asyncio.Lock()` 与 `is_running: Dict[str,bool]`；在 `run_until_empty()` 外包 `async with lock`；已在跑则快速返回。
+> 2. `controllers/crawl_*.py` 的 `start` 改为**只**创建后台任务：`asyncio.create_task(task_runner.run_until_empty(...))`，接口立刻返回 `{status:"started"}`。
+> 3. 新增 `GET /crawl/{source}/status` 返回 `{running, processed, pending}`。
+>    输出修改过文件完整代码。
+
+---
+
+**H. 数据库会话泄漏 / 连接池老化**
+症状：FastAPI 每请求开会话但未 `close()`；MySQL 长时间空闲导致“server has gone away”。
+修法：统一 `SessionLocal` 依赖（`yield` 关闭）、Engine 开启 `pool_pre_ping=True, pool_recycle=1800`。
+
+**给 Cursor：**
+
+> 目标：修复会话泄漏与断链。
+> 修改：
+>
+> * `models/base.py`：`create_engine(dsn, pool_pre_ping=True, pool_recycle=1800, pool_size=10, max_overflow=20)`；导出 `SessionLocal = sessionmaker(...)`。
+> * `main.py`：提供 `get_db()` 依赖（`yield db; finally db.close()`），所有控制器注入 `db: Session = Depends(get_db)`。
+> * 在启动时 `Base.metadata.create_all(engine)` 仅在 `ENV!=prod`。
+>   输出完整代码。
+
+---
+
+**I. requirements 版本与可选依赖护栏**
+症状：Pydantic v1/v2、SQLAlchemy 1.x/2.x 混用最容易崩；Playwright 未安装时报错启动失败。
+修法：**显式钉版本**，并在运行时对 Playwright 做“按需导入/缺失降级”。
+
+**给 Cursor：**
+
+> 目标：钉版本与按需依赖。
+>
+> 1. `requirements.txt`（覆盖）：
+>
+> ```
+> fastapi>=0.111,<0.116
+> uvicorn[standard]>=0.30,<0.33
+> sqlalchemy>=2.0.30,<2.1
+> pymysql>=1.1,<2
+> pydantic>=2.7,<3
+> httpx>=0.27,<0.28
+> trafilatura>=1.8,<2
+> beautifulsoup4>=4.12,<5
+> jinja2>=3.1,<4
+> python-dotenv>=1.0,<2
+> ```
+>
+> 可选：`playwright` 只在 README 的“可选安装”保留（已有说明）。([GitHub][1])
+> 2\) `crawlers/playwright_fetcher.py` 顶部用 `try: import playwright ... except ImportError: raise RuntimeError("Playwright not installed")`，在 `homepage_service` 捕获并降级为常规 fetch。
+> 输出完整代码（两文件）。
+
+---
+
+**J. 模板与静态资源挂载错误**
+症状：`templates/` 和 `static/` 存在，但若未 `app.mount("/static")` 或 `Jinja2Templates(directory="templates")`，页面 404。
+修法：在 `main.py` 补挂载与模板实例，并加一个 `/health/app`。
+
+**给 Cursor：**
+
+> 目标：挂载模板/静态与健康检查。
+> 修改 `main.py`：
+>
+> * `from fastapi.templating import Jinja2Templates`、`templates = Jinja2Templates("templates")`；
+> * `app.mount("/static", StaticFiles(directory="static"), name="static")`；
+> * `GET /health/app` 返回 `{ok: true, version, time}`；
+>   若已有则对齐命名。输出完整代码。
+
+---
+
+**K. 安全：管理端点缺少保护（尤其 `/parse/reset`）**
+症状：任何人命中端点就能清空/重跑。
+修法：加**简易 API-Key 头**或环境变量白名单来源 IP；生产可替换为 JWT。
+
+**给 Cursor：**
+
+> 目标：为敏感端点加 API Key 保护。
+> 修改：
+>
+> * `config/settings.py` 增 `ADMIN_API_KEY`（.env 优先）并提供 `require_admin(request)` 依赖，校验 `X-Admin-Key`。
+> * 在 `controllers/parse_llm.py` 的 `reset`、各 `start` 路由上 `Depends(require_admin)`。
+> * README 增“管理接口保护”段落（如何传 `X-Admin-Key`）。
+>   输出修改过文件完整代码。
+
+---
+
+**L. 结构化日志 & Trace Id**
+症状：跨爬虫链路难以串日志。
+修法：统一 `logging` JSON 格式，自动注入 `trace_id`（每次 `/crawl/*/start` 生成），并把 `trace_id` 写进 `crawl_logs`。
+
+**给 Cursor：**
+
+> 目标：统一 JSON 日志并携带 trace。
+> 修改/新增：
+>
+> * `services/logging.py`：封装 `get_logger(name, trace_id=None)`；
+> * `controllers/crawl_*.py`：启动时生成 `trace_id = uuid4()`，传入 `run_until_empty()`；
+> * `services/task_runner.py` & 各 service 写 `crawl_logs.trace_id` 字段；
+> * `GET /logs/{source}?trace_id=` 支持按 trace 过滤。
+>   输出完整代码（涉及文件）。
+
+---
+
+**M. OpenReview 速率与异常处理**
+症状：OpenReview 有时返回 429/502；没有指数退避会雪崩。
+修法：使用 `httpx` + 重试（429/5xx 指数退避，尊重 `Retry-After`），并把“跳过/失败原因”落入日志。
+
+**给 Cursor：**
+
+> 目标：健壮化 `openreview_service.py`。
+>
+> * 所有请求经一个 `fetch_json(url, params)` 包装，遇 429/5xx → 退避 1s, 2s, 4s, …（上限 60s），支持 `Retry-After`。
+> * 失败写 `crawl_logs(message="openreview: {status} {reason}")`。
+>   输出完整代码。
+
+---
+
+**N. 数据列类型与索引上限**
+症状：`utf8mb4` 下长 `VARCHAR` 做唯一/索引会超 MySQL 索引长度；`raw_texts` 若不是 `LONGTEXT` 容易截断。
+修法：
+
+* `raw_texts.plain_text` 用 `LONGTEXT`；
+* 索引列长度控制（如对 URL 做 `VARCHAR(512)`，必要时用 `prefix length index` 或改为 `HASH(url)` 辅助去重）；
+* 统一 `created_at/updated_at TIMESTAMP`（默认 `CURRENT_TIMESTAMP`，`ON UPDATE`）。
+
+**给 Cursor：**
+
+> 目标：修正字段类型与索引。
+>
+> * 调整 `models/*.py` 中：`raw_texts.plain_text = Text().with_variant(LONGTEXT, "mysql")`；
+> * URL/邮箱字段限定长度并建索引；
+> * 对超长唯一约束，增加 `url_hash = CHAR(32)`（MD5）实现唯一去重 `(candidate_id, url_hash)`。
+>   输出修改文件完整代码。
+
+---
+
+# 辅助检查（你本地顺手自测）
+
+1. **依赖与启动**
+   `pip install -r requirements.txt` → 未装 Playwright 也能启动（Homepage 渲染时才提示可选安装）。README 已声明 Playwright 安装为“仅在需要时”。([GitHub][1])
+
+2. **配置与安全**
+
+* `.gitignore` 中必须忽略 `.env`、`config/tokens.*.json`；
+* `ADMIN_API_KEY` 生效后，未带 `X-Admin-Key` 的重置/启动接口应 401。
+
+3. **OpenReview / GitHub 速率**
+
+* 连续触发两次 `/crawl/openreview/start`，第二次应提示“已有运行中”；
+* GitHub token 轮换 & 退避逻辑按你前一批（B 任务）实现即可配合此处。
+
+4. **日志可追踪**
+
+* `/crawl/github/start` → 查看 `/logs/github?trace_id=...` 能全链路串起来；
+* 失败/兜底原因（如 `fallback=playwright`）清晰可见（与 F 任务一致）。
+
+---
+
+# 🧩 我建议的执行顺序（在你做完 A–F 之后）
+
+G（并发防抖） → H（DB 连接与会话） → I（版本钉住 & 可选依赖） → J（模板/静态） → K（安全） → L（日志链路） → M（OpenReview 退避） → N（字段/索引）。
+
+如果你愿意，我也可以把 **G–N** 合并成**一条“大提示词”**给 Cursor 一次提交；但分批合并更稳。等你这轮改造推进到位，把 Cursor 的修改（或报错栈）贴我，我继续给你**精确修 BUG 提示词**跟进。
+
+[1]: https://github.com/ianWYHH/Spidermind "GitHub - ianWYHH/Spidermind"
+

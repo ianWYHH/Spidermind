@@ -92,7 +92,15 @@ class OpenReviewClient:
                 return None
             
             soup = BeautifulSoup(response.text, 'html.parser')
+            return self._parse_forum_content(soup, forum_url)
             
+        except Exception as e:
+            logger.error(f"解析论文页面失败: {forum_url}, 错误: {e}")
+            return None
+    
+    def _parse_forum_content(self, soup: BeautifulSoup, forum_url: str) -> Optional[Dict[str, Any]]:
+        """解析论文论坛HTML内容"""
+        try:
             # 提取论文标题
             title_element = soup.find('h2', class_='citation_title')
             if not title_element:
@@ -123,7 +131,7 @@ class OpenReviewClient:
             return paper_info
             
         except Exception as e:
-            logger.error(f"解析论文页面失败: {forum_url}, 错误: {e}")
+            logger.error(f"解析论文内容失败: {forum_url}, 错误: {e}")
             return None
     
     def _extract_authors_from_forum(self, soup: BeautifulSoup, base_url: str) -> List[Dict[str, Any]]:
@@ -293,7 +301,15 @@ class OpenReviewClient:
                 return None
             
             soup = BeautifulSoup(response.text, 'html.parser')
+            return self._parse_profile_content(soup, profile_url)
             
+        except Exception as e:
+            logger.error(f"解析profile页面失败: {profile_url}, 错误: {e}")
+            return None
+    
+    def _parse_profile_content(self, soup: BeautifulSoup, profile_url: str) -> Optional[Dict[str, Any]]:
+        """解析用户profile HTML内容"""
+        try:
             # 提取profile信息
             profile_info = {
                 'name': self._extract_profile_name(soup),
@@ -309,7 +325,7 @@ class OpenReviewClient:
             return profile_info
             
         except Exception as e:
-            logger.error(f"解析profile页面失败: {profile_url}, 错误: {e}")
+            logger.error(f"解析profile内容失败: {profile_url}, 错误: {e}")
             return None
     
     def _extract_profile_name(self, soup: BeautifulSoup) -> str:

@@ -1,315 +1,218 @@
-#!/usr/bin/env python3
-# -*- coding: utf-8 -*-
 """
-OpenReview爬虫控制器
+OpenReview爬虫控制器 - 严格按设计蓝图实现
 
-实现OpenReview爬虫任务启动和管理
+实现OpenReview爬虫任务启动和管理，接入通用消费器
 Author: Spidermind
 """
-
 from fastapi import APIRouter, Depends, HTTPException, BackgroundTasks
 from sqlalchemy.orm import Session
 from pydantic import BaseModel
 from typing import Optional, Dict, Any, List
 import asyncio
+import logging
 
 from models.base import get_db
 from models.crawl import CrawlTask
 from services.progress_service import progress_tracker
-from services.task_runner import TaskRunner
+from services.task_runner import task_runner, TaskBatchManager, is_source_running
 from services.openreview_service import openreview_service
+from services.logging import generate_trace_id, get_logger
 
 router = APIRouter(prefix="/crawl/openreview", tags=["OpenReview爬虫"])
+logger = logging.getLogger(__name__)
 
 
 class OpenReviewCrawlRequest(BaseModel):
-    """OpenReview爬虫请求参数"""
-    task_type: str = "forum"  # forum/profile
-    batch_size: int = 5  # 每批处理数量（OpenReview较慢，建议较小批次）
-    max_tasks: Optional[int] = None  # 最大处理任务数，None表示处理所有
-    priority_filter: Optional[int] = None  # 优先级过滤
-    custom_batch_id: Optional[str] = None  # 自定义批次ID
+    """OpenReview爬虫请求参数 (蓝图规范)"""
+    task_types: Optional[List[str]] = None  # 任务类型过滤 ['forum', 'profile']
+    batch_id: Optional[str] = None  # 自定义批次ID
+    max_tasks: Optional[int] = None  # 最大处理任务数限制
 
 
 @router.post("/start")
 async def start_openreview_crawl(
     request: OpenReviewCrawlRequest,
-    background_tasks: BackgroundTasks,
     db: Session = Depends(get_db)
-):
+) -> Dict[str, Any]:
     """
-    启动OpenReview爬虫任务
+    启动OpenReview爬虫任务 (蓝图要求：接入通用消费器)
     
     Args:
         request: 爬虫请求参数
-        background_tasks: FastAPI后台任务
         db: 数据库会话
     
     Returns:
-        Dict: 启动结果和批次信息
+        Dict: 启动结果
     """
-    # 验证task_type
-    valid_types = ['forum', 'profile']
-    if request.task_type not in valid_types:
-        raise HTTPException(
-            status_code=400,
-            detail=f"Invalid task_type. Must be one of: {valid_types}"
-        )
-    
-    # 检查是否有待处理的任务
-    pending_count = db.query(CrawlTask).filter(
-        CrawlTask.source == 'openreview',
-        CrawlTask.type == request.task_type,
-        CrawlTask.status == 'pending'
-    ).count()
-    
+    # 检查是否有待处理的OpenReview任务
+    pending_count = _count_pending_tasks('openreview', request.task_types)
     if pending_count == 0:
         return {
             "status": "no_tasks",
-            "message": f"没有找到待处理的OpenReview {request.task_type}任务",
-            "pending_count": 0
+            "message": "没有待处理的OpenReview任务",
+            "pending_count": 0,
+            "task_types": request.task_types
         }
     
-    # 检查是否已有运行中的同类型任务
-    current_stats = progress_tracker.get_current_stats('openreview', request.task_type)
-    if current_stats and current_stats.get('status') == 'running':
-        return {
-            "status": "already_running",
-            "message": f"OpenReview {request.task_type}任务已在运行中",
-            "current_batch": current_stats,
-            "pending_count": pending_count
-        }
+    logger.info(f"启动OpenReview爬虫: 待处理任务 {pending_count} 个，类型过滤 {request.task_types}")
     
-    # 开始新的批次
-    batch_id = progress_tracker.start_batch(
-        source='openreview',
-        task_type=request.task_type,
-        batch_id=request.custom_batch_id
-    )
+    # 生成 trace_id
+    trace_id = generate_trace_id()
     
-    # 在后台启动任务处理
-    background_tasks.add_task(
-        _run_openreview_crawl_task,
-        batch_id=batch_id,
-        task_type=request.task_type,
-        batch_size=request.batch_size,
-        max_tasks=request.max_tasks,
-        priority_filter=request.priority_filter
-    )
+    # 创建异步后台任务
+    asyncio.create_task(_run_openreview_crawl_task(request, trace_id))
     
     return {
         "status": "started",
-        "message": f"OpenReview {request.task_type}爬虫任务已启动",
-        "batch_id": batch_id,
+        "message": "OpenReview爬虫已启动",
         "pending_count": pending_count,
         "config": {
-            "task_type": request.task_type,
-            "batch_size": request.batch_size,
-            "max_tasks": request.max_tasks,
-            "priority_filter": request.priority_filter
-        }
+            "task_types": request.task_types,
+            "batch_id": request.batch_id,
+            "max_tasks": request.max_tasks
+        },
+        "progress_endpoint": "/progress/openreview"
     }
 
 
-@router.get("/status/{task_type}")
-async def get_crawl_status(task_type: str):
+async def _run_openreview_crawl_task(request: OpenReviewCrawlRequest, trace_id: str):
     """
-    获取OpenReview爬虫任务状态
+    执行OpenReview爬虫任务 (蓝图核心：run_until_empty消费模式)
     
     Args:
-        task_type: 任务类型
+        request: 爬虫配置请求
+        trace_id: 跟踪ID
+    """
+    # 创建带 trace_id 的日志器
+    trace_logger = get_logger(__name__, trace_id)
+    
+    try:
+        trace_logger.info("开始执行OpenReview爬虫任务", extra_data={"trace_id": trace_id})
+        
+        # 设置OpenReview服务配置
+        openreview_service.set_config({
+            'max_tasks': request.max_tasks
+        })
+        
+        # 使用通用消费器运行 (蓝图要求)
+        result = await task_runner.run_until_empty(
+            source='openreview',
+            handler=_openreview_task_handler,
+            filter_types=request.task_types,
+            trace_id=trace_id
+        )
+        
+        trace_logger.info("OpenReview爬虫完成", extra_data=result)
+        
+    except Exception as e:
+        trace_logger.error("OpenReview爬虫执行失败", extra_data={"error": str(e)})
+        progress_tracker.record_failure('openreview', 'mixed', f"爬虫执行异常: {str(e)}")
+
+
+async def _openreview_task_handler(task: CrawlTask) -> Dict[str, Any]:
+    """
+    OpenReview任务处理函数 (蓝图规范：规范message格式)
+    
+    Args:
+        task: 爬虫任务
     
     Returns:
-        Dict: 任务状态信息
+        Dict: 处理结果 {status, message, error}
     """
-    # 验证task_type
-    valid_types = ['forum', 'profile']
-    if task_type not in valid_types:
-        raise HTTPException(
-            status_code=400,
-            detail=f"Invalid task_type. Must be one of: {valid_types}"
-        )
+    try:
+        if task.type == 'forum':
+            result = await openreview_service.process_forum_task(task)
+        elif task.type == 'profile':
+            result = await openreview_service.process_profile_task(task)
+        else:
+            return {
+                'status': 'skip',
+                'message': f'不支持的OpenReview任务类型: {task.type}'
+            }
+        
+        # 标准化返回结果
+        if result.get('skipped'):
+            return {
+                'status': 'skip',
+                'message': result.get('message', '任务已跳过')
+            }
+        elif result.get('success'):
+            return {
+                'status': 'success',
+                'message': result.get('message', 'OpenReview任务处理成功')
+            }
+        else:
+            return {
+                'status': 'fail',
+                'message': result.get('message', 'OpenReview任务处理失败'),
+                'error': result.get('error', '')
+            }
+            
+    except Exception as e:
+        logger.error(f"OpenReview任务处理异常 {task.id}: {e}")
+        return {
+            'status': 'fail',
+            'message': f'OpenReview任务处理异常: {str(e)}',
+            'error': str(e)
+        }
+
+
+def _count_pending_tasks(source: str, task_types: Optional[List[str]] = None) -> int:
+    """计算待处理任务数量"""
+    from models.base import SessionLocal
+    from sqlalchemy import and_
     
-    # 获取当前运行状态
-    current_stats = progress_tracker.get_current_stats('openreview', task_type)
-    
-    # 获取历史记录
-    history = progress_tracker.get_batch_history('openreview', task_type, limit=5)
-    
-    return {
-        "task_type": task_type,
-        "current_batch": current_stats,
-        "recent_history": history,
-        "is_running": current_stats is not None and current_stats.get('status') == 'running'
-    }
+    db = SessionLocal()
+    try:
+        conditions = [
+            CrawlTask.source == source,
+            CrawlTask.status == 'pending'
+        ]
+        
+        if task_types:
+            conditions.append(CrawlTask.type.in_(task_types))
+        
+        count = db.query(CrawlTask).filter(and_(*conditions)).count()
+        return count
+    finally:
+        db.close()
 
 
 @router.get("/status")
-async def get_all_crawl_status():
+async def get_openreview_crawl_status(db: Session = Depends(get_db)) -> Dict[str, Any]:
     """
-    获取所有OpenReview爬虫任务状态
+    获取OpenReview爬虫状态
+    
+    Args:
+        db: 数据库会话
     
     Returns:
-        Dict: 所有任务状态信息
+        Dict: 爬虫状态信息 {running, processed, pending}
     """
-    task_types = ['forum', 'profile']
-    status_info = {}
+    # 获取运行状态
+    running = is_source_running('openreview')
     
-    for task_type in task_types:
-        current_stats = progress_tracker.get_current_stats('openreview', task_type)
-        status_info[task_type] = {
-            "current_batch": current_stats,
-            "is_running": current_stats is not None and current_stats.get('status') == 'running'
-        }
+    # 获取当前进度统计
+    current_stats = progress_tracker.get_current_stats('openreview', 'mixed')
+    processed = current_stats.get('processed', 0) if current_stats else 0
     
-    # 获取全局统计
-    overall_stats = progress_tracker.get_overall_stats()
-    openreview_stats = overall_stats.get('by_source', {}).get('openreview', {})
+    # 获取待处理任务统计
+    task_stats = TaskBatchManager.get_task_stats('openreview')
+    pending = task_stats.get('pending', 0)
     
     return {
-        "openreview_overview": openreview_stats,
-        "by_task_type": status_info,
-        "summary": {
-            "total_running": sum(1 for info in status_info.values() if info['is_running']),
-            "available_types": task_types
-        }
+        "running": running,
+        "processed": processed,
+        "pending": pending
     }
 
 
-@router.post("/stop/{task_type}")
-async def stop_openreview_crawl(task_type: str):
-    """
-    停止指定类型的OpenReview爬虫任务
-    
-    Args:
-        task_type: 任务类型
-    
-    Returns:
-        Dict: 停止结果
-    """
-    # 验证task_type
-    valid_types = ['forum', 'profile']
-    if task_type not in valid_types:
-        raise HTTPException(
-            status_code=400,
-            detail=f"Invalid task_type. Must be one of: {valid_types}"
-        )
-    
-    # 获取当前状态
-    current_stats = progress_tracker.get_current_stats('openreview', task_type)
-    
-    if not current_stats or current_stats.get('status') != 'running':
-        return {
-            "status": "not_running",
-            "message": f"OpenReview {task_type}任务当前未运行",
-            "task_type": task_type
-        }
-    
-    # 标记批次为完成状态
-    progress_tracker.finish_batch('openreview', task_type)
-    
-    return {
-        "status": "stopped",
-        "message": f"OpenReview {task_type}任务已停止",
-        "task_type": task_type,
-        "final_stats": current_stats
-    }
-
-
-async def _run_openreview_crawl_task(
-    batch_id: str,
-    task_type: str,
-    batch_size: int = 5,
-    max_tasks: Optional[int] = None,
-    priority_filter: Optional[int] = None
-):
-    """
-    后台运行OpenReview爬虫任务
-    
-    Args:
-        batch_id: 批次ID
-        task_type: 任务类型
-        batch_size: 批次大小
-        max_tasks: 最大任务数
-        priority_filter: 优先级过滤
-    """
-    try:
-        # 创建任务运行器
-        runner = TaskRunner()
-        
-        # 定义任务过滤条件
-        task_filters = {
-            'source': 'openreview',
-            'type': task_type,
-            'status': 'pending'
-        }
-        
-        if priority_filter is not None:
-            task_filters['priority'] = priority_filter
-        
-        # 定义处理函数
-        async def openreview_task_processor(task):
-            """OpenReview任务处理函数"""
-            try:
-                from models.base import SessionLocal
-                db = SessionLocal()
-                
-                try:
-                    # 根据任务类型调用相应的处理方法
-                    if task_type == 'forum':
-                        result = openreview_service.process_forum_task(task, db)
-                    elif task_type == 'profile':
-                        result = openreview_service.process_profile_task(task, db)
-                    else:
-                        result = {
-                            'status': 'fail',
-                            'message': f'未知任务类型: {task_type}'
-                        }
-                    
-                    return result
-                    
-                finally:
-                    db.close()
-                    
-            except Exception as e:
-                return {
-                    'status': 'fail',
-                    'message': f'处理OpenReview {task_type}任务异常: {task.id}',
-                    'error': str(e)
-                }
-        
-        # 运行任务处理循环
-        await runner.run_batch(
-            task_filters=task_filters,
-            processor=openreview_task_processor,
-            batch_size=batch_size,
-            max_tasks=max_tasks,
-            progress_source='openreview',
-            progress_type=task_type,
-            batch_id=batch_id
-        )
-        
-    except Exception as e:
-        # 记录批次失败
-        progress_tracker.record_failure(
-            'openreview', 
-            task_type, 
-            f"批次执行异常: {str(e)}", 
-            batch_id
-        )
-        
-        # 结束批次
-        progress_tracker.finish_batch('openreview', task_type, batch_id)
-        
-        print(f"OpenReview爬虫批次 {batch_id} 执行异常: {e}")
-
-
-@router.get("/tasks/pending")
-async def get_pending_tasks(
+@router.get("/pending")
+async def get_pending_openreview_tasks(
     task_type: Optional[str] = None,
     limit: int = 50,
     db: Session = Depends(get_db)
-):
+) -> Dict[str, Any]:
     """
     获取待处理的OpenReview任务列表
     
@@ -321,114 +224,116 @@ async def get_pending_tasks(
     Returns:
         Dict: 待处理任务列表
     """
-    query = db.query(CrawlTask).filter(
-        CrawlTask.source == 'openreview',
-        CrawlTask.status == 'pending'
-    )
-    
-    if task_type:
-        valid_types = ['forum', 'profile']
-        if task_type not in valid_types:
-            raise HTTPException(
-                status_code=400,
-                detail=f"Invalid task_type. Must be one of: {valid_types}"
-            )
-        query = query.filter(CrawlTask.type == task_type)
-    
-    tasks = query.order_by(CrawlTask.priority.desc(), CrawlTask.created_at.asc()).limit(limit).all()
-    
-    task_list = []
-    for task in tasks:
-        task_data = {
-            "id": task.id,
-            "type": task.type,
-            "url": task.url,
-            "openreview_profile_id": task.openreview_profile_id,
-            "candidate_id": task.candidate_id,
-            "priority": task.priority,
-            "retries": task.retries,
-            "batch_id": task.batch_id,
-            "created_at": task.created_at.isoformat() if task.created_at else None
-        }
-        task_list.append(task_data)
-    
-    return {
-        "tasks": task_list,
-        "total_returned": len(task_list),
-        "filters": {
+    try:
+        conditions = [
+            CrawlTask.source == 'openreview',
+            CrawlTask.status == 'pending'
+        ]
+        
+        if task_type:
+            conditions.append(CrawlTask.type == task_type)
+        
+        from sqlalchemy import and_
+        tasks = db.query(CrawlTask).filter(and_(*conditions))\
+            .order_by(CrawlTask.priority.desc(), CrawlTask.created_at.asc())\
+            .limit(limit).all()
+        
+        # 格式化任务信息
+        formatted_tasks = []
+        for task in tasks:
+            task_info = {
+                "id": task.id,
+                "type": task.type,
+                "url": task.url,
+                "openreview_profile_id": task.openreview_profile_id,
+                "candidate_id": task.candidate_id,
+                "priority": task.priority,
+                "retries": task.retries,
+                "batch_id": task.batch_id,
+                "created_at": task.created_at.isoformat() if task.created_at else None
+            }
+            formatted_tasks.append(task_info)
+        
+        # 统计信息
+        task_counts = {}
+        for task in tasks:
+            task_counts[task.type] = task_counts.get(task.type, 0) + 1
+        
+        return {
             "source": "openreview",
-            "task_type": task_type,
-            "status": "pending"
+            "filter": {"task_type": task_type} if task_type else None,
+            "total_returned": len(formatted_tasks),
+            "limit": limit,
+            "task_counts_by_type": task_counts,
+            "tasks": formatted_tasks
         }
-    }
+        
+    except Exception as e:
+        logger.error(f"获取待处理OpenReview任务失败: {e}")
+        raise HTTPException(status_code=500, detail="获取待处理任务失败")
 
 
-@router.get("/stats")
-async def get_openreview_stats(db: Session = Depends(get_db)):
+@router.post("/stop")
+async def stop_openreview_crawl() -> Dict[str, str]:
     """
-    获取OpenReview爬虫统计信息
+    停止OpenReview爬虫
+    
+    Returns:
+        Dict: 停止结果
+    """
+    if is_source_running('openreview'):
+        task_runner.stop()
+        return {
+            "status": "stopping",
+            "message": "OpenReview爬虫停止信号已发送"
+        }
+    else:
+        return {
+            "status": "not_running",
+            "message": "OpenReview爬虫未在运行"
+        }
+
+
+@router.post("/tasks/create")
+async def create_openreview_tasks(
+    task_data: Dict[str, Any],
+    db: Session = Depends(get_db)
+) -> Dict[str, Any]:
+    """
+    手动创建OpenReview爬虫任务
     
     Args:
+        task_data: 任务创建数据
         db: 数据库会话
     
     Returns:
-        Dict: 统计信息
+        Dict: 创建结果
     """
-    # 任务统计
-    forum_pending = db.query(CrawlTask).filter(
-        CrawlTask.source == 'openreview',
-        CrawlTask.type == 'forum',
-        CrawlTask.status == 'pending'
-    ).count()
-    
-    forum_done = db.query(CrawlTask).filter(
-        CrawlTask.source == 'openreview',
-        CrawlTask.type == 'forum',
-        CrawlTask.status == 'done'
-    ).count()
-    
-    profile_pending = db.query(CrawlTask).filter(
-        CrawlTask.source == 'openreview',
-        CrawlTask.type == 'profile',
-        CrawlTask.status == 'pending'
-    ).count()
-    
-    profile_done = db.query(CrawlTask).filter(
-        CrawlTask.source == 'openreview',
-        CrawlTask.type == 'profile',
-        CrawlTask.status == 'done'
-    ).count()
-    
-    # OpenReview用户统计
-    from models.mapping import OpenReviewUser
-    total_users = db.query(OpenReviewUser).count()
-    
-    # 候选人论文统计
-    from models.candidate import CandidatePaper
-    openreview_papers = db.query(CandidatePaper).filter(
-        CandidatePaper.source == 'openreview'
-    ).count()
-    
-    return {
-        "tasks": {
-            "forum": {
-                "pending": forum_pending,
-                "completed": forum_done,
-                "total": forum_pending + forum_done
-            },
-            "profile": {
-                "pending": profile_pending,
-                "completed": profile_done,
-                "total": profile_pending + profile_done
-            }
-        },
-        "data": {
-            "openreview_users": total_users,
-            "papers_discovered": openreview_papers
-        },
-        "summary": {
-            "total_pending": forum_pending + profile_pending,
-            "total_completed": forum_done + profile_done,
-            "completion_rate": round((forum_done + profile_done) / max(1, forum_pending + forum_done + profile_pending + profile_done) * 100, 2)
+    try:
+        task_list = task_data.get('tasks', [])
+        if not task_list:
+            raise HTTPException(status_code=400, detail="tasks字段不能为空")
+        
+        task_type = task_data.get('type', 'forum')
+        batch_id = task_data.get('batch_id')
+        priority = task_data.get('priority', 0)
+        
+        created_ids = TaskBatchManager.create_tasks(
+            source='openreview',
+            task_type=task_type,
+            task_data_list=task_list,
+            batch_id=batch_id,
+            priority=priority
+        )
+        
+        return {
+            "status": "created",
+            "created_count": len(created_ids),
+            "created_task_ids": created_ids,
+            "task_type": task_type,
+            "batch_id": batch_id
         }
-    }
+        
+    except Exception as e:
+        logger.error(f"创建OpenReview任务失败: {e}")
+        raise HTTPException(status_code=500, detail=f"创建任务失败: {str(e)}")

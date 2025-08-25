@@ -1,462 +1,530 @@
 #!/usr/bin/env python3
 # -*- coding: utf-8 -*-
 """
-GitHub API 客户端
+GitHub API客户端 - 支持多token轮换、冷却、退避和并发安全
 
-实现GitHub API调用，支持token轮换、错误处理和速率限制
+实现GitHub API数据抓取，包括用户profile和仓库信息
 Author: Spidermind
 """
 
 import json
-import time
-import requests
 import logging
-from datetime import datetime, timedelta
-from typing import Dict, List, Optional, Any, Tuple
-from pathlib import Path
+import time
+import asyncio
+from collections import deque
+from typing import Dict, List, Optional, Any, Union
+from dataclasses import dataclass
+import httpx
+
+from config.settings import settings
 
 logger = logging.getLogger(__name__)
 
 
-class GitHubTokenManager:
-    """GitHub Token管理器，支持轮换和冷却"""
+@dataclass
+class TokenState:
+    """GitHub Token状态"""
+    value: str
+    cooldown_until: Optional[float] = None  # epoch秒，token冷却到此时间
+    disabled: bool = False  # token是否被禁用（如认证失败）
+    last_used_at: Optional[float] = None  # 上次使用时间
+    remaining: int = 5000  # 剩余请求次数
+    reset_time: Optional[str] = None  # 限额重置时间
+
+    def is_available(self) -> bool:
+        """检查token是否可用"""
+        if self.disabled:
+            return False
+        if self.cooldown_until and time.time() < self.cooldown_until:
+            return False
+        return True
     
-    def __init__(self, tokens_config_path: str = "config/tokens.github.json"):
-        """
-        初始化Token管理器
-        
-        Args:
-            tokens_config_path: token配置文件路径
-        """
-        self.config_path = tokens_config_path
-        self.tokens_config = self._load_config()
-        self.current_index = self.tokens_config.get("current_index", 0)
-        self.sleep_between_requests = self.tokens_config.get("sleep_between_requests", 0.1)
-        self.max_retries = self.tokens_config.get("max_retries", 2)
-        self.retry_delay = self.tokens_config.get("retry_delay", 1.0)
-        self.exponential_backoff = self.tokens_config.get("exponential_backoff", True)
-        
-    def _load_config(self) -> Dict[str, Any]:
-        """加载token配置"""
-        try:
-            config_path = Path(self.config_path)
-            if not config_path.exists():
-                logger.warning(f"Token配置文件不存在: {self.config_path}")
-                return {"tokens": [], "current_index": 0}
-            
-            with open(config_path, 'r', encoding='utf-8') as f:
-                return json.load(f)
-        except Exception as e:
-            logger.error(f"加载token配置失败: {e}")
-            return {"tokens": [], "current_index": 0}
-    
-    def _save_config(self):
-        """保存token配置"""
-        try:
-            self.tokens_config["current_index"] = self.current_index
-            with open(self.config_path, 'w', encoding='utf-8') as f:
-                json.dump(self.tokens_config, f, indent=2, ensure_ascii=False)
-        except Exception as e:
-            logger.error(f"保存token配置失败: {e}")
-    
-    def get_active_token(self) -> Optional[Dict[str, Any]]:
-        """获取当前可用的token"""
-        tokens = self.tokens_config.get("tokens", [])
-        if not tokens:
-            logger.error("没有可用的GitHub tokens")
-            return None
-        
-        # 检查所有token的冷却状态
-        now = datetime.now()
-        for i, token_info in enumerate(tokens):
-            cooldown_until = token_info.get("cooldown_until")
-            if cooldown_until:
-                try:
-                    cooldown_time = datetime.fromisoformat(cooldown_until)
-                    if now < cooldown_time:
-                        continue  # 仍在冷却中
-                    else:
-                        # 冷却结束，重新激活
-                        token_info["cooldown_until"] = None
-                        token_info["active"] = True
-                        logger.info(f"Token {i} 冷却结束，重新激活")
-                except:
-                    pass
-        
-        # Round-Robin选择可用token
-        start_index = self.current_index
-        for _ in range(len(tokens)):
-            token_info = tokens[self.current_index]
-            if token_info.get("active", True) and not token_info.get("cooldown_until"):
-                return token_info
-            
-            # 轮换到下一个token
-            self.current_index = (self.current_index + 1) % len(tokens)
-        
-        # 如果没有可用token，返回第一个（即使在冷却中）
-        self.current_index = start_index
-        logger.warning("所有token都在冷却中，使用第一个token")
-        return tokens[0] if tokens else None
-    
-    def mark_token_rate_limited(self, token: str, reset_time: Optional[datetime] = None):
-        """标记token为速率限制状态"""
-        tokens = self.tokens_config.get("tokens", [])
-        for i, token_info in enumerate(tokens):
-            if token_info.get("token") == token:
-                cooldown_minutes = 60  # 默认冷却60分钟
-                if reset_time:
-                    cooldown_until = reset_time
-                else:
-                    cooldown_until = datetime.now() + timedelta(minutes=cooldown_minutes)
-                
-                token_info["cooldown_until"] = cooldown_until.isoformat()
-                token_info["active"] = False
-                token_info["remaining"] = 0
-                
-                logger.warning(f"Token {i} 达到速率限制，冷却至 {cooldown_until}")
-                
-                # 切换到下一个token
-                self.current_index = (self.current_index + 1) % len(tokens)
-                self._save_config()
-                break
-    
-    def update_token_stats(self, token: str, remaining: int, reset_time: Optional[datetime] = None):
-        """更新token统计信息"""
-        tokens = self.tokens_config.get("tokens", [])
-        for token_info in tokens:
-            if token_info.get("token") == token:
-                token_info["remaining"] = remaining
-                if reset_time:
-                    token_info["reset_time"] = reset_time.isoformat()
-                self._save_config()
-                break
+    def get_masked_value(self) -> str:
+        """获取掩码后的token值（只显示最后4位）"""
+        if len(self.value) > 4:
+            return f"...{self.value[-4:]}"
+        return self.value
 
 
 class GitHubClient:
-    """GitHub API客户端"""
+    """GitHub API客户端 - 支持多token轮换、冷却、退避和并发安全"""
     
-    def __init__(self, tokens_config_path: str = "config/tokens.github.json"):
-        """
-        初始化GitHub客户端
+    def __init__(self):
+        """初始化GitHub客户端"""
+        # 从统一配置获取GitHub配置
+        try:
+            self.config = settings.get_github_tokens_config()
+        except ValueError as e:
+            logger.error(f"GitHub配置加载失败: {e}")
+            raise
         
-        Args:
-            tokens_config_path: token配置文件路径
-        """
-        self.token_manager = GitHubTokenManager(tokens_config_path)
-        self.base_url = "https://api.github.com"
-        self.session = requests.Session()
-        self.session.headers.update({
-            'Accept': 'application/vnd.github.v3+json',
-            'User-Agent': 'Spidermind-Academic-Crawler/1.0'
-        })
+        # Token管理
+        self.token_queue: deque[TokenState] = deque()
+        self.lock = asyncio.Lock()  # 并发安全锁
+        
+        # HTTP客户端
+        self.client: Optional[httpx.AsyncClient] = None
+        
+        # 请求配置
+        self.api_base = self.config["api_base"]
+        self.per_request_sleep = self.config["per_request_sleep_seconds"]
+        self.rate_limit_backoff = self.config["rate_limit_backoff_seconds"]
+        self.max_retries = 5  # 最多重试5次
+        self.max_backoff = 60  # 最大退避时间60秒
+        
+        # 初始化
+        self._initialize_tokens()
+        self._setup_client()
     
-    def _get_headers(self) -> Optional[Dict[str, str]]:
-        """获取包含认证的请求头"""
-        token_info = self.token_manager.get_active_token()
-        if not token_info:
-            return None
+    def _initialize_tokens(self):
+        """初始化token队列"""
+        tokens_config = self.config.get("tokens", [])
         
-        headers = self.session.headers.copy()
-        headers['Authorization'] = f"token {token_info['token']}"
-        return headers
-    
-    def _handle_rate_limit(self, response: requests.Response) -> bool:
-        """
-        处理速率限制响应
+        if not tokens_config:
+            raise ValueError("没有找到有效的GitHub token配置")
         
-        Args:
-            response: HTTP响应对象
+        # 转换为TokenState对象
+        for token_data in tokens_config:
+            token_state = TokenState(
+                value=token_data["value"],
+                disabled=(token_data.get("status", "active") != "active"),
+                remaining=token_data.get("remaining", 5000),
+                reset_time=token_data.get("reset_time"),
+                last_used_at=token_data.get("last_used_at")
+            )
             
+            # 处理cooldown_until
+            if token_data.get("cooldown_until"):
+                if isinstance(token_data["cooldown_until"], (int, float)):
+                    token_state.cooldown_until = float(token_data["cooldown_until"])
+            
+            self.token_queue.append(token_state)
+        
+        logger.info(f"已初始化 {len(self.token_queue)} 个GitHub token")
+        
+        # 记录初始状态
+        available_count = sum(1 for token in self.token_queue if token.is_available())
+        logger.info(f"可用token数量: {available_count}/{len(self.token_queue)}")
+    
+    def _setup_client(self):
+        """设置HTTP客户端"""
+        self.client = httpx.AsyncClient(
+            base_url=self.api_base,
+            timeout=15.0,  # 设置15秒超时
+            headers={
+                'User-Agent': 'SpidermindBot',
+                'Accept': 'application/vnd.github.v3+json'
+            }
+        )
+    
+    async def acquire_token(self) -> TokenState:
+        """
+        获取可用的token (Round-Robin策略)
+        
         Returns:
-            bool: 是否应该重试
+            TokenState: 可用的token状态
+            
+        Raises:
+            RuntimeError: 所有token都不可用时
         """
-        if response.status_code == 403:
-            # 检查是否是速率限制
-            rate_limit_remaining = response.headers.get('X-RateLimit-Remaining', '0')
-            if rate_limit_remaining == '0':
-                # 解析重置时间
-                reset_timestamp = response.headers.get('X-RateLimit-Reset')
-                reset_time = None
-                if reset_timestamp:
-                    try:
-                        reset_time = datetime.fromtimestamp(int(reset_timestamp))
-                    except:
-                        pass
+        async with self.lock:
+            # 寻找可用的token
+            for _ in range(len(self.token_queue)):
+                token = self.token_queue.popleft()
                 
-                # 标记当前token为速率限制
-                headers = self._get_headers()
-                if headers and 'Authorization' in headers:
-                    token = headers['Authorization'].replace('token ', '')
-                    self.token_manager.mark_token_rate_limited(token, reset_time)
-                    return True  # 可以重试其他token
-        
-        return False
+                if token.is_available():
+                    # 更新使用时间
+                    token.last_used_at = time.time()
+                    # 移动到队尾（Round-Robin）
+                    self.token_queue.append(token)
+                    
+                    # 结构化日志
+                    logger.info(json.dumps({
+                        "event": "rotate_token",
+                        "token_tail": token.get_masked_value(),
+                        "reason": "normal",
+                        "remaining": token.remaining
+                    }))
+                    
+                    return token
+                else:
+                    # 重新放回队尾
+                    self.token_queue.append(token)
+            
+            # 如果没有可用token，计算等待时间
+            return await self._wait_for_available_token()
     
-    def _update_rate_limit_stats(self, response: requests.Response):
-        """更新速率限制统计信息"""
-        remaining = response.headers.get('X-RateLimit-Remaining')
-        reset_timestamp = response.headers.get('X-RateLimit-Reset')
+    async def _wait_for_available_token(self) -> TokenState:
+        """等待token变为可用"""
+        # 找到最早将要解除冷却的token
+        available_tokens = []
+        for token in self.token_queue:
+            if not token.disabled and token.cooldown_until:
+                available_tokens.append(token.cooldown_until)
         
-        if remaining is not None:
-            headers = self._get_headers()
-            if headers and 'Authorization' in headers:
-                token = headers['Authorization'].replace('token ', '')
-                reset_time = None
-                if reset_timestamp:
-                    try:
-                        reset_time = datetime.fromtimestamp(int(reset_timestamp))
-                    except:
-                        pass
-                
-                self.token_manager.update_token_stats(token, int(remaining), reset_time)
+        if not available_tokens:
+            # 所有token都被禁用
+            disabled_count = sum(1 for t in self.token_queue if t.disabled)
+            raise RuntimeError(f"所有GitHub token都不可用 (禁用: {disabled_count}, 总数: {len(self.token_queue)})")
+        
+        # 等待最早的冷却时间
+        min_cooldown = min(available_tokens)
+        wait_time = max(0, min_cooldown - time.time())
+        
+        if wait_time > 0:
+            logger.warning(json.dumps({
+                "event": "waiting_for_token",
+                "wait_seconds": round(wait_time, 1),
+                "reason": "all_tokens_cooling"
+            }))
+            await asyncio.sleep(wait_time)
+        
+        # 递归重试
+        return await self.acquire_token()
     
-    def _make_request(self, method: str, url: str, **kwargs) -> Optional[requests.Response]:
+    async def _make_request_with_retries(self, method: str, path: str, params: Optional[Dict] = None) -> Dict[str, Any]:
         """
-        发起HTTP请求，包含重试和错误处理
+        发起HTTP请求并处理重试逻辑
         
         Args:
             method: HTTP方法
-            url: 请求URL
-            **kwargs: 其他请求参数
+            path: API路径
+            params: 查询参数
             
         Returns:
-            requests.Response: 成功的响应，或None
+            Dict: JSON响应数据
+            
+        Raises:
+            RuntimeError: 请求最终失败时
         """
-        headers = self._get_headers()
-        if not headers:
-            logger.error("没有可用的GitHub token")
-            return None
+        last_exception = None
+        backoff_seconds = 1  # 初始退避时间
         
-        kwargs['headers'] = headers
-        
-        for attempt in range(self.token_manager.max_retries + 1):
+        for attempt in range(self.max_retries + 1):
             try:
+                # 获取可用token
+                token = await self.acquire_token()
+                
                 # 请求间延迟
-                if attempt > 0 or self.token_manager.sleep_between_requests > 0:
-                    delay = self.token_manager.sleep_between_requests
-                    if attempt > 0 and self.token_manager.exponential_backoff:
-                        delay = self.token_manager.retry_delay * (2 ** (attempt - 1))
-                    time.sleep(delay)
+                if attempt == 0:  # 第一次请求才休眠
+                    await asyncio.sleep(self.per_request_sleep)
                 
-                response = self.session.request(method, url, **kwargs)
+                # 设置请求头
+                headers = {
+                    'Authorization': f'token {token.value}',
+                    'User-Agent': 'SpidermindBot',
+                    'Accept': 'application/vnd.github.v3+json'
+                }
                 
-                # 更新速率限制统计
-                self._update_rate_limit_stats(response)
+                # 发起请求
+                response = await self.client.request(
+                    method=method,
+                    url=path,
+                    params=params,
+                    headers=headers
+                )
                 
-                # 处理成功响应
-                if response.status_code == 200:
-                    return response
+                # 处理响应
+                result = await self._handle_response(response, token, attempt)
+                if result is not None:
+                    return result
                 
-                # 处理404 - 用户或仓库不存在
-                if response.status_code == 404:
-                    logger.debug(f"资源不存在: {url}")
-                    return response  # 返回404响应，让调用者处理
+                # 如果返回None，说明需要重试
+                continue
                 
-                # 处理速率限制
-                if self._handle_rate_limit(response):
-                    # 获取新的headers并重试
-                    headers = self._get_headers()
-                    if headers:
-                        kwargs['headers'] = headers
-                        continue
+            except httpx.TimeoutException as e:
+                last_exception = e
+                logger.warning(f"请求超时 (尝试 {attempt + 1}/{self.max_retries + 1}): {path}")
                 
-                # 其他错误
-                logger.warning(f"请求失败 {response.status_code}: {url}")
-                
-                # 如果是最后一次尝试，返回响应
-                if attempt == self.token_manager.max_retries:
-                    return response
-                
-            except requests.exceptions.RequestException as e:
-                logger.error(f"请求异常 (尝试 {attempt + 1}): {e}")
-                if attempt == self.token_manager.max_retries:
-                    return None
-        
-        return None
-    
-    def get_user(self, login: str) -> Optional[Dict[str, Any]]:
-        """
-        获取用户信息
-        
-        Args:
-            login: GitHub用户名
-            
-        Returns:
-            Dict: 用户信息，或None
-        """
-        url = f"{self.base_url}/users/{login}"
-        response = self._make_request("GET", url)
-        
-        if response and response.status_code == 200:
-            try:
-                return response.json()
-            except:
-                logger.error(f"解析用户信息失败: {login}")
-        
-        return None
-    
-    def get_user_orgs(self, login: str, per_page: int = 100) -> List[Dict[str, Any]]:
-        """
-        获取用户所属组织
-        
-        Args:
-            login: GitHub用户名
-            per_page: 每页数量
-            
-        Returns:
-            List[Dict]: 组织列表
-        """
-        url = f"{self.base_url}/users/{login}/orgs"
-        response = self._make_request("GET", url, params={'per_page': per_page})
-        
-        if response and response.status_code == 200:
-            try:
-                return response.json()
-            except:
-                logger.error(f"解析用户组织失败: {login}")
-        
-        return []
-    
-    def get_user_repos(self, login: str, per_page: int = 100, sort: str = "updated") -> List[Dict[str, Any]]:
-        """
-        获取用户仓库列表
-        
-        Args:
-            login: GitHub用户名
-            per_page: 每页数量
-            sort: 排序方式 (created, updated, pushed, full_name)
-            
-        Returns:
-            List[Dict]: 仓库列表
-        """
-        repos = []
-        page = 1
-        
-        while True:
-            url = f"{self.base_url}/users/{login}/repos"
-            params = {
-                'per_page': per_page,
-                'page': page,
-                'sort': sort,
-                'type': 'all'  # owner, all, public, private, member
-            }
-            
-            response = self._make_request("GET", url, params=params)
-            
-            if not response or response.status_code != 200:
-                break
-            
-            try:
-                page_repos = response.json()
-                if not page_repos:  # 没有更多数据
-                    break
-                
-                repos.extend(page_repos)
-                
-                # 如果返回的数量少于per_page，说明是最后一页
-                if len(page_repos) < per_page:
-                    break
-                
-                page += 1
+            except httpx.RequestError as e:
+                last_exception = e
+                logger.warning(f"网络错误 (尝试 {attempt + 1}/{self.max_retries + 1}): {e}")
                 
             except Exception as e:
-                logger.error(f"解析用户仓库失败: {login}, 页码: {page}, 错误: {e}")
-                break
+                last_exception = e
+                logger.error(f"未知错误 (尝试 {attempt + 1}/{self.max_retries + 1}): {e}")
+            
+            # 指数退避
+            if attempt < self.max_retries:
+                backoff_seconds = min(backoff_seconds * 2, self.max_backoff)
+                logger.warning(json.dumps({
+                    "event": "request_retry",
+                    "attempt": attempt + 1,
+                    "backoff_seconds": backoff_seconds,
+                    "path": path
+                }))
+                await asyncio.sleep(backoff_seconds)
         
-        return repos
+        # 所有重试都失败了
+        logger.error(f"请求最终失败: {path}, 最后错误: {last_exception}")
+        raise RuntimeError(f"GitHub API请求失败: {path}") from last_exception
     
-    def get_readme(self, owner: str, repo: str) -> Optional[str]:
+    async def _handle_response(self, response: httpx.Response, token: TokenState, attempt: int) -> Optional[Dict[str, Any]]:
         """
-        获取仓库README内容
+        处理API响应
         
         Args:
-            owner: 仓库所有者
-            repo: 仓库名称
+            response: HTTP响应
+            token: 使用的token状态
+            attempt: 当前尝试次数
             
         Returns:
-            str: README内容，或None
+            Optional[Dict]: 成功时返回JSON数据，需要重试时返回None
         """
-        # 尝试不同的README文件名
-        readme_files = ['README.md', 'readme.md', 'README.txt', 'readme.txt', 'README', 'readme']
-        
-        for readme_file in readme_files:
-            url = f"{self.base_url}/repos/{owner}/{repo}/contents/{readme_file}"
-            response = self._make_request("GET", url)
+        # 更新token状态
+        async with self.lock:
+            # 读取速率限制信息
+            remaining = response.headers.get('X-RateLimit-Remaining')
+            reset_time = response.headers.get('X-RateLimit-Reset')
             
-            if response and response.status_code == 200:
-                try:
-                    content_data = response.json()
-                    if content_data.get('content'):
-                        import base64
-                        content = base64.b64decode(content_data['content']).decode('utf-8', errors='ignore')
-                        return content
-                except Exception as e:
-                    logger.debug(f"解析README失败: {owner}/{repo}/{readme_file}, 错误: {e}")
-                    continue
+            if remaining:
+                token.remaining = int(remaining)
+            if reset_time:
+                token.reset_time = reset_time
         
-        return None
+        # 处理不同状态码
+        if response.status_code == 200:
+            # 成功响应
+            try:
+                return response.json()
+            except json.JSONDecodeError:
+                logger.error("响应JSON解析失败")
+                return None
+        
+        elif response.status_code == 401:
+            # 认证失败
+            response_text = response.text.lower()
+            async with self.lock:
+                if 'rate limit' in response_text or 'api rate limit exceeded' in response_text:
+                    # 速率限制
+                    reset_ts = int(reset_time) if reset_time else time.time() + self.rate_limit_backoff
+                    token.cooldown_until = reset_ts + 1
+                    
+                    logger.warning(json.dumps({
+                        "event": "rate_limit_hit",
+                        "token_tail": token.get_masked_value(),
+                        "reset_timestamp": reset_ts,
+                        "reason": "401_rate_limit"
+                    }))
+                    
+                    # 轮换到下一个token
+                    logger.info(json.dumps({
+                        "event": "rotate_token",
+                        "token_tail": token.get_masked_value(),
+                        "reason": "rate_limit"
+                    }))
+                else:
+                    # Token无效
+                    token.disabled = True
+                    logger.error(json.dumps({
+                        "event": "token_disabled",
+                        "token_tail": token.get_masked_value(),
+                        "reason": "auth_failed"
+                    }))
+            
+            return None  # 需要重试
+        
+        elif response.status_code == 403:
+            # 权限不足或速率限制
+            response_text = response.text.lower()
+            async with self.lock:
+                if 'rate limit' in response_text or 'api rate limit exceeded' in response_text or token.remaining == 0:
+                    # 速率限制
+                    reset_ts = int(reset_time) if reset_time else time.time() + self.rate_limit_backoff
+                    token.cooldown_until = reset_ts + 1
+                    
+                    logger.warning(json.dumps({
+                        "event": "rate_limit_hit",
+                        "token_tail": token.get_masked_value(),
+                        "reset_timestamp": reset_ts,
+                        "reason": "403_rate_limit"
+                    }))
+                    
+                    # 轮换到下一个token
+                    logger.info(json.dumps({
+                        "event": "rotate_token",
+                        "token_tail": token.get_masked_value(),
+                        "reason": "rate_limit"
+                    }))
+                else:
+                    logger.warning(f"Token权限不足: {response.status_code} - {response.text[:100]}")
+            
+            return None  # 需要重试
+        
+        elif response.status_code == 429:
+            # 明确的速率限制
+            async with self.lock:
+                reset_ts = int(reset_time) if reset_time else time.time() + self.rate_limit_backoff
+                token.cooldown_until = reset_ts + 1
+                
+                logger.warning(json.dumps({
+                    "event": "rate_limit_hit",
+                    "token_tail": token.get_masked_value(),
+                    "reset_timestamp": reset_ts,
+                    "reason": "429_too_many_requests"
+                }))
+            
+            return None  # 需要重试
+        
+        elif response.status_code >= 500:
+            # 服务器错误
+            async with self.lock:
+                token.cooldown_until = time.time() + 30  # 30秒冷却
+            
+            logger.warning(json.dumps({
+                "event": "server_error",
+                "status_code": response.status_code,
+                "token_tail": token.get_masked_value(),
+                "cooldown_seconds": 30
+            }))
+            
+            return None  # 需要重试
+        
+        else:
+            # 其他客户端错误
+            logger.error(f"未预期的响应状态: {response.status_code} - {response.text[:200]}")
+            return None
     
-    def get_user_followers(self, login: str, per_page: int = 100) -> List[Dict[str, Any]]:
+    async def get_json(self, path: str, params: Optional[Dict] = None) -> Dict[str, Any]:
         """
-        获取用户粉丝列表
+        GET请求并返回JSON数据
         
         Args:
-            login: GitHub用户名
-            per_page: 每页数量
+            path: API路径
+            params: 查询参数
             
         Returns:
-            List[Dict]: 粉丝列表
+            Dict: JSON响应数据
+            
+        Raises:
+            RuntimeError: 请求失败时
         """
-        url = f"{self.base_url}/users/{login}/followers"
-        response = self._make_request("GET", url, params={'per_page': per_page})
-        
-        if response and response.status_code == 200:
-            try:
-                return response.json()
-            except:
-                logger.error(f"解析用户粉丝失败: {login}")
-        
-        return []
+        return await self._make_request_with_retries('GET', path, params)
     
-    def get_user_following(self, login: str, per_page: int = 100) -> List[Dict[str, Any]]:
+    async def get(self, path: str, params: Optional[Dict] = None) -> httpx.Response:
         """
-        获取用户关注列表
+        GET请求并返回响应对象
         
         Args:
-            login: GitHub用户名
-            per_page: 每页数量
+            path: API路径
+            params: 查询参数
             
         Returns:
-            List[Dict]: 关注列表
+            httpx.Response: 原始响应对象
+            
+        Note:
+            这个方法主要用于需要访问响应头或状态码的场景
+            对于大多数情况，建议使用 get_json() 方法
         """
-        url = f"{self.base_url}/users/{login}/following"
-        response = self._make_request("GET", url, params={'per_page': per_page})
+        # 获取token并发起请求
+        token = await self.acquire_token()
         
-        if response and response.status_code == 200:
-            try:
-                return response.json()
-            except:
-                logger.error(f"解析用户关注失败: {login}")
+        # 请求间延迟
+        await asyncio.sleep(self.per_request_sleep)
         
-        return []
+        # 设置请求头
+        headers = {
+            'Authorization': f'token {token.value}',
+            'User-Agent': 'SpidermindBot',
+            'Accept': 'application/vnd.github.v3+json'
+        }
+        
+        # 发起请求
+        response = await self.client.request(
+            method='GET',
+            url=path,
+            params=params,
+            headers=headers
+        )
+        
+        # 更新token状态（不包含错误处理，因为调用方可能需要处理特定状态码）
+        async with self.lock:
+            remaining = response.headers.get('X-RateLimit-Remaining')
+            if remaining:
+                token.remaining = int(remaining)
+            
+            reset_time = response.headers.get('X-RateLimit-Reset')
+            if reset_time:
+                token.reset_time = reset_time
+        
+        return response
     
-    def get_rate_limit_status(self) -> Dict[str, Any]:
+    async def close(self):
+        """关闭HTTP客户端"""
+        if self.client:
+            await self.client.aclose()
+            self.client = None
+    
+    async def __aenter__(self):
+        """异步上下文管理器入口"""
+        return self
+    
+    async def __aexit__(self, exc_type, exc_val, exc_tb):
+        """异步上下文管理器出口"""
+        await self.close()
+    
+    def get_token_status(self) -> Dict[str, Any]:
         """
-        获取当前token的速率限制状态
+        获取当前token状态统计
         
         Returns:
-            Dict: 速率限制信息
+            Dict: token状态统计信息
         """
-        url = f"{self.base_url}/rate_limit"
-        response = self._make_request("GET", url)
+        total = len(self.token_queue)
+        available = sum(1 for token in self.token_queue if token.is_available())
+        disabled = sum(1 for token in self.token_queue if token.disabled)
+        cooling = sum(1 for token in self.token_queue if token.cooldown_until and token.cooldown_until > time.time())
         
-        if response and response.status_code == 200:
-            try:
-                return response.json()
-            except:
-                pass
+        return {
+            "total": total,
+            "available": available,
+            "disabled": disabled,
+            "cooling": cooling,
+            "config": {
+                "api_base": self.api_base,
+                "per_request_sleep": self.per_request_sleep,
+                "rate_limit_backoff": self.rate_limit_backoff,
+                "max_retries": self.max_retries
+            }
+        }
+
+
+# 传统兼容API类（保持向后兼容）
+class GitHubAPIClient:
+    """GitHub API客户端 - 兼容旧版本API"""
+    
+    def __init__(self, tokens_config_path: str = "config/tokens.github.json"):
+        """
+        初始化兼容版本的GitHub客户端
         
-        return {"core": {"remaining": 0, "limit": 5000}}
+        Args:
+            tokens_config_path: 已废弃，保持兼容性
+        """
+        logger.warning("GitHubAPIClient已废弃，请使用新的GitHubClient")
+        self._client = GitHubClient()
+    
+    async def get_user_info(self, username: str) -> Optional[Dict[str, Any]]:
+        """获取用户基本信息"""
+        try:
+            return await self._client.get_json(f"/users/{username}")
+        except Exception as e:
+            logger.error(f"获取用户信息失败: {username}, 错误: {e}")
+            return None
+    
+    async def get_user_repos(self, username: str, per_page: int = 100) -> List[Dict[str, Any]]:
+        """获取用户仓库列表"""
+        try:
+            return await self._client.get_json(f"/users/{username}/repos", {
+                "per_page": per_page,
+                "sort": "updated"
+            })
+        except Exception as e:
+            logger.error(f"获取用户仓库失败: {username}, 错误: {e}")
+            return []
+    
+    async def close(self):
+        """关闭客户端"""
+        await self._client.close()
 
 
 # 全局实例

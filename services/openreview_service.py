@@ -8,6 +8,9 @@ Author: Spidermind
 """
 
 import logging
+import asyncio
+import time
+import requests
 from datetime import datetime, timedelta
 from typing import Dict, List, Optional, Any
 from sqlalchemy.orm import Session
@@ -18,6 +21,7 @@ from extractors.regex_extractors import regex_extractors
 from models.candidate import Candidate, CandidateEmail, CandidateHomepage, CandidatePaper, CandidateInstitution
 from models.crawl import CrawlTask, CrawlLog
 from models.mapping import OpenReviewUser
+from models.base import SessionLocal
 from services.progress_service import progress_tracker
 
 logger = logging.getLogger(__name__)
@@ -30,6 +34,183 @@ class OpenReviewService:
         """初始化OpenReview服务"""
         self.client = openreview_client
         self.extractors = regex_extractors
+        self.session = requests.Session()
+        self.session.headers.update({
+            'User-Agent': 'Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/91.0.4472.124 Safari/537.36',
+            'Accept': 'application/json,text/html,application/xhtml+xml,application/xml;q=0.9,*/*;q=0.8',
+            'Accept-Language': 'en-US,en;q=0.5',
+            'Accept-Encoding': 'gzip, deflate',
+            'Connection': 'keep-alive'
+        })
+    
+    def fetch_json(self, url: str, params: Optional[Dict[str, Any]] = None, 
+                   trace_id: Optional[str] = None, task_id: Optional[int] = None) -> Optional[Dict[str, Any]]:
+        """
+        健壮的HTTP JSON请求包装器，支持指数退避重试
+        
+        Args:
+            url: 请求URL
+            params: 查询参数
+            trace_id: 跟踪ID
+            task_id: 任务ID（用于日志记录）
+            
+        Returns:
+            Dict: JSON响应数据，或None
+        """
+        max_retries = 6  # 最多重试6次: 1s, 2s, 4s, 8s, 16s, 32s, 60s
+        base_delay = 1.0  # 基础延迟1秒
+        max_delay = 60.0  # 最大延迟60秒
+        
+        for attempt in range(max_retries + 1):
+            try:
+                # 请求前延迟（除了第一次）
+                if attempt > 0:
+                    delay = min(base_delay * (2 ** (attempt - 1)), max_delay)
+                    logger.info(f"重试前等待 {delay:.1f}s (第{attempt}次重试)")
+                    time.sleep(delay)
+                
+                response = self.session.get(url, params=params, timeout=30)
+                
+                # 成功响应
+                if response.status_code == 200:
+                    try:
+                        # 尝试解析JSON
+                        if 'application/json' in response.headers.get('content-type', ''):
+                            return response.json()
+                        else:
+                            # 如果不是JSON，返回原始文本用于HTML解析
+                            return {'html_content': response.text, 'url': url}
+                    except ValueError as e:
+                        # JSON解析失败，记录但不重试
+                        self._log_fetch_failure(
+                            url, 200, f"JSON解析失败: {str(e)}", 
+                            trace_id, task_id
+                        )
+                        return None
+                
+                # 404错误不重试
+                elif response.status_code == 404:
+                    self._log_fetch_failure(
+                        url, 404, "资源不存在", 
+                        trace_id, task_id
+                    )
+                    return None
+                
+                # 429和5xx错误需要重试
+                elif response.status_code == 429 or response.status_code >= 500:
+                    retry_after = self._parse_retry_after(response.headers.get('Retry-After'))
+                    if retry_after and attempt < max_retries:
+                        wait_time = min(retry_after, max_delay)
+                        logger.warning(f"OpenReview API限制，等待 {wait_time:.1f}s (Retry-After: {retry_after})")
+                        time.sleep(wait_time)
+                        continue
+                    
+                    # 如果是最后一次重试或没有Retry-After，按正常逻辑处理
+                    if attempt == max_retries:
+                        self._log_fetch_failure(
+                            url, response.status_code, 
+                            f"openreview: {response.status_code} {response.reason}",
+                            trace_id, task_id
+                        )
+                        return None
+                    
+                    logger.warning(f"请求失败 {response.status_code}: {url}，将重试")
+                    continue
+                
+                # 其他4xx错误不重试
+                elif 400 <= response.status_code < 500:
+                    self._log_fetch_failure(
+                        url, response.status_code, 
+                        f"openreview: {response.status_code} {response.reason}",
+                        trace_id, task_id
+                    )
+                    return None
+                
+                # 其他状态码重试
+                else:
+                    if attempt == max_retries:
+                        self._log_fetch_failure(
+                            url, response.status_code, 
+                            f"openreview: {response.status_code} {response.reason}",
+                            trace_id, task_id
+                        )
+                        return None
+                    
+                    logger.warning(f"意外状态码 {response.status_code}: {url}，将重试")
+                    continue
+                    
+            except requests.exceptions.Timeout:
+                if attempt == max_retries:
+                    self._log_fetch_failure(
+                        url, 0, "openreview: 请求超时", 
+                        trace_id, task_id
+                    )
+                    return None
+                logger.warning(f"请求超时: {url}，将重试")
+                continue
+                
+            except requests.exceptions.RequestException as e:
+                if attempt == max_retries:
+                    self._log_fetch_failure(
+                        url, 0, f"openreview: 网络错误 {str(e)}", 
+                        trace_id, task_id
+                    )
+                    return None
+                logger.warning(f"网络异常: {url}, 错误: {e}，将重试")
+                continue
+        
+        return None
+    
+    def _parse_retry_after(self, retry_after_header: Optional[str]) -> Optional[float]:
+        """解析Retry-After头部"""
+        if not retry_after_header:
+            return None
+        
+        try:
+            # 尝试解析为秒数
+            return float(retry_after_header)
+        except ValueError:
+            try:
+                # 尝试解析为HTTP日期格式
+                from email.utils import parsedate
+                parsed_date = parsedate(retry_after_header)
+                if parsed_date:
+                    retry_time = time.mktime(parsed_date)
+                    current_time = time.time()
+                    return max(0, retry_time - current_time)
+            except:
+                pass
+        
+        return None
+    
+    def _log_fetch_failure(self, url: str, status_code: int, message: str, 
+                          trace_id: Optional[str] = None, task_id: Optional[int] = None):
+        """记录请求失败到crawl_logs"""
+        if not task_id:
+            return
+        
+        db = SessionLocal()
+        try:
+            log = CrawlLog(
+                task_id=task_id,
+                source='openreview',
+                task_type='api_request',
+                url=url,
+                status='fail',
+                message=message,
+                trace_id=trace_id,
+                created_at=datetime.now()
+            )
+            db.add(log)
+            db.commit()
+            
+            logger.error(f"OpenReview请求失败: {message} - {url}")
+            
+        except Exception as e:
+            logger.error(f"记录OpenReview请求失败日志失败: {e}")
+            db.rollback()
+        finally:
+            db.close()
     
     def process_forum_task(self, task: CrawlTask, db: Session) -> Dict[str, Any]:
         """
@@ -50,8 +231,20 @@ class OpenReviewService:
             }
         
         try:
-            # 获取论文信息
-            paper_info = self.client.get_forum_info(forum_url)
+            # 获取论文信息（使用健壮的请求包装器）
+            response_data = self.fetch_json(forum_url, trace_id=getattr(task, 'trace_id', None), task_id=task.id)
+            if not response_data:
+                return {
+                    'status': 'fail',
+                    'message': f'无法获取论文信息: {forum_url}'
+                }
+            
+            # 如果是HTML内容，使用原客户端解析
+            if 'html_content' in response_data:
+                paper_info = self._parse_forum_html(response_data['html_content'], forum_url)
+            else:
+                paper_info = response_data
+            
             if not paper_info:
                 return {
                     'status': 'fail',
@@ -153,8 +346,20 @@ class OpenReviewService:
                         'candidate_id': existing_user.candidate_id
                     }
             
-            # 获取用户profile信息
-            profile_info = self.client.get_profile_info(profile_url)
+            # 获取用户profile信息（使用健壮的请求包装器）
+            response_data = self.fetch_json(profile_url, trace_id=getattr(task, 'trace_id', None), task_id=task.id)
+            if not response_data:
+                return {
+                    'status': 'fail',
+                    'message': f'无法获取profile信息: {profile_url}'
+                }
+            
+            # 如果是HTML内容，使用原客户端解析
+            if 'html_content' in response_data:
+                profile_info = self._parse_profile_html(response_data['html_content'], profile_url)
+            else:
+                profile_info = response_data
+            
             if not profile_info:
                 return {
                     'status': 'fail',
@@ -526,6 +731,37 @@ class OpenReviewService:
                 tasks_created += 1
         
         return tasks_created
+    
+    def _parse_forum_html(self, html_content: str, forum_url: str) -> Optional[Dict[str, Any]]:
+        """解析论文论坛HTML内容"""
+        try:
+            from bs4 import BeautifulSoup
+            soup = BeautifulSoup(html_content, 'html.parser')
+            
+            # 重用原客户端的解析逻辑
+            return self.client._parse_forum_content(soup, forum_url)
+            
+        except Exception as e:
+            logger.error(f"解析论文HTML失败: {forum_url}, 错误: {e}")
+            return None
+    
+    def _parse_profile_html(self, html_content: str, profile_url: str) -> Optional[Dict[str, Any]]:
+        """解析用户profile HTML内容"""
+        try:
+            from bs4 import BeautifulSoup
+            soup = BeautifulSoup(html_content, 'html.parser')
+            
+            # 重用原客户端的解析逻辑
+            return self.client._parse_profile_content(soup, profile_url)
+            
+        except Exception as e:
+            logger.error(f"解析profile HTML失败: {profile_url}, 错误: {e}")
+            return None
+    
+    def set_config(self, config: Dict[str, Any]):
+        """设置服务配置"""
+        if 'max_tasks' in config:
+            self.max_tasks = config['max_tasks']
 
 
 # 全局实例

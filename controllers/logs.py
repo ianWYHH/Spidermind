@@ -22,6 +22,7 @@ async def get_logs(
     since_id: Optional[int] = Query(None, description="起始日志ID，用于增量拉取"),
     limit: int = Query(50, le=200, description="返回数量限制"),
     status: Optional[str] = Query(None, description="状态过滤: success/fail/skip"),
+    trace_id: Optional[str] = Query(None, description="跟踪ID过滤"),
     db: Session = Depends(get_db)
 ):
     """
@@ -32,6 +33,7 @@ async def get_logs(
         since_id: 起始日志ID，返回ID大于此值的日志
         limit: 返回数量限制，最大200
         status: 状态过滤
+        trace_id: 跟踪ID过滤
         db: 数据库会话
     
     Returns:
@@ -62,6 +64,10 @@ async def get_logs(
             )
         conditions.append(CrawlLog.status == status)
     
+    # trace_id 过滤条件
+    if trace_id:
+        conditions.append(CrawlLog.trace_id == trace_id)
+    
     # 执行查询
     query = db.query(CrawlLog).filter(and_(*conditions))
     
@@ -83,6 +89,7 @@ async def get_logs(
             "url": log.url,
             "status": log.status,
             "message": log.message,
+            "trace_id": log.trace_id,
             "created_at": log.created_at.isoformat() if log.created_at else None,
             "candidate_ids": candidate_ids
         }
@@ -104,6 +111,7 @@ async def get_logs(
         "filters": {
             "source": source,
             "status": status,
+            "trace_id": trace_id,
             "since_id": since_id
         },
         "timestamp": datetime.now().isoformat()
@@ -227,6 +235,7 @@ async def get_all_logs(
             "url": log.url,
             "status": log.status,
             "message": log.message,
+            "trace_id": log.trace_id,
             "created_at": log.created_at.isoformat() if log.created_at else None,
             "candidate_ids": candidate_ids
         }

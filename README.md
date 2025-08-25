@@ -103,35 +103,70 @@ EXIT;
 
 ### 4. 应用配置
 
-创建 `config/database.json`：
+#### 统一配置策略：`.env` 优先，`config/database.json` 兜底
+
+**方式1：使用 `.env` 文件（推荐）**
+
+创建 `.env` 文件：
+
+```env
+# 数据库配置（直接指定DSN）
+MYSQL_DSN=mysql+pymysql://spidermind:your_password@127.0.0.1:3306/Spidermind?charset=utf8mb4
+
+# 或分别指定数据库参数
+DB_HOST=127.0.0.1
+DB_PORT=3306
+DB_USER=spidermind
+DB_PASSWORD=your_password
+DB_DATABASE=Spidermind
+DB_CHARSET=utf8mb4
+
+# QWEN API配置
+QWEN_API_KEY=your_qwen_api_key
+QWEN_BASE_URL=https://dashscope.aliyuncs.com/api/v1/services/aigc/text-generation/generation
+QWEN_MODEL=qwen-plus
+
+# 应用配置
+DEBUG=true
+SECRET_KEY=your-secret-key-here
+```
+
+**方式2：使用 `config/database.json`（兜底方案）**
+
+如果没有 `.env` 文件或未指定 `MYSQL_DSN`，系统会读取 `config/database.json`：
 
 ```json
 {
-  "databases": {
-    "default": {
-      "host": "localhost",
-      "port": 3306,
-      "username": "spidermind",
-      "password": "your_password",
-      "database": "Spidermind"
-    }
-  },
-  "qwen_api": {
-    "base_url": "https://dashscope.aliyuncs.com/compatible-mode/v1",
-    "api_key": "your_qwen_api_key",
-    "model": "qwen-turbo"
-  }
+  "host": "127.0.0.1",
+  "port": 3306,
+  "username": "spidermind", 
+  "password": "your_password",
+  "database": "Spidermind",
+  "charset": "utf8mb4"
 }
 ```
 
-创建 `config/tokens.github.json`（可选）：
+**GitHub Token配置（可选）**
+
+编辑 `config/tokens.github.json`：
 
 ```json
 {
   "tokens": [
-    "ghp_your_github_token_1",
-    "ghp_your_github_token_2"
-  ]
+    {
+      "token": "github_pat_your_token_here",
+      "user": "your_username",
+      "remaining": 5000,
+      "reset_time": null,
+      "cooldown_until": null,
+      "active": true
+    }
+  ],
+  "current_index": 0,
+  "sleep_between_requests": 0.1,
+  "max_retries": 2,
+  "retry_delay": 1.0,
+  "exponential_backoff": true
 }
 ```
 

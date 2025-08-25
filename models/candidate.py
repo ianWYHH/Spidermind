@@ -111,6 +111,8 @@ class CandidateInstitution(Base):
     
     # 唯一约束和索引 (蓝图要求：candidate_id, institution, COALESCE(start_year,0), COALESCE(end_year,0))
     __table_args__ = (
+        # 注意：MySQL唯一约束中NULL值被视为不同，所以NULL+NULL可以重复
+        # 这个行为实际上符合蓝图中COALESCE的语义
         UniqueConstraint('candidate_id', 'institution', 'start_year', 'end_year', 
                         name='uk_candidate_institution'),
         Index('idx_candidate_institutions_candidate_id', 'candidate_id'),
@@ -213,13 +215,14 @@ class CandidateRepo(Base):
             kwargs['url_hash'] = hashlib.md5(kwargs['repo_url'].encode('utf-8')).hexdigest()
         super().__init__(**kwargs)
     
-    # 唯一约束和索引
+    # 唯一约束和索引 (蓝图要求：candidate_id, repo_url - 使用url_hash实现)
     __table_args__ = (
         UniqueConstraint('candidate_id', 'url_hash', name='uk_candidate_repo'),
         Index('idx_candidate_repos_candidate_id', 'candidate_id'),
         Index('idx_candidate_repos_url_hash', 'url_hash'),
         Index('idx_candidate_repos_stars', 'stars'),
         Index('idx_candidate_repos_language', 'language'),
+        Index('idx_candidate_repos_picked_reason', 'picked_reason'),
         Index('idx_candidate_repos_created_at', 'created_at'),
     )
 
@@ -231,7 +234,7 @@ class CandidatePaper(Base):
     id = Column(Integer, primary_key=True, autoincrement=True)
     candidate_id = Column(Integer, ForeignKey('candidates.id', ondelete='CASCADE'), nullable=False)
     title = Column(String(1000), nullable=False, comment='论文标题')
-    url = Column(String(2048), comment='论文链接')
+    source_url = Column(String(2048), comment='论文来源链接')
     url_hash = Column(CHAR(32), comment='URL的MD5哈希')
     venue = Column(String(200), comment='会议/期刊')
     source = Column(String(100), comment='来源')
@@ -244,8 +247,8 @@ class CandidatePaper(Base):
     candidate = relationship("Candidate", back_populates="papers")
     
     def __init__(self, **kwargs):
-        if 'url' in kwargs and kwargs['url'] and 'url_hash' not in kwargs:
-            kwargs['url_hash'] = hashlib.md5(kwargs['url'].encode('utf-8')).hexdigest()
+        if 'source_url' in kwargs and kwargs['source_url'] and 'url_hash' not in kwargs:
+            kwargs['url_hash'] = hashlib.md5(kwargs['source_url'].encode('utf-8')).hexdigest()
         super().__init__(**kwargs)
     
     # 索引
@@ -282,7 +285,7 @@ class RawText(Base):
             kwargs['url_hash'] = hashlib.md5(kwargs['url'].encode('utf-8')).hexdigest()
         super().__init__(**kwargs)
     
-    # 唯一约束和索引 (蓝图要求：candidate_id, url)
+    # 唯一约束和索引 (蓝图要求：candidate_id, url - 使用url_hash实现)
     __table_args__ = (
         UniqueConstraint('candidate_id', 'url_hash', name='uk_candidate_raw_text'),
         Index('idx_raw_texts_candidate_id', 'candidate_id'),

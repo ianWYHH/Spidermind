@@ -54,7 +54,7 @@ class CrawlTask(Base):
         Index('idx_crawl_tasks_openreview_profile_id', 'openreview_profile_id'),
         Index('idx_crawl_tasks_created_at', 'created_at'),
         Index('idx_crawl_tasks_updated_at', 'updated_at'),
-        # 去重索引 (用复合索引代替唯一约束，因为涉及可空字段)
+        # 去重索引 - 蓝图要求的复合去重键，用索引实现（因为涉及可空字段）
         Index('idx_crawl_tasks_dedup', 'source', 'type', 'url', 'github_login', 'openreview_profile_id'),
     )
 

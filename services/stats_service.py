@@ -88,6 +88,16 @@ class StatsService:
             
             total_stats['total'] = sum(total_stats.values())
             
+            # 确保所有三个源都有对应的统计数据结构，即使为空
+            required_sources = ['github', 'openreview', 'homepage']
+            for source in required_sources:
+                if source not in stats_by_source:
+                    stats_by_source[source] = {
+                        'total': 0,
+                        'by_type': {},
+                        'by_status': {'pending': 0, 'done': 0, 'failed': 0, 'running': 0}
+                    }
+            
             return {
                 'by_source': stats_by_source,
                 'total': total_stats,
@@ -97,9 +107,13 @@ class StatsService:
         except Exception as e:
             logger.error(f"获取任务统计失败: {e}")
             return {
-                'by_source': {},
+                'by_source': {
+                    'github': {'by_status': {'pending': 0, 'done': 0, 'failed': 0, 'running': 0}, 'total': 0, 'by_type': {}},
+                    'openreview': {'by_status': {'pending': 0, 'done': 0, 'failed': 0, 'running': 0}, 'total': 0, 'by_type': {}},
+                    'homepage': {'by_status': {'pending': 0, 'done': 0, 'failed': 0, 'running': 0}, 'total': 0, 'by_type': {}}
+                },
                 'total': {'pending': 0, 'done': 0, 'failed': 0, 'running': 0, 'total': 0},
-                'sources': []
+                'sources': ['github', 'openreview', 'homepage']
             }
     
     def get_candidate_parse_progress(self, db: Session) -> Dict[str, Any]:
@@ -184,8 +198,16 @@ class StatsService:
             if total_candidates == 0:
                 return {
                     'total_candidates': 0,
-                    'coverage': {},
-                    'coverage_percentages': {}
+                    'coverage': {
+                        'email': 0, 'phone': 0, 'homepage': 0, 'resume': 0,
+                        'github': 0, 'institution': 0, 'repository': 0, 'raw_text': 0
+                    },
+                    'coverage_percentages': {
+                        'email': 0.0, 'phone': 0.0, 'homepage': 0.0, 'resume': 0.0,
+                        'github': 0.0, 'institution': 0.0, 'repository': 0.0, 'raw_text': 0.0
+                    },
+                    'basic_contact_coverage': 0,
+                    'basic_contact_percentage': 0.0
                 }
             
             # 邮箱覆盖率
@@ -254,8 +276,14 @@ class StatsService:
             logger.error(f"获取字段覆盖率统计失败: {e}")
             return {
                 'total_candidates': 0,
-                'coverage': {},
-                'coverage_percentages': {},
+                'coverage': {
+                    'email': 0, 'phone': 0, 'homepage': 0, 'resume': 0,
+                    'github': 0, 'institution': 0, 'repository': 0, 'raw_text': 0
+                },
+                'coverage_percentages': {
+                    'email': 0.0, 'phone': 0.0, 'homepage': 0.0, 'resume': 0.0,
+                    'github': 0.0, 'institution': 0.0, 'repository': 0.0, 'raw_text': 0.0
+                },
                 'basic_contact_coverage': 0,
                 'basic_contact_percentage': 0.0
             }
@@ -272,17 +300,23 @@ class StatsService:
             List[Dict]: 最近活动列表
         """
         try:
-            recent_logs = db.query(CrawlLog).order_by(
-                CrawlLog.created_at.desc()
-            ).limit(limit).all()
+            # 只查询确定存在的字段，避免数据库结构不匹配
+            recent_logs = db.query(
+                CrawlLog.id,
+                CrawlLog.source,
+                CrawlLog.status,
+                CrawlLog.message,
+                CrawlLog.url,
+                CrawlLog.created_at
+            ).order_by(CrawlLog.created_at.desc()).limit(limit).all()
             
             activities = []
             for log in recent_logs:
-                # 简化活动信息（跳过候选人关联，因为字段不匹配）
+                # 构建活动信息
                 activity = {
                     'id': log.id,
                     'source': log.source,
-                    'task_type': 'unknown',  # CrawlLog没有task_type字段
+                    'task_type': log.source,  # 使用source作为task_type的替代
                     'status': log.status,
                     'message': log.message or '无消息',
                     'candidate_name': '未知',
@@ -386,11 +420,41 @@ class StatsService:
         except Exception as e:
             logger.error(f"获取仪表盘统计失败: {e}")
             return {
-                'tasks': {'by_source': {}, 'total': {'pending': 0, 'done': 0, 'failed': 0, 'running': 0, 'total': 0}},
-                'parsing': {'total_candidates': 0, 'parsed_candidates': 0, 'parse_progress': 0.0},
-                'coverage': {'total_candidates': 0, 'coverage_percentages': {}},
+                'tasks': {
+                    'by_source': {
+                        'github': {'by_status': {'pending': 0, 'done': 0, 'failed': 0, 'running': 0}},
+                        'openreview': {'by_status': {'pending': 0, 'done': 0, 'failed': 0, 'running': 0}},
+                        'homepage': {'by_status': {'pending': 0, 'done': 0, 'failed': 0, 'running': 0}}
+                    }, 
+                    'total': {'pending': 0, 'done': 0, 'failed': 0, 'running': 0, 'total': 0}
+                },
+                'parsing': {
+                    'total_candidates': 0, 
+                    'parsed_candidates': 0, 
+                    'unparsed_candidates': 0,
+                    'candidates_with_texts': 0,
+                    'pending_parse': 0,
+                    'parse_progress': 0.0,
+                    'recent_parse_activity': 0
+                },
+                'coverage': {
+                    'total_candidates': 0, 
+                    'coverage': {},
+                    'coverage_percentages': {
+                        'email': 0.0,
+                        'phone': 0.0,
+                        'homepage': 0.0,
+                        'resume': 0.0,
+                        'github': 0.0,
+                        'institution': 0.0,
+                        'repository': 0.0,
+                        'raw_text': 0.0
+                    },
+                    'basic_contact_coverage': 0,
+                    'basic_contact_percentage': 0.0
+                },
                 'recent_activity': [],
-                'system_health': {'system_status': 'error'},
+                'system_health': {'system_status': 'error', 'recent_errors': 0},
                 'timestamp': datetime.now().isoformat(),
                 'error': str(e)
             }

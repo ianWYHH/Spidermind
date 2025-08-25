@@ -8,16 +8,16 @@ from sqlalchemy.ext.declarative import declarative_base
 from sqlalchemy.orm import sessionmaker, Session
 from typing import Generator, Dict, Any
 
-from config.settings import settings
+from config.settings import get_mysql_dsn, settings
 
 # 创建数据库引擎 - 使用统一配置入口
 engine = create_engine(
-    settings.get_mysql_dsn(),  # 使用新的统一配置方法
-    echo=settings.DEBUG,       # 开发环境下输出SQL
-    pool_pre_ping=True,        # 连接池健康检查
-    pool_recycle=1800,         # 30分钟回收连接
-    pool_size=10,              # 连接池大小
-    max_overflow=20            # 最大溢出连接数
+    get_mysql_dsn(),              # 使用统一的配置方法
+    echo=settings.DEBUG,          # 开发环境下输出SQL
+    pool_pre_ping=True,           # 连接池健康检查
+    pool_recycle=1800,            # 30分钟回收连接
+    pool_size=10,                 # 连接池大小
+    max_overflow=20               # 最大溢出连接数
 )
 
 # 创建会话工厂
@@ -109,12 +109,12 @@ def test_database_connection() -> Dict[str, str]:
         
         return {
             "status": "connected",
-            "message": f"数据库连接成功: {settings.get_mysql_dsn()}",
-            "dsn": settings.get_mysql_dsn()
+            "message": f"数据库连接成功: {get_mysql_dsn()}",
+            "dsn": get_mysql_dsn()
         }
     except Exception as e:
         return {
             "status": "failed", 
             "message": f"Database connection failed: {str(e)}",
-            "dsn": settings.get_mysql_dsn()
+            "dsn": get_mysql_dsn()
         }

@@ -1,0 +1,1231 @@
+2025-08-26 16:45:30,511 - __main__ - INFO - 启动 Spidermind GUI
+2025-08-26 16:45:30,727 - __main__ - INFO - 创建主窗口
+2025-08-26 16:45:30,786 - db.dao - ERROR - 数据库连接池初始化失败: 1045 (28000): Access denied for user 'root'@'localhost' (using password: NO)
+2025-08-26 16:45:30,787 - app.ui.windows - ERROR - 数据库初始化失败: 1045 (28000): Access denied for user 'root'@'localhost' (using password: NO)
+2025-08-26 16:45:31,087 - app.ui.windows - INFO - 样式表加载成功
+2025-08-26 16:45:31,088 - app.spiders_registry - INFO - 重新加载爬虫配置
+2025-08-26 16:45:31,089 - app.spiders_registry - INFO - 加载爬虫: GitHub 用户档案爬虫
+2025-08-26 16:45:31,090 - app.spiders_registry - INFO - 加载爬虫: 个人主页爬虫
+2025-08-26 16:45:31,090 - app.spiders_registry - INFO - 加载爬虫: OpenReview 用户档案爬虫
+2025-08-26 16:45:31,095 - app.ui.windows - INFO - 刷新爬虫列表: 找到 3 个爬虫
+2025-08-26 16:45:31,177 - __main__ - INFO - GUI 启动成功
+2025-08-26 16:45:36,976 - app.ui.windows - INFO - 选择爬虫: GitHub 用户档案爬虫
+2025-08-26 16:48:48,635 - app.main_gui - INFO - 启动 Spidermind GUI
+2025-08-26 16:48:48,775 - app.main_gui - INFO - 创建主窗口
+2025-08-26 16:48:48,795 - db.dao - ERROR - 数据库连接池初始化失败: 1045 (28000): Access denied for user 'root'@'localhost' (using password: NO)
+2025-08-26 16:48:48,795 - app.ui.windows - ERROR - 数据库初始化失败: 1045 (28000): Access denied for user 'root'@'localhost' (using password: NO)
+2025-08-26 16:48:49,062 - app.ui.windows - INFO - 样式表加载成功
+2025-08-26 16:48:49,062 - app.spiders_registry - INFO - 重新加载爬虫配置
+2025-08-26 16:48:49,063 - app.spiders_registry - INFO - 加载爬虫: GitHub 用户档案爬虫
+2025-08-26 16:48:49,063 - app.spiders_registry - INFO - 加载爬虫: 个人主页爬虫
+2025-08-26 16:48:49,064 - app.spiders_registry - INFO - 加载爬虫: OpenReview 用户档案爬虫
+2025-08-26 16:48:49,068 - app.ui.windows - INFO - 刷新爬虫列表: 找到 3 个爬虫
+2025-08-26 16:48:49,120 - app.main_gui - INFO - GUI 启动成功
+2025-08-26 17:03:42,040 - app.main_gui - INFO - 启动 Spidermind GUI
+2025-08-26 17:03:42,189 - app.main_gui - INFO - 创建主窗口
+2025-08-26 17:03:42,211 - db.dao - ERROR - 数据库连接池初始化失败: 1045 (28000): Access denied for user 'root'@'localhost' (using password: NO)
+2025-08-26 17:03:42,212 - app.ui.windows - ERROR - 数据库初始化失败: 1045 (28000): Access denied for user 'root'@'localhost' (using password: NO)
+2025-08-26 17:03:42,486 - app.ui.windows - INFO - 样式表加载成功
+2025-08-26 17:03:42,487 - app.ui.windows - ERROR - 刷新爬虫列表失败: cannot import name 'reload_spiders' from 'app.spiders_registry' (D:\Spidermind\app\spiders_registry.py)
+2025-08-26 17:03:45,992 - app.main_gui - INFO - GUI 启动成功
+2025-08-26 17:48:55,453 - app.main_gui - INFO - 启动 Spidermind GUI
+2025-08-26 17:48:55,597 - app.main_gui - INFO - 创建主窗口
+2025-08-26 17:48:55,614 - db.dao - ERROR - 数据库连接池初始化失败: 1045 (28000): Access denied for user 'root'@'localhost' (using password: NO)
+2025-08-26 17:48:55,614 - app.ui.windows - ERROR - 数据库初始化失败: 1045 (28000): Access denied for user 'root'@'localhost' (using password: NO)
+2025-08-26 17:48:55,890 - app.ui.windows - INFO - 样式表加载成功
+2025-08-26 17:48:55,890 - app.ui.windows - ERROR - 刷新爬虫列表失败: cannot import name 'reload_spiders' from 'app.spiders_registry' (D:\Spidermind\app\spiders_registry.py)
+2025-08-26 17:48:57,455 - app.main_gui - INFO - GUI 启动成功
+2025-08-26 17:59:03,104 - app.main_gui - INFO - 启动 Spidermind GUI
+2025-08-26 17:59:03,238 - app.main_gui - INFO - 创建主窗口
+2025-08-26 17:59:03,255 - db.dao - ERROR - 数据库连接池初始化失败: 1045 (28000): Access denied for user 'root'@'localhost' (using password: NO)
+2025-08-26 17:59:03,255 - app.ui.windows - ERROR - 数据库初始化失败: 1045 (28000): Access denied for user 'root'@'localhost' (using password: NO)
+2025-08-26 17:59:03,517 - app.ui.windows - INFO - 样式表加载成功
+2025-08-26 17:59:03,518 - app.ui.windows - ERROR - 刷新爬虫列表失败: cannot import name 'reload_spiders' from 'app.spiders_registry' (D:\Spidermind\app\spiders_registry.py)
+2025-08-26 17:59:07,540 - app.main_gui - INFO - GUI 启动成功
+2025-08-26 18:04:00,160 - app.main_gui - INFO - 启动 Spidermind GUI
+2025-08-26 18:04:00,348 - app.main_gui - INFO - 创建主窗口
+2025-08-26 18:04:00,383 - db.dao - INFO - 数据库连接池初始化成功，连接: mysql+pymysql://root:***@127.0.0.1:3306/Spidermind
+2025-08-26 18:04:00,385 - app.ui.windows - INFO - 数据库连接状态: 成功
+2025-08-26 18:04:00,660 - app.ui.windows - INFO - 样式表加载成功
+2025-08-26 18:04:00,661 - app.ui.windows - ERROR - 刷新爬虫列表失败: cannot import name 'reload_spiders' from 'app.spiders_registry' (D:\Spidermind\app\spiders_registry.py)
+2025-08-26 18:06:26,830 - app.main_gui - INFO - 启动 Spidermind GUI
+2025-08-26 18:06:26,994 - app.main_gui - INFO - 创建主窗口
+2025-08-26 18:06:27,031 - db.dao - INFO - 数据库连接池初始化成功，连接: mysql+pymysql://root:***@127.0.0.1:3306/Spidermind
+2025-08-26 18:06:27,032 - app.ui.windows - INFO - 数据库连接状态: 成功
+2025-08-26 18:06:27,318 - app.ui.windows - INFO - 样式表加载成功
+2025-08-26 18:06:27,321 - app.spiders_registry - INFO - 总共加载了 2 个爬虫配置
+2025-08-26 18:06:27,322 - app.ui.windows - ERROR - 刷新爬虫列表失败: 'SpiderMeta' object has no attribute 'description'
+2025-08-26 18:07:49,549 - app.main_gui - INFO - 启动 Spidermind GUI
+2025-08-26 18:07:49,683 - app.main_gui - INFO - 创建主窗口
+2025-08-26 18:07:49,717 - db.dao - INFO - 数据库连接池初始化成功，连接: mysql+pymysql://root:***@127.0.0.1:3306/Spidermind
+2025-08-26 18:07:49,719 - app.ui.windows - INFO - 数据库连接状态: 成功
+2025-08-26 18:07:49,980 - app.ui.windows - INFO - 样式表加载成功
+2025-08-26 18:07:49,983 - app.spiders_registry - INFO - 总共加载了 2 个爬虫配置
+2025-08-26 18:07:49,984 - app.ui.windows - ERROR - 刷新爬虫列表失败: 'SpiderMeta' object has no attribute 'description'
+2025-08-26 18:07:52,374 - app.main_gui - INFO - GUI 启动成功
+2025-08-26 18:09:43,155 - app.main_gui - INFO - 启动 Spidermind GUI
+2025-08-26 18:09:43,310 - app.main_gui - INFO - 创建主窗口
+2025-08-26 18:09:43,364 - db.dao - INFO - 数据库连接池初始化成功，连接: mysql+pymysql://root:***@127.0.0.1:3306/Spidermind
+2025-08-26 18:09:43,365 - app.ui.windows - INFO - 数据库连接状态: 成功
+2025-08-26 18:09:43,676 - app.ui.windows - INFO - 样式表加载成功
+2025-08-26 18:09:43,679 - app.spiders_registry - INFO - 总共加载了 2 个爬虫配置
+2025-08-26 18:09:43,679 - app.ui.windows - ERROR - 刷新爬虫列表失败: 'SpiderMeta' object has no attribute 'source_type'
+2025-08-26 18:09:45,522 - app.main_gui - INFO - GUI 启动成功
+2025-08-26 18:10:14,357 - app.main_gui - INFO - 启动 Spidermind GUI
+2025-08-26 18:10:14,498 - app.main_gui - INFO - 创建主窗口
+2025-08-26 18:10:14,528 - db.dao - INFO - 数据库连接池初始化成功，连接: mysql+pymysql://root:***@127.0.0.1:3306/Spidermind
+2025-08-26 18:10:14,529 - app.ui.windows - INFO - 数据库连接状态: 成功
+2025-08-26 18:10:14,848 - app.ui.windows - INFO - 样式表加载成功
+2025-08-26 18:10:14,851 - app.spiders_registry - INFO - 总共加载了 2 个爬虫配置
+2025-08-26 18:10:14,851 - app.ui.windows - ERROR - 刷新爬虫列表失败: 'SpiderMeta' object has no attribute 'source_type'
+2025-08-26 18:10:17,665 - app.main_gui - INFO - GUI 启动成功
+2025-08-26 18:12:47,392 - app.main_gui - INFO - 启动 Spidermind GUI
+2025-08-26 18:12:47,527 - app.main_gui - INFO - 创建主窗口
+2025-08-26 18:12:47,560 - db.dao - INFO - 数据库连接池初始化成功，连接: mysql+pymysql://root:***@127.0.0.1:3306/Spidermind
+2025-08-26 18:12:47,561 - app.ui.windows - INFO - 数据库连接状态: 成功
+2025-08-26 18:12:47,831 - app.ui.windows - INFO - 样式表加载成功
+2025-08-26 18:12:47,834 - app.spiders_registry - INFO - 总共加载了 2 个爬虫配置
+2025-08-26 18:12:47,837 - app.ui.windows - INFO - 刷新爬虫列表: 找到 2 个爬虫
+2025-08-26 18:12:47,898 - app.main_gui - INFO - GUI 启动成功
+2025-08-26 18:12:53,417 - app.ui.windows - INFO - 选择爬虫: GitHub README 联系方式爬虫
+2025-08-26 18:15:24,912 - app.main_gui - INFO - 启动 Spidermind GUI
+2025-08-26 18:15:25,057 - app.main_gui - INFO - 创建主窗口
+2025-08-26 18:15:25,093 - db.dao - INFO - 数据库连接池初始化成功，连接: mysql+pymysql://root:***@127.0.0.1:3306/Spidermind
+2025-08-26 18:15:25,095 - app.ui.windows - INFO - 数据库连接状态: 成功
+2025-08-26 18:15:25,391 - app.ui.windows - INFO - 样式表加载成功
+2025-08-26 18:15:25,393 - app.spiders_registry - INFO - 总共加载了 2 个爬虫配置
+2025-08-26 18:15:25,396 - app.ui.windows - INFO - 刷新爬虫列表: 找到 2 个爬虫
+2025-08-26 18:15:25,476 - app.main_gui - INFO - GUI 启动成功
+2025-08-26 18:15:37,096 - app.ui.windows - INFO - 选择爬虫: GitHub README 联系方式爬虫
+2025-08-26 18:16:12,543 - app.ui.windows - INFO - 启动爬虫: GitHub README 联系方式爬虫, 参数: ['--timeout', '30', '--retries', '3', '--threads', '1']
+2025-08-26 18:16:12,545 - app.run_subprocess - INFO - 爬虫进程启动成功: spiders.github_readme.runner, PID: 15984
+2025-08-26 18:16:12,547 - app.ui.windows - INFO - 爬虫启动成功: PID 15984
+2025-08-26 18:16:32,296 - app.spiders_registry - INFO - 总共加载了 2 个爬虫配置
+2025-08-26 18:16:32,300 - app.ui.windows - INFO - 刷新爬虫列表: 找到 2 个爬虫
+2025-08-26 18:16:39,288 - app.ui.windows - INFO - 手动刷新日志: 获取到 0 条记录
+2025-08-26 18:26:58,742 - app.main_gui - INFO - 启动 Spidermind GUI
+2025-08-26 18:26:58,873 - app.main_gui - INFO - 创建主窗口
+2025-08-26 18:26:58,904 - db.dao - INFO - 数据库连接池初始化成功，连接: mysql+pymysql://root:***@127.0.0.1:3306/Spidermind
+2025-08-26 18:26:58,905 - app.ui.windows - INFO - 数据库连接状态: 成功
+2025-08-26 18:26:59,165 - app.ui.windows - INFO - 样式表加载成功
+2025-08-26 18:26:59,168 - app.spiders_registry - INFO - 总共加载了 2 个爬虫配置
+2025-08-26 18:26:59,170 - app.ui.windows - INFO - 刷新爬虫列表: 找到 2 个爬虫
+2025-08-26 18:26:59,232 - app.main_gui - INFO - GUI 启动成功
+2025-08-26 18:27:02,038 - app.ui.windows - INFO - 选择爬虫: GitHub README 联系方式爬虫
+2025-08-26 18:27:06,147 - app.ui.windows - INFO - 启动爬虫: GitHub README 联系方式爬虫, 参数: ['--timeout', '30', '--retries', '3', '--threads', '1']
+2025-08-26 18:27:06,149 - app.run_subprocess - INFO - 爬虫进程启动成功: spiders.github_readme.runner, PID: 16108
+2025-08-26 18:27:06,150 - app.ui.windows - INFO - 爬虫启动成功: PID 16108
+2025-08-26 18:27:25,676 - app.spiders_registry - INFO - 总共加载了 2 个爬虫配置
+2025-08-26 18:27:25,679 - app.ui.windows - INFO - 刷新爬虫列表: 找到 2 个爬虫
+2025-08-27 08:25:24,264 - app.main_gui - INFO - 启动 Spidermind GUI
+2025-08-27 08:25:24,469 - app.main_gui - INFO - 创建主窗口
+2025-08-27 08:25:24,540 - db.dao - INFO - 数据库连接池初始化成功，连接: mysql+pymysql://root:***@127.0.0.1:3306/Spidermind
+2025-08-27 08:25:24,541 - app.ui.windows - INFO - 数据库连接状态: 成功
+2025-08-27 08:25:24,726 - app.ui.windows - INFO - 样式表加载成功
+2025-08-27 08:25:24,729 - app.spiders_registry - INFO - 总共加载了 2 个爬虫配置
+2025-08-27 08:25:24,733 - app.ui.windows - INFO - 刷新爬虫列表: 找到 2 个爬虫
+2025-08-27 08:25:24,825 - app.main_gui - INFO - GUI 启动成功
+2025-08-27 08:25:28,006 - app.ui.windows - INFO - 选择爬虫: GitHub README 联系方式爬虫
+2025-08-27 08:25:34,738 - app.ui.windows - INFO - 启动爬虫: GitHub README 联系方式爬虫, 参数: ['--timeout', '30', '--retries', '3', '--threads', '1']
+2025-08-27 08:25:34,739 - app.run_subprocess - INFO - 爬虫进程启动成功: spiders.github_readme.runner, PID: 8948
+2025-08-27 08:25:34,741 - app.ui.windows - INFO - 爬虫启动成功: PID 8948
+2025-08-27 08:25:56,178 - app.ui.windows - INFO - 手动刷新日志: 获取到 15 条记录
+2025-08-27 08:25:57,082 - app.ui.windows - INFO - 手动刷新日志: 获取到 15 条记录
+2025-08-27 08:25:57,411 - app.ui.windows - INFO - 手动刷新日志: 获取到 15 条记录
+2025-08-27 08:25:57,683 - app.ui.windows - INFO - 手动刷新日志: 获取到 15 条记录
+2025-08-27 08:26:31,849 - app.ui.windows - INFO - 选择爬虫: 最小爬虫模板
+2025-08-27 08:26:34,713 - app.ui.windows - INFO - 选择爬虫: GitHub README 联系方式爬虫
+2025-08-27 08:26:35,817 - app.ui.windows - INFO - 选择爬虫: 最小爬虫模板
+2025-08-27 08:26:37,273 - app.ui.windows - INFO - 选择爬虫: GitHub README 联系方式爬虫
+2025-08-27 08:26:43,361 - app.ui.windows - INFO - 手动刷新日志: 获取到 15 条记录
+2025-08-27 08:35:33,892 - app.main_gui - INFO - 启动 Spidermind GUI
+2025-08-27 08:35:34,074 - app.main_gui - INFO - 创建主窗口
+2025-08-27 08:35:34,128 - db.dao - INFO - 数据库连接池初始化成功，连接: mysql+pymysql://root:***@127.0.0.1:3306/Spidermind
+2025-08-27 08:35:34,129 - app.ui.windows - INFO - 数据库连接状态: 成功
+2025-08-27 08:35:34,431 - app.ui.windows - INFO - 样式表加载成功
+2025-08-27 08:35:34,434 - app.spiders_registry - INFO - 总共加载了 2 个爬虫配置
+2025-08-27 08:35:34,438 - app.ui.windows - INFO - 刷新爬虫列表: 找到 2 个爬虫
+2025-08-27 08:35:34,504 - app.main_gui - INFO - GUI 启动成功
+2025-08-27 08:35:38,711 - app.ui.windows - INFO - 选择爬虫: GitHub README 联系方式爬虫
+2025-08-27 08:35:39,541 - app.ui.windows - INFO - 启动爬虫: GitHub README 联系方式爬虫, 参数: ['--timeout', '30', '--retries', '3', '--threads', '1']
+2025-08-27 08:35:39,542 - app.run_subprocess - INFO - 爬虫进程启动成功: spiders.github_readme.runner, PID: 14264
+2025-08-27 08:35:39,543 - app.ui.windows - INFO - 爬虫启动成功: PID 14264
+2025-08-27 08:40:10,628 - app.ui.windows - ERROR - 刷新数据失败: object of type 'NoneType' has no len()
+2025-08-27 08:40:12,639 - app.ui.windows - ERROR - 刷新数据失败: object of type 'NoneType' has no len()
+2025-08-27 08:40:14,631 - app.ui.windows - ERROR - 刷新数据失败: object of type 'NoneType' has no len()
+2025-08-27 08:40:16,633 - app.ui.windows - ERROR - 刷新数据失败: object of type 'NoneType' has no len()
+2025-08-27 08:40:18,627 - app.ui.windows - ERROR - 刷新数据失败: object of type 'NoneType' has no len()
+2025-08-27 08:40:20,636 - app.ui.windows - ERROR - 刷新数据失败: object of type 'NoneType' has no len()
+2025-08-27 08:40:22,637 - app.ui.windows - ERROR - 刷新数据失败: object of type 'NoneType' has no len()
+2025-08-27 08:40:24,641 - app.ui.windows - ERROR - 刷新数据失败: object of type 'NoneType' has no len()
+2025-08-27 08:40:26,640 - app.ui.windows - ERROR - 刷新数据失败: object of type 'NoneType' has no len()
+2025-08-27 08:40:28,646 - app.ui.windows - ERROR - 刷新数据失败: object of type 'NoneType' has no len()
+2025-08-27 08:40:30,635 - app.ui.windows - ERROR - 刷新数据失败: object of type 'NoneType' has no len()
+2025-08-27 08:40:32,644 - app.ui.windows - ERROR - 刷新数据失败: object of type 'NoneType' has no len()
+2025-08-27 08:40:34,636 - app.ui.windows - ERROR - 刷新数据失败: object of type 'NoneType' has no len()
+2025-08-27 08:40:36,632 - app.ui.windows - ERROR - 刷新数据失败: object of type 'NoneType' has no len()
+2025-08-27 08:40:38,641 - app.ui.windows - ERROR - 刷新数据失败: object of type 'NoneType' has no len()
+2025-08-27 08:40:40,637 - app.ui.windows - ERROR - 刷新数据失败: object of type 'NoneType' has no len()
+2025-08-27 08:40:42,633 - app.ui.windows - ERROR - 刷新数据失败: object of type 'NoneType' has no len()
+2025-08-27 08:40:44,639 - app.ui.windows - ERROR - 刷新数据失败: object of type 'NoneType' has no len()
+2025-08-27 08:40:46,626 - app.ui.windows - ERROR - 刷新数据失败: object of type 'NoneType' has no len()
+2025-08-27 08:40:48,635 - app.ui.windows - ERROR - 刷新数据失败: object of type 'NoneType' has no len()
+2025-08-27 08:40:50,637 - app.ui.windows - ERROR - 刷新数据失败: object of type 'NoneType' has no len()
+2025-08-27 08:40:52,642 - app.ui.windows - ERROR - 刷新数据失败: object of type 'NoneType' has no len()
+2025-08-27 08:40:54,640 - app.ui.windows - ERROR - 刷新数据失败: object of type 'NoneType' has no len()
+2025-08-27 08:40:56,641 - app.ui.windows - ERROR - 刷新数据失败: object of type 'NoneType' has no len()
+2025-08-27 08:40:58,635 - app.ui.windows - ERROR - 刷新数据失败: object of type 'NoneType' has no len()
+2025-08-27 08:41:00,638 - app.ui.windows - ERROR - 刷新数据失败: object of type 'NoneType' has no len()
+2025-08-27 08:41:02,633 - app.ui.windows - ERROR - 刷新数据失败: object of type 'NoneType' has no len()
+2025-08-27 08:41:04,638 - app.ui.windows - ERROR - 刷新数据失败: object of type 'NoneType' has no len()
+2025-08-27 08:41:06,638 - app.ui.windows - ERROR - 刷新数据失败: object of type 'NoneType' has no len()
+2025-08-27 08:41:08,632 - app.ui.windows - ERROR - 刷新数据失败: object of type 'NoneType' has no len()
+2025-08-27 08:41:10,641 - app.ui.windows - ERROR - 刷新数据失败: object of type 'NoneType' has no len()
+2025-08-27 08:41:12,640 - app.ui.windows - ERROR - 刷新数据失败: object of type 'NoneType' has no len()
+2025-08-27 08:41:14,638 - app.ui.windows - ERROR - 刷新数据失败: object of type 'NoneType' has no len()
+2025-08-27 08:41:16,643 - app.ui.windows - ERROR - 刷新数据失败: object of type 'NoneType' has no len()
+2025-08-27 08:41:18,641 - app.ui.windows - ERROR - 刷新数据失败: object of type 'NoneType' has no len()
+2025-08-27 08:41:20,640 - app.ui.windows - ERROR - 刷新数据失败: object of type 'NoneType' has no len()
+2025-08-27 08:41:22,633 - app.ui.windows - ERROR - 刷新数据失败: object of type 'NoneType' has no len()
+2025-08-27 08:41:24,639 - app.ui.windows - ERROR - 刷新数据失败: object of type 'NoneType' has no len()
+2025-08-27 08:41:26,638 - app.ui.windows - ERROR - 刷新数据失败: object of type 'NoneType' has no len()
+2025-08-27 08:41:28,639 - app.ui.windows - ERROR - 刷新数据失败: object of type 'NoneType' has no len()
+2025-08-27 08:41:30,629 - app.ui.windows - ERROR - 刷新数据失败: object of type 'NoneType' has no len()
+2025-08-27 08:41:32,642 - app.ui.windows - ERROR - 刷新数据失败: object of type 'NoneType' has no len()
+2025-08-27 08:41:34,637 - app.ui.windows - ERROR - 刷新数据失败: object of type 'NoneType' has no len()
+2025-08-27 08:41:36,632 - app.ui.windows - ERROR - 刷新数据失败: object of type 'NoneType' has no len()
+2025-08-27 08:41:38,629 - app.ui.windows - ERROR - 刷新数据失败: object of type 'NoneType' has no len()
+2025-08-27 08:41:40,643 - app.ui.windows - ERROR - 刷新数据失败: object of type 'NoneType' has no len()
+2025-08-27 08:41:42,648 - app.ui.windows - ERROR - 刷新数据失败: object of type 'NoneType' has no len()
+2025-08-27 08:41:44,630 - app.ui.windows - ERROR - 刷新数据失败: object of type 'NoneType' has no len()
+2025-08-27 08:41:46,641 - app.ui.windows - ERROR - 刷新数据失败: object of type 'NoneType' has no len()
+2025-08-27 08:41:48,636 - app.ui.windows - ERROR - 刷新数据失败: object of type 'NoneType' has no len()
+2025-08-27 08:41:50,644 - app.ui.windows - ERROR - 刷新数据失败: object of type 'NoneType' has no len()
+2025-08-27 08:41:52,634 - app.ui.windows - ERROR - 刷新数据失败: object of type 'NoneType' has no len()
+2025-08-27 08:41:54,647 - app.ui.windows - ERROR - 刷新数据失败: object of type 'NoneType' has no len()
+2025-08-27 08:41:56,644 - app.ui.windows - ERROR - 刷新数据失败: object of type 'NoneType' has no len()
+2025-08-27 08:41:58,640 - app.ui.windows - ERROR - 刷新数据失败: object of type 'NoneType' has no len()
+2025-08-27 08:42:00,644 - app.ui.windows - ERROR - 刷新数据失败: object of type 'NoneType' has no len()
+2025-08-27 08:42:02,629 - app.ui.windows - ERROR - 刷新数据失败: object of type 'NoneType' has no len()
+2025-08-27 08:42:04,647 - app.ui.windows - ERROR - 刷新数据失败: object of type 'NoneType' has no len()
+2025-08-27 08:42:06,634 - app.ui.windows - ERROR - 刷新数据失败: object of type 'NoneType' has no len()
+2025-08-27 08:42:08,643 - app.ui.windows - ERROR - 刷新数据失败: object of type 'NoneType' has no len()
+2025-08-27 08:42:10,638 - app.ui.windows - ERROR - 刷新数据失败: object of type 'NoneType' has no len()
+2025-08-27 08:42:12,631 - app.ui.windows - ERROR - 刷新数据失败: object of type 'NoneType' has no len()
+2025-08-27 08:42:14,642 - app.ui.windows - ERROR - 刷新数据失败: object of type 'NoneType' has no len()
+2025-08-27 08:42:16,643 - app.ui.windows - ERROR - 刷新数据失败: object of type 'NoneType' has no len()
+2025-08-27 08:42:18,641 - app.ui.windows - ERROR - 刷新数据失败: object of type 'NoneType' has no len()
+2025-08-27 08:42:20,632 - app.ui.windows - ERROR - 刷新数据失败: object of type 'NoneType' has no len()
+2025-08-27 08:42:22,633 - app.ui.windows - ERROR - 刷新数据失败: object of type 'NoneType' has no len()
+2025-08-27 08:42:24,635 - app.ui.windows - ERROR - 刷新数据失败: object of type 'NoneType' has no len()
+2025-08-27 08:42:26,633 - app.ui.windows - ERROR - 刷新数据失败: object of type 'NoneType' has no len()
+2025-08-27 08:42:28,648 - app.ui.windows - ERROR - 刷新数据失败: object of type 'NoneType' has no len()
+2025-08-27 08:42:30,655 - app.ui.windows - ERROR - 刷新数据失败: object of type 'NoneType' has no len()
+2025-08-27 08:42:32,655 - app.ui.windows - ERROR - 刷新数据失败: object of type 'NoneType' has no len()
+2025-08-27 08:42:34,651 - app.ui.windows - ERROR - 刷新数据失败: object of type 'NoneType' has no len()
+2025-08-27 08:42:36,645 - app.ui.windows - ERROR - 刷新数据失败: object of type 'NoneType' has no len()
+2025-08-27 08:42:38,645 - app.ui.windows - ERROR - 刷新数据失败: object of type 'NoneType' has no len()
+2025-08-27 08:42:40,650 - app.ui.windows - ERROR - 刷新数据失败: object of type 'NoneType' has no len()
+2025-08-27 08:42:42,649 - app.ui.windows - ERROR - 刷新数据失败: object of type 'NoneType' has no len()
+2025-08-27 08:42:44,649 - app.ui.windows - ERROR - 刷新数据失败: object of type 'NoneType' has no len()
+2025-08-27 08:42:46,646 - app.ui.windows - ERROR - 刷新数据失败: object of type 'NoneType' has no len()
+2025-08-27 08:42:48,646 - app.ui.windows - ERROR - 刷新数据失败: object of type 'NoneType' has no len()
+2025-08-27 08:42:50,652 - app.ui.windows - ERROR - 刷新数据失败: object of type 'NoneType' has no len()
+2025-08-27 08:42:52,646 - app.ui.windows - ERROR - 刷新数据失败: object of type 'NoneType' has no len()
+2025-08-27 08:42:54,645 - app.ui.windows - ERROR - 刷新数据失败: object of type 'NoneType' has no len()
+2025-08-27 08:42:56,652 - app.ui.windows - ERROR - 刷新数据失败: object of type 'NoneType' has no len()
+2025-08-27 08:42:58,649 - app.ui.windows - ERROR - 刷新数据失败: object of type 'NoneType' has no len()
+2025-08-27 08:43:00,657 - app.ui.windows - ERROR - 刷新数据失败: object of type 'NoneType' has no len()
+2025-08-27 08:43:02,645 - app.ui.windows - ERROR - 刷新数据失败: object of type 'NoneType' has no len()
+2025-08-27 08:43:04,651 - app.ui.windows - ERROR - 刷新数据失败: object of type 'NoneType' has no len()
+2025-08-27 08:43:06,644 - app.ui.windows - ERROR - 刷新数据失败: object of type 'NoneType' has no len()
+2025-08-27 08:43:08,644 - app.ui.windows - ERROR - 刷新数据失败: object of type 'NoneType' has no len()
+2025-08-27 08:43:10,649 - app.ui.windows - ERROR - 刷新数据失败: object of type 'NoneType' has no len()
+2025-08-27 08:43:12,646 - app.ui.windows - ERROR - 刷新数据失败: object of type 'NoneType' has no len()
+2025-08-27 08:43:14,644 - app.ui.windows - ERROR - 刷新数据失败: object of type 'NoneType' has no len()
+2025-08-27 08:43:16,653 - app.ui.windows - ERROR - 刷新数据失败: object of type 'NoneType' has no len()
+2025-08-27 08:43:18,651 - app.ui.windows - ERROR - 刷新数据失败: object of type 'NoneType' has no len()
+2025-08-27 08:43:20,651 - app.ui.windows - ERROR - 刷新数据失败: object of type 'NoneType' has no len()
+2025-08-27 08:43:22,651 - app.ui.windows - ERROR - 刷新数据失败: object of type 'NoneType' has no len()
+2025-08-27 08:43:24,665 - app.ui.windows - ERROR - 刷新数据失败: object of type 'NoneType' has no len()
+2025-08-27 08:43:26,655 - app.ui.windows - ERROR - 刷新数据失败: object of type 'NoneType' has no len()
+2025-08-27 08:43:28,658 - app.ui.windows - ERROR - 刷新数据失败: object of type 'NoneType' has no len()
+2025-08-27 08:43:30,646 - app.ui.windows - ERROR - 刷新数据失败: object of type 'NoneType' has no len()
+2025-08-27 08:43:32,664 - app.ui.windows - ERROR - 刷新数据失败: object of type 'NoneType' has no len()
+2025-08-27 08:43:34,661 - app.ui.windows - ERROR - 刷新数据失败: object of type 'NoneType' has no len()
+2025-08-27 08:43:36,652 - app.ui.windows - ERROR - 刷新数据失败: object of type 'NoneType' has no len()
+2025-08-27 08:43:38,654 - app.ui.windows - ERROR - 刷新数据失败: object of type 'NoneType' has no len()
+2025-08-27 08:43:40,665 - app.ui.windows - ERROR - 刷新数据失败: object of type 'NoneType' has no len()
+2025-08-27 08:43:42,653 - app.ui.windows - ERROR - 刷新数据失败: object of type 'NoneType' has no len()
+2025-08-27 08:43:44,655 - app.ui.windows - ERROR - 刷新数据失败: object of type 'NoneType' has no len()
+2025-08-27 08:43:46,657 - app.ui.windows - ERROR - 刷新数据失败: object of type 'NoneType' has no len()
+2025-08-27 08:43:48,659 - app.ui.windows - ERROR - 刷新数据失败: object of type 'NoneType' has no len()
+2025-08-27 08:43:50,653 - app.ui.windows - ERROR - 刷新数据失败: object of type 'NoneType' has no len()
+2025-08-27 08:43:52,653 - app.ui.windows - ERROR - 刷新数据失败: object of type 'NoneType' has no len()
+2025-08-27 08:43:54,663 - app.ui.windows - ERROR - 刷新数据失败: object of type 'NoneType' has no len()
+2025-08-27 08:43:56,662 - app.ui.windows - ERROR - 刷新数据失败: object of type 'NoneType' has no len()
+2025-08-27 08:43:58,665 - app.ui.windows - ERROR - 刷新数据失败: object of type 'NoneType' has no len()
+2025-08-27 08:44:00,659 - app.ui.windows - ERROR - 刷新数据失败: object of type 'NoneType' has no len()
+2025-08-27 08:44:02,666 - app.ui.windows - ERROR - 刷新数据失败: object of type 'NoneType' has no len()
+2025-08-27 08:44:04,654 - app.ui.windows - ERROR - 刷新数据失败: object of type 'NoneType' has no len()
+2025-08-27 08:44:06,661 - app.ui.windows - ERROR - 刷新数据失败: object of type 'NoneType' has no len()
+2025-08-27 08:44:08,653 - app.ui.windows - ERROR - 刷新数据失败: object of type 'NoneType' has no len()
+2025-08-27 08:44:10,659 - app.ui.windows - ERROR - 刷新数据失败: object of type 'NoneType' has no len()
+2025-08-27 08:44:12,653 - app.ui.windows - ERROR - 刷新数据失败: object of type 'NoneType' has no len()
+2025-08-27 08:44:14,654 - app.ui.windows - ERROR - 刷新数据失败: object of type 'NoneType' has no len()
+2025-08-27 08:44:16,655 - app.ui.windows - ERROR - 刷新数据失败: object of type 'NoneType' has no len()
+2025-08-27 08:44:18,645 - app.ui.windows - ERROR - 刷新数据失败: object of type 'NoneType' has no len()
+2025-08-27 08:44:20,668 - app.ui.windows - ERROR - 刷新数据失败: object of type 'NoneType' has no len()
+2025-08-27 08:44:22,658 - app.ui.windows - ERROR - 刷新数据失败: object of type 'NoneType' has no len()
+2025-08-27 08:44:24,656 - app.ui.windows - ERROR - 刷新数据失败: object of type 'NoneType' has no len()
+2025-08-27 08:44:26,650 - app.ui.windows - ERROR - 刷新数据失败: object of type 'NoneType' has no len()
+2025-08-27 08:44:28,657 - app.ui.windows - ERROR - 刷新数据失败: object of type 'NoneType' has no len()
+2025-08-27 08:44:30,664 - app.ui.windows - ERROR - 刷新数据失败: object of type 'NoneType' has no len()
+2025-08-27 08:44:32,653 - app.ui.windows - ERROR - 刷新数据失败: object of type 'NoneType' has no len()
+2025-08-27 08:44:34,663 - app.ui.windows - ERROR - 刷新数据失败: object of type 'NoneType' has no len()
+2025-08-27 08:44:36,671 - app.ui.windows - ERROR - 刷新数据失败: object of type 'NoneType' has no len()
+2025-08-27 08:44:38,658 - app.ui.windows - ERROR - 刷新数据失败: object of type 'NoneType' has no len()
+2025-08-27 08:44:40,658 - app.ui.windows - ERROR - 刷新数据失败: object of type 'NoneType' has no len()
+2025-08-27 08:44:42,659 - app.ui.windows - ERROR - 刷新数据失败: object of type 'NoneType' has no len()
+2025-08-27 08:44:44,653 - app.ui.windows - ERROR - 刷新数据失败: object of type 'NoneType' has no len()
+2025-08-27 08:44:46,654 - app.ui.windows - ERROR - 刷新数据失败: object of type 'NoneType' has no len()
+2025-08-27 08:44:48,652 - app.ui.windows - ERROR - 刷新数据失败: object of type 'NoneType' has no len()
+2025-08-27 08:44:50,652 - app.ui.windows - ERROR - 刷新数据失败: object of type 'NoneType' has no len()
+2025-08-27 08:44:52,665 - app.ui.windows - ERROR - 刷新数据失败: object of type 'NoneType' has no len()
+2025-08-27 08:44:54,659 - app.ui.windows - ERROR - 刷新数据失败: object of type 'NoneType' has no len()
+2025-08-27 08:44:56,666 - app.ui.windows - ERROR - 刷新数据失败: object of type 'NoneType' has no len()
+2025-08-27 08:44:58,663 - app.ui.windows - ERROR - 刷新数据失败: object of type 'NoneType' has no len()
+2025-08-27 08:45:00,655 - app.ui.windows - ERROR - 刷新数据失败: object of type 'NoneType' has no len()
+2025-08-27 08:45:02,654 - app.ui.windows - ERROR - 刷新数据失败: object of type 'NoneType' has no len()
+2025-08-27 08:45:04,658 - app.ui.windows - ERROR - 刷新数据失败: object of type 'NoneType' has no len()
+2025-08-27 08:45:06,647 - app.ui.windows - ERROR - 刷新数据失败: object of type 'NoneType' has no len()
+2025-08-27 08:45:08,647 - app.ui.windows - ERROR - 刷新数据失败: object of type 'NoneType' has no len()
+2025-08-27 08:45:10,657 - app.ui.windows - ERROR - 刷新数据失败: object of type 'NoneType' has no len()
+2025-08-27 08:45:12,656 - app.ui.windows - ERROR - 刷新数据失败: object of type 'NoneType' has no len()
+2025-08-27 08:45:14,652 - app.ui.windows - ERROR - 刷新数据失败: object of type 'NoneType' has no len()
+2025-08-27 08:45:16,651 - app.ui.windows - ERROR - 刷新数据失败: object of type 'NoneType' has no len()
+2025-08-27 08:45:18,647 - app.ui.windows - ERROR - 刷新数据失败: object of type 'NoneType' has no len()
+2025-08-27 08:45:20,661 - app.ui.windows - ERROR - 刷新数据失败: object of type 'NoneType' has no len()
+2025-08-27 08:45:22,664 - app.ui.windows - ERROR - 刷新数据失败: object of type 'NoneType' has no len()
+2025-08-27 08:45:24,646 - app.ui.windows - ERROR - 刷新数据失败: object of type 'NoneType' has no len()
+2025-08-27 08:45:26,657 - app.ui.windows - ERROR - 刷新数据失败: object of type 'NoneType' has no len()
+2025-08-27 08:45:28,655 - app.ui.windows - ERROR - 刷新数据失败: object of type 'NoneType' has no len()
+2025-08-27 08:45:30,657 - app.ui.windows - ERROR - 刷新数据失败: object of type 'NoneType' has no len()
+2025-08-27 08:45:32,659 - app.ui.windows - ERROR - 刷新数据失败: object of type 'NoneType' has no len()
+2025-08-27 08:45:34,652 - app.ui.windows - ERROR - 刷新数据失败: object of type 'NoneType' has no len()
+2025-08-27 08:45:36,656 - app.ui.windows - ERROR - 刷新数据失败: object of type 'NoneType' has no len()
+2025-08-27 08:45:38,661 - app.ui.windows - ERROR - 刷新数据失败: object of type 'NoneType' has no len()
+2025-08-27 08:45:40,657 - app.ui.windows - ERROR - 刷新数据失败: object of type 'NoneType' has no len()
+2025-08-27 08:45:42,658 - app.ui.windows - ERROR - 刷新数据失败: object of type 'NoneType' has no len()
+2025-08-27 08:45:44,655 - app.ui.windows - ERROR - 刷新数据失败: object of type 'NoneType' has no len()
+2025-08-27 08:45:46,658 - app.ui.windows - ERROR - 刷新数据失败: object of type 'NoneType' has no len()
+2025-08-27 08:45:48,658 - app.ui.windows - ERROR - 刷新数据失败: object of type 'NoneType' has no len()
+2025-08-27 08:45:50,654 - app.ui.windows - ERROR - 刷新数据失败: object of type 'NoneType' has no len()
+2025-08-27 08:45:52,656 - app.ui.windows - ERROR - 刷新数据失败: object of type 'NoneType' has no len()
+2025-08-27 08:45:54,657 - app.ui.windows - ERROR - 刷新数据失败: object of type 'NoneType' has no len()
+2025-08-27 08:45:56,649 - app.ui.windows - ERROR - 刷新数据失败: object of type 'NoneType' has no len()
+2025-08-27 08:45:58,656 - app.ui.windows - ERROR - 刷新数据失败: object of type 'NoneType' has no len()
+2025-08-27 08:46:00,649 - app.ui.windows - ERROR - 刷新数据失败: object of type 'NoneType' has no len()
+2025-08-27 08:46:02,653 - app.ui.windows - ERROR - 刷新数据失败: object of type 'NoneType' has no len()
+2025-08-27 08:46:04,662 - app.ui.windows - ERROR - 刷新数据失败: object of type 'NoneType' has no len()
+2025-08-27 08:46:06,656 - app.ui.windows - ERROR - 刷新数据失败: object of type 'NoneType' has no len()
+2025-08-27 08:46:08,652 - app.ui.windows - ERROR - 刷新数据失败: object of type 'NoneType' has no len()
+2025-08-27 08:46:10,660 - app.ui.windows - ERROR - 刷新数据失败: object of type 'NoneType' has no len()
+2025-08-27 08:46:12,649 - app.ui.windows - ERROR - 刷新数据失败: object of type 'NoneType' has no len()
+2025-08-27 08:46:14,656 - app.ui.windows - ERROR - 刷新数据失败: object of type 'NoneType' has no len()
+2025-08-27 08:46:16,660 - app.ui.windows - ERROR - 刷新数据失败: object of type 'NoneType' has no len()
+2025-08-27 08:46:18,663 - app.ui.windows - ERROR - 刷新数据失败: object of type 'NoneType' has no len()
+2025-08-27 08:46:20,659 - app.ui.windows - ERROR - 刷新数据失败: object of type 'NoneType' has no len()
+2025-08-27 08:46:22,656 - app.ui.windows - ERROR - 刷新数据失败: object of type 'NoneType' has no len()
+2025-08-27 08:46:24,656 - app.ui.windows - ERROR - 刷新数据失败: object of type 'NoneType' has no len()
+2025-08-27 08:46:26,660 - app.ui.windows - ERROR - 刷新数据失败: object of type 'NoneType' has no len()
+2025-08-27 08:46:28,656 - app.ui.windows - ERROR - 刷新数据失败: object of type 'NoneType' has no len()
+2025-08-27 08:46:30,656 - app.ui.windows - ERROR - 刷新数据失败: object of type 'NoneType' has no len()
+2025-08-27 08:46:32,649 - app.ui.windows - ERROR - 刷新数据失败: object of type 'NoneType' has no len()
+2025-08-27 08:46:34,656 - app.ui.windows - ERROR - 刷新数据失败: object of type 'NoneType' has no len()
+2025-08-27 08:46:36,660 - app.ui.windows - ERROR - 刷新数据失败: object of type 'NoneType' has no len()
+2025-08-27 08:46:38,655 - app.ui.windows - ERROR - 刷新数据失败: object of type 'NoneType' has no len()
+2025-08-27 08:46:40,660 - app.ui.windows - ERROR - 刷新数据失败: object of type 'NoneType' has no len()
+2025-08-27 08:46:42,649 - app.ui.windows - ERROR - 刷新数据失败: object of type 'NoneType' has no len()
+2025-08-27 08:46:44,650 - app.ui.windows - ERROR - 刷新数据失败: object of type 'NoneType' has no len()
+2025-08-27 08:46:46,657 - app.ui.windows - ERROR - 刷新数据失败: object of type 'NoneType' has no len()
+2025-08-27 08:46:48,658 - app.ui.windows - ERROR - 刷新数据失败: object of type 'NoneType' has no len()
+2025-08-27 08:46:50,653 - app.ui.windows - ERROR - 刷新数据失败: object of type 'NoneType' has no len()
+2025-08-27 08:46:52,662 - app.ui.windows - ERROR - 刷新数据失败: object of type 'NoneType' has no len()
+2025-08-27 08:46:54,659 - app.ui.windows - ERROR - 刷新数据失败: object of type 'NoneType' has no len()
+2025-08-27 08:46:56,652 - app.ui.windows - ERROR - 刷新数据失败: object of type 'NoneType' has no len()
+2025-08-27 08:46:58,651 - app.ui.windows - ERROR - 刷新数据失败: object of type 'NoneType' has no len()
+2025-08-27 08:47:00,655 - app.ui.windows - ERROR - 刷新数据失败: object of type 'NoneType' has no len()
+2025-08-27 08:47:02,664 - app.ui.windows - ERROR - 刷新数据失败: object of type 'NoneType' has no len()
+2025-08-27 08:47:04,664 - app.ui.windows - ERROR - 刷新数据失败: object of type 'NoneType' has no len()
+2025-08-27 08:47:06,660 - app.ui.windows - ERROR - 刷新数据失败: object of type 'NoneType' has no len()
+2025-08-27 08:47:08,647 - app.ui.windows - ERROR - 刷新数据失败: object of type 'NoneType' has no len()
+2025-08-27 08:47:10,660 - app.ui.windows - ERROR - 刷新数据失败: object of type 'NoneType' has no len()
+2025-08-27 08:47:12,661 - app.ui.windows - ERROR - 刷新数据失败: object of type 'NoneType' has no len()
+2025-08-27 08:47:14,653 - app.ui.windows - ERROR - 刷新数据失败: object of type 'NoneType' has no len()
+2025-08-27 08:47:16,658 - app.ui.windows - ERROR - 刷新数据失败: object of type 'NoneType' has no len()
+2025-08-27 08:47:18,653 - app.ui.windows - ERROR - 刷新数据失败: object of type 'NoneType' has no len()
+2025-08-27 08:47:20,657 - app.ui.windows - ERROR - 刷新数据失败: object of type 'NoneType' has no len()
+2025-08-27 08:47:22,659 - app.ui.windows - ERROR - 刷新数据失败: object of type 'NoneType' has no len()
+2025-08-27 08:47:24,660 - app.ui.windows - ERROR - 刷新数据失败: object of type 'NoneType' has no len()
+2025-08-27 08:47:26,658 - app.ui.windows - ERROR - 刷新数据失败: object of type 'NoneType' has no len()
+2025-08-27 08:47:28,661 - app.ui.windows - ERROR - 刷新数据失败: object of type 'NoneType' has no len()
+2025-08-27 08:47:30,662 - app.ui.windows - ERROR - 刷新数据失败: object of type 'NoneType' has no len()
+2025-08-27 08:47:32,648 - app.ui.windows - ERROR - 刷新数据失败: object of type 'NoneType' has no len()
+2025-08-27 08:47:34,648 - app.ui.windows - ERROR - 刷新数据失败: object of type 'NoneType' has no len()
+2025-08-27 08:47:36,650 - app.ui.windows - ERROR - 刷新数据失败: object of type 'NoneType' has no len()
+2025-08-27 08:47:38,657 - app.ui.windows - ERROR - 刷新数据失败: object of type 'NoneType' has no len()
+2025-08-27 08:47:40,654 - app.ui.windows - ERROR - 刷新数据失败: object of type 'NoneType' has no len()
+2025-08-27 08:47:42,649 - app.ui.windows - ERROR - 刷新数据失败: object of type 'NoneType' has no len()
+2025-08-27 08:47:44,659 - app.ui.windows - ERROR - 刷新数据失败: object of type 'NoneType' has no len()
+2025-08-27 08:47:46,651 - app.ui.windows - ERROR - 刷新数据失败: object of type 'NoneType' has no len()
+2025-08-27 08:47:48,656 - app.ui.windows - ERROR - 刷新数据失败: object of type 'NoneType' has no len()
+2025-08-27 08:47:50,658 - app.ui.windows - ERROR - 刷新数据失败: object of type 'NoneType' has no len()
+2025-08-27 08:47:52,655 - app.ui.windows - ERROR - 刷新数据失败: object of type 'NoneType' has no len()
+2025-08-27 08:47:54,659 - app.ui.windows - ERROR - 刷新数据失败: object of type 'NoneType' has no len()
+2025-08-27 08:47:56,659 - app.ui.windows - ERROR - 刷新数据失败: object of type 'NoneType' has no len()
+2025-08-27 08:47:58,659 - app.ui.windows - ERROR - 刷新数据失败: object of type 'NoneType' has no len()
+2025-08-27 08:48:00,660 - app.ui.windows - ERROR - 刷新数据失败: object of type 'NoneType' has no len()
+2025-08-27 08:48:02,650 - app.ui.windows - ERROR - 刷新数据失败: object of type 'NoneType' has no len()
+2025-08-27 08:48:04,658 - app.ui.windows - ERROR - 刷新数据失败: object of type 'NoneType' has no len()
+2025-08-27 08:48:06,659 - app.ui.windows - ERROR - 刷新数据失败: object of type 'NoneType' has no len()
+2025-08-27 08:48:08,652 - app.ui.windows - ERROR - 刷新数据失败: object of type 'NoneType' has no len()
+2025-08-27 08:48:10,662 - app.ui.windows - ERROR - 刷新数据失败: object of type 'NoneType' has no len()
+2025-08-27 08:48:12,663 - app.ui.windows - ERROR - 刷新数据失败: object of type 'NoneType' has no len()
+2025-08-27 08:48:14,664 - app.ui.windows - ERROR - 刷新数据失败: object of type 'NoneType' has no len()
+2025-08-27 08:48:16,656 - app.ui.windows - ERROR - 刷新数据失败: object of type 'NoneType' has no len()
+2025-08-27 08:48:18,653 - app.ui.windows - ERROR - 刷新数据失败: object of type 'NoneType' has no len()
+2025-08-27 08:48:20,659 - app.ui.windows - ERROR - 刷新数据失败: object of type 'NoneType' has no len()
+2025-08-27 08:48:22,655 - app.ui.windows - ERROR - 刷新数据失败: object of type 'NoneType' has no len()
+2025-08-27 08:48:24,663 - app.ui.windows - ERROR - 刷新数据失败: object of type 'NoneType' has no len()
+2025-08-27 08:48:26,648 - app.ui.windows - ERROR - 刷新数据失败: object of type 'NoneType' has no len()
+2025-08-27 08:48:28,654 - app.ui.windows - ERROR - 刷新数据失败: object of type 'NoneType' has no len()
+2025-08-27 08:48:30,658 - app.ui.windows - ERROR - 刷新数据失败: object of type 'NoneType' has no len()
+2025-08-27 08:48:32,651 - app.ui.windows - ERROR - 刷新数据失败: object of type 'NoneType' has no len()
+2025-08-27 08:48:34,659 - app.ui.windows - ERROR - 刷新数据失败: object of type 'NoneType' has no len()
+2025-08-27 08:48:36,664 - app.ui.windows - ERROR - 刷新数据失败: object of type 'NoneType' has no len()
+2025-08-27 08:48:38,650 - app.ui.windows - ERROR - 刷新数据失败: object of type 'NoneType' has no len()
+2025-08-27 08:48:40,658 - app.ui.windows - ERROR - 刷新数据失败: object of type 'NoneType' has no len()
+2025-08-27 08:48:42,660 - app.ui.windows - ERROR - 刷新数据失败: object of type 'NoneType' has no len()
+2025-08-27 08:48:44,659 - app.ui.windows - ERROR - 刷新数据失败: object of type 'NoneType' has no len()
+2025-08-27 08:48:46,656 - app.ui.windows - ERROR - 刷新数据失败: object of type 'NoneType' has no len()
+2025-08-27 08:48:48,661 - app.ui.windows - ERROR - 刷新数据失败: object of type 'NoneType' has no len()
+2025-08-27 08:48:50,658 - app.ui.windows - ERROR - 刷新数据失败: object of type 'NoneType' has no len()
+2025-08-27 08:48:52,659 - app.ui.windows - ERROR - 刷新数据失败: object of type 'NoneType' has no len()
+2025-08-27 08:48:54,659 - app.ui.windows - ERROR - 刷新数据失败: object of type 'NoneType' has no len()
+2025-08-27 08:48:56,649 - app.ui.windows - ERROR - 刷新数据失败: object of type 'NoneType' has no len()
+2025-08-27 08:48:58,663 - app.ui.windows - ERROR - 刷新数据失败: object of type 'NoneType' has no len()
+2025-08-27 08:49:00,661 - app.ui.windows - ERROR - 刷新数据失败: object of type 'NoneType' has no len()
+2025-08-27 08:49:02,655 - app.ui.windows - ERROR - 刷新数据失败: object of type 'NoneType' has no len()
+2025-08-27 08:49:04,664 - app.ui.windows - ERROR - 刷新数据失败: object of type 'NoneType' has no len()
+2025-08-27 08:49:06,662 - app.ui.windows - ERROR - 刷新数据失败: object of type 'NoneType' has no len()
+2025-08-27 08:49:08,654 - app.ui.windows - ERROR - 刷新数据失败: object of type 'NoneType' has no len()
+2025-08-27 08:49:10,663 - app.ui.windows - ERROR - 刷新数据失败: object of type 'NoneType' has no len()
+2025-08-27 08:49:12,659 - app.ui.windows - ERROR - 刷新数据失败: object of type 'NoneType' has no len()
+2025-08-27 08:49:14,662 - app.ui.windows - ERROR - 刷新数据失败: object of type 'NoneType' has no len()
+2025-08-27 08:49:16,655 - app.ui.windows - ERROR - 刷新数据失败: object of type 'NoneType' has no len()
+2025-08-27 08:49:18,664 - app.ui.windows - ERROR - 刷新数据失败: object of type 'NoneType' has no len()
+2025-08-27 08:49:20,669 - app.ui.windows - ERROR - 刷新数据失败: object of type 'NoneType' has no len()
+2025-08-27 08:49:22,667 - app.ui.windows - ERROR - 刷新数据失败: object of type 'NoneType' has no len()
+2025-08-27 08:49:24,680 - app.ui.windows - ERROR - 刷新数据失败: object of type 'NoneType' has no len()
+2025-08-27 08:49:26,691 - app.ui.windows - ERROR - 刷新数据失败: object of type 'NoneType' has no len()
+2025-08-27 08:49:28,688 - app.ui.windows - ERROR - 刷新数据失败: object of type 'NoneType' has no len()
+2025-08-27 08:49:30,689 - app.ui.windows - ERROR - 刷新数据失败: object of type 'NoneType' has no len()
+2025-08-27 08:49:32,693 - app.ui.windows - ERROR - 刷新数据失败: object of type 'NoneType' has no len()
+2025-08-27 08:49:34,701 - app.ui.windows - ERROR - 刷新数据失败: object of type 'NoneType' has no len()
+2025-08-27 08:49:36,689 - app.ui.windows - ERROR - 刷新数据失败: object of type 'NoneType' has no len()
+2025-08-27 08:49:38,696 - app.ui.windows - ERROR - 刷新数据失败: object of type 'NoneType' has no len()
+2025-08-27 08:49:40,697 - app.ui.windows - ERROR - 刷新数据失败: object of type 'NoneType' has no len()
+2025-08-27 08:49:42,685 - app.ui.windows - ERROR - 刷新数据失败: object of type 'NoneType' has no len()
+2025-08-27 08:49:44,684 - app.ui.windows - ERROR - 刷新数据失败: object of type 'NoneType' has no len()
+2025-08-27 08:49:46,697 - app.ui.windows - ERROR - 刷新数据失败: object of type 'NoneType' has no len()
+2025-08-27 08:49:48,694 - app.ui.windows - ERROR - 刷新数据失败: object of type 'NoneType' has no len()
+2025-08-27 08:49:50,697 - app.ui.windows - ERROR - 刷新数据失败: object of type 'NoneType' has no len()
+2025-08-27 08:49:52,681 - app.ui.windows - ERROR - 刷新数据失败: object of type 'NoneType' has no len()
+2025-08-27 08:49:54,693 - app.ui.windows - ERROR - 刷新数据失败: object of type 'NoneType' has no len()
+2025-08-27 08:49:56,681 - app.ui.windows - ERROR - 刷新数据失败: object of type 'NoneType' has no len()
+2025-08-27 08:49:58,683 - app.ui.windows - ERROR - 刷新数据失败: object of type 'NoneType' has no len()
+2025-08-27 08:50:00,692 - app.ui.windows - ERROR - 刷新数据失败: object of type 'NoneType' has no len()
+2025-08-27 08:50:02,680 - app.ui.windows - ERROR - 刷新数据失败: object of type 'NoneType' has no len()
+2025-08-27 08:50:04,695 - app.ui.windows - ERROR - 刷新数据失败: object of type 'NoneType' has no len()
+2025-08-27 08:50:06,697 - app.ui.windows - ERROR - 刷新数据失败: object of type 'NoneType' has no len()
+2025-08-27 08:50:08,684 - app.ui.windows - ERROR - 刷新数据失败: object of type 'NoneType' has no len()
+2025-08-27 08:50:10,682 - app.ui.windows - ERROR - 刷新数据失败: object of type 'NoneType' has no len()
+2025-08-27 08:50:12,686 - app.ui.windows - ERROR - 刷新数据失败: object of type 'NoneType' has no len()
+2025-08-27 08:50:14,691 - app.ui.windows - ERROR - 刷新数据失败: object of type 'NoneType' has no len()
+2025-08-27 08:50:16,693 - app.ui.windows - ERROR - 刷新数据失败: object of type 'NoneType' has no len()
+2025-08-27 08:50:18,694 - app.ui.windows - ERROR - 刷新数据失败: object of type 'NoneType' has no len()
+2025-08-27 08:50:20,692 - app.ui.windows - ERROR - 刷新数据失败: object of type 'NoneType' has no len()
+2025-08-27 08:50:22,694 - app.ui.windows - ERROR - 刷新数据失败: object of type 'NoneType' has no len()
+2025-08-27 08:50:24,684 - app.ui.windows - ERROR - 刷新数据失败: object of type 'NoneType' has no len()
+2025-08-27 08:50:26,697 - app.ui.windows - ERROR - 刷新数据失败: object of type 'NoneType' has no len()
+2025-08-27 08:50:28,701 - app.ui.windows - ERROR - 刷新数据失败: object of type 'NoneType' has no len()
+2025-08-27 08:50:30,709 - app.ui.windows - ERROR - 刷新数据失败: object of type 'NoneType' has no len()
+2025-08-27 08:50:32,711 - app.ui.windows - ERROR - 刷新数据失败: object of type 'NoneType' has no len()
+2025-08-27 08:50:34,706 - app.ui.windows - ERROR - 刷新数据失败: object of type 'NoneType' has no len()
+2025-08-27 08:50:36,709 - app.ui.windows - ERROR - 刷新数据失败: object of type 'NoneType' has no len()
+2025-08-27 08:50:38,709 - app.ui.windows - ERROR - 刷新数据失败: object of type 'NoneType' has no len()
+2025-08-27 08:50:40,701 - app.ui.windows - ERROR - 刷新数据失败: object of type 'NoneType' has no len()
+2025-08-27 08:50:42,701 - app.ui.windows - ERROR - 刷新数据失败: object of type 'NoneType' has no len()
+2025-08-27 08:50:44,700 - app.ui.windows - ERROR - 刷新数据失败: object of type 'NoneType' has no len()
+2025-08-27 08:50:46,702 - app.ui.windows - ERROR - 刷新数据失败: object of type 'NoneType' has no len()
+2025-08-27 08:50:48,701 - app.ui.windows - ERROR - 刷新数据失败: object of type 'NoneType' has no len()
+2025-08-27 08:50:50,705 - app.ui.windows - ERROR - 刷新数据失败: object of type 'NoneType' has no len()
+2025-08-27 08:50:52,713 - app.ui.windows - ERROR - 刷新数据失败: object of type 'NoneType' has no len()
+2025-08-27 08:50:54,710 - app.ui.windows - ERROR - 刷新数据失败: object of type 'NoneType' has no len()
+2025-08-27 08:50:56,702 - app.ui.windows - ERROR - 刷新数据失败: object of type 'NoneType' has no len()
+2025-08-27 08:50:58,702 - app.ui.windows - ERROR - 刷新数据失败: object of type 'NoneType' has no len()
+2025-08-27 08:51:00,700 - app.ui.windows - ERROR - 刷新数据失败: object of type 'NoneType' has no len()
+2025-08-27 08:51:02,710 - app.ui.windows - ERROR - 刷新数据失败: object of type 'NoneType' has no len()
+2025-08-27 08:51:04,711 - app.ui.windows - ERROR - 刷新数据失败: object of type 'NoneType' has no len()
+2025-08-27 08:51:06,699 - app.ui.windows - ERROR - 刷新数据失败: object of type 'NoneType' has no len()
+2025-08-27 08:51:08,699 - app.ui.windows - ERROR - 刷新数据失败: object of type 'NoneType' has no len()
+2025-08-27 08:51:10,698 - app.ui.windows - ERROR - 刷新数据失败: object of type 'NoneType' has no len()
+2025-08-27 08:51:12,714 - app.ui.windows - ERROR - 刷新数据失败: object of type 'NoneType' has no len()
+2025-08-27 08:51:14,709 - app.ui.windows - ERROR - 刷新数据失败: object of type 'NoneType' has no len()
+2025-08-27 08:51:16,703 - app.ui.windows - ERROR - 刷新数据失败: object of type 'NoneType' has no len()
+2025-08-27 08:51:18,697 - app.ui.windows - ERROR - 刷新数据失败: object of type 'NoneType' has no len()
+2025-08-27 08:51:20,712 - app.ui.windows - ERROR - 刷新数据失败: object of type 'NoneType' has no len()
+2025-08-27 08:51:22,699 - app.ui.windows - ERROR - 刷新数据失败: object of type 'NoneType' has no len()
+2025-08-27 08:51:24,700 - app.ui.windows - ERROR - 刷新数据失败: object of type 'NoneType' has no len()
+2025-08-27 08:51:26,699 - app.ui.windows - ERROR - 刷新数据失败: object of type 'NoneType' has no len()
+2025-08-27 08:51:28,705 - app.ui.windows - ERROR - 刷新数据失败: object of type 'NoneType' has no len()
+2025-08-27 08:51:30,704 - app.ui.windows - ERROR - 刷新数据失败: object of type 'NoneType' has no len()
+2025-08-27 08:51:32,698 - app.ui.windows - ERROR - 刷新数据失败: object of type 'NoneType' has no len()
+2025-08-27 08:51:34,709 - app.ui.windows - ERROR - 刷新数据失败: object of type 'NoneType' has no len()
+2025-08-27 08:51:36,703 - app.ui.windows - ERROR - 刷新数据失败: object of type 'NoneType' has no len()
+2025-08-27 08:51:38,711 - app.ui.windows - ERROR - 刷新数据失败: object of type 'NoneType' has no len()
+2025-08-27 08:51:40,703 - app.ui.windows - ERROR - 刷新数据失败: object of type 'NoneType' has no len()
+2025-08-27 08:51:42,700 - app.ui.windows - ERROR - 刷新数据失败: object of type 'NoneType' has no len()
+2025-08-27 08:51:44,701 - app.ui.windows - ERROR - 刷新数据失败: object of type 'NoneType' has no len()
+2025-08-27 08:51:46,712 - app.ui.windows - ERROR - 刷新数据失败: object of type 'NoneType' has no len()
+2025-08-27 08:51:48,711 - app.ui.windows - ERROR - 刷新数据失败: object of type 'NoneType' has no len()
+2025-08-27 08:51:50,700 - app.ui.windows - ERROR - 刷新数据失败: object of type 'NoneType' has no len()
+2025-08-27 08:51:52,706 - app.ui.windows - ERROR - 刷新数据失败: object of type 'NoneType' has no len()
+2025-08-27 08:51:54,709 - app.ui.windows - ERROR - 刷新数据失败: object of type 'NoneType' has no len()
+2025-08-27 08:51:56,698 - app.ui.windows - ERROR - 刷新数据失败: object of type 'NoneType' has no len()
+2025-08-27 08:51:58,698 - app.ui.windows - ERROR - 刷新数据失败: object of type 'NoneType' has no len()
+2025-08-27 08:52:00,707 - app.ui.windows - ERROR - 刷新数据失败: object of type 'NoneType' has no len()
+2025-08-27 08:52:02,701 - app.ui.windows - ERROR - 刷新数据失败: object of type 'NoneType' has no len()
+2025-08-27 08:52:04,713 - app.ui.windows - ERROR - 刷新数据失败: object of type 'NoneType' has no len()
+2025-08-27 08:52:06,699 - app.ui.windows - ERROR - 刷新数据失败: object of type 'NoneType' has no len()
+2025-08-27 08:52:08,708 - app.ui.windows - ERROR - 刷新数据失败: object of type 'NoneType' has no len()
+2025-08-27 08:52:10,706 - app.ui.windows - ERROR - 刷新数据失败: object of type 'NoneType' has no len()
+2025-08-27 08:52:12,712 - app.ui.windows - ERROR - 刷新数据失败: object of type 'NoneType' has no len()
+2025-08-27 08:52:14,712 - app.ui.windows - ERROR - 刷新数据失败: object of type 'NoneType' has no len()
+2025-08-27 08:52:16,708 - app.ui.windows - ERROR - 刷新数据失败: object of type 'NoneType' has no len()
+2025-08-27 08:52:18,699 - app.ui.windows - ERROR - 刷新数据失败: object of type 'NoneType' has no len()
+2025-08-27 08:52:20,712 - app.ui.windows - ERROR - 刷新数据失败: object of type 'NoneType' has no len()
+2025-08-27 08:52:22,710 - app.ui.windows - ERROR - 刷新数据失败: object of type 'NoneType' has no len()
+2025-08-27 08:52:24,703 - app.ui.windows - ERROR - 刷新数据失败: object of type 'NoneType' has no len()
+2025-08-27 08:52:26,712 - app.ui.windows - ERROR - 刷新数据失败: object of type 'NoneType' has no len()
+2025-08-27 08:52:28,708 - app.ui.windows - ERROR - 刷新数据失败: object of type 'NoneType' has no len()
+2025-08-27 08:52:30,708 - app.ui.windows - ERROR - 刷新数据失败: object of type 'NoneType' has no len()
+2025-08-27 08:52:32,699 - app.ui.windows - ERROR - 刷新数据失败: object of type 'NoneType' has no len()
+2025-08-27 08:52:34,707 - app.ui.windows - ERROR - 刷新数据失败: object of type 'NoneType' has no len()
+2025-08-27 08:52:36,711 - app.ui.windows - ERROR - 刷新数据失败: object of type 'NoneType' has no len()
+2025-08-27 08:52:38,699 - app.ui.windows - ERROR - 刷新数据失败: object of type 'NoneType' has no len()
+2025-08-27 08:52:40,704 - app.ui.windows - ERROR - 刷新数据失败: object of type 'NoneType' has no len()
+2025-08-27 08:52:42,706 - app.ui.windows - ERROR - 刷新数据失败: object of type 'NoneType' has no len()
+2025-08-27 08:52:44,702 - app.ui.windows - ERROR - 刷新数据失败: object of type 'NoneType' has no len()
+2025-08-27 08:52:46,701 - app.ui.windows - ERROR - 刷新数据失败: object of type 'NoneType' has no len()
+2025-08-27 08:52:48,708 - app.ui.windows - ERROR - 刷新数据失败: object of type 'NoneType' has no len()
+2025-08-27 08:52:50,713 - app.ui.windows - ERROR - 刷新数据失败: object of type 'NoneType' has no len()
+2025-08-27 08:52:52,713 - app.ui.windows - ERROR - 刷新数据失败: object of type 'NoneType' has no len()
+2025-08-27 08:52:54,705 - app.ui.windows - ERROR - 刷新数据失败: object of type 'NoneType' has no len()
+2025-08-27 08:52:56,707 - app.ui.windows - ERROR - 刷新数据失败: object of type 'NoneType' has no len()
+2025-08-27 08:52:58,708 - app.ui.windows - ERROR - 刷新数据失败: object of type 'NoneType' has no len()
+2025-08-27 08:53:00,711 - app.ui.windows - ERROR - 刷新数据失败: object of type 'NoneType' has no len()
+2025-08-27 08:53:02,700 - app.ui.windows - ERROR - 刷新数据失败: object of type 'NoneType' has no len()
+2025-08-27 08:53:04,700 - app.ui.windows - ERROR - 刷新数据失败: object of type 'NoneType' has no len()
+2025-08-27 08:53:06,713 - app.ui.windows - ERROR - 刷新数据失败: object of type 'NoneType' has no len()
+2025-08-27 08:53:08,702 - app.ui.windows - ERROR - 刷新数据失败: object of type 'NoneType' has no len()
+2025-08-27 08:53:10,712 - app.ui.windows - ERROR - 刷新数据失败: object of type 'NoneType' has no len()
+2025-08-27 08:53:12,700 - app.ui.windows - ERROR - 刷新数据失败: object of type 'NoneType' has no len()
+2025-08-27 08:53:14,712 - app.ui.windows - ERROR - 刷新数据失败: object of type 'NoneType' has no len()
+2025-08-27 08:53:16,712 - app.ui.windows - ERROR - 刷新数据失败: object of type 'NoneType' has no len()
+2025-08-27 08:53:18,715 - app.ui.windows - ERROR - 刷新数据失败: object of type 'NoneType' has no len()
+2025-08-27 08:53:20,701 - app.ui.windows - ERROR - 刷新数据失败: object of type 'NoneType' has no len()
+2025-08-27 08:53:22,714 - app.ui.windows - ERROR - 刷新数据失败: object of type 'NoneType' has no len()
+2025-08-27 08:53:24,701 - app.ui.windows - ERROR - 刷新数据失败: object of type 'NoneType' has no len()
+2025-08-27 08:53:26,710 - app.ui.windows - ERROR - 刷新数据失败: object of type 'NoneType' has no len()
+2025-08-27 08:53:28,710 - app.ui.windows - ERROR - 刷新数据失败: object of type 'NoneType' has no len()
+2025-08-27 08:53:30,701 - app.ui.windows - ERROR - 刷新数据失败: object of type 'NoneType' has no len()
+2025-08-27 08:53:32,711 - app.ui.windows - ERROR - 刷新数据失败: object of type 'NoneType' has no len()
+2025-08-27 08:53:34,699 - app.ui.windows - ERROR - 刷新数据失败: object of type 'NoneType' has no len()
+2025-08-27 08:53:36,703 - app.ui.windows - ERROR - 刷新数据失败: object of type 'NoneType' has no len()
+2025-08-27 08:53:38,713 - app.ui.windows - ERROR - 刷新数据失败: object of type 'NoneType' has no len()
+2025-08-27 08:53:40,700 - app.ui.windows - ERROR - 刷新数据失败: object of type 'NoneType' has no len()
+2025-08-27 08:53:42,711 - app.ui.windows - ERROR - 刷新数据失败: object of type 'NoneType' has no len()
+2025-08-27 08:53:44,711 - app.ui.windows - ERROR - 刷新数据失败: object of type 'NoneType' has no len()
+2025-08-27 08:53:46,703 - app.ui.windows - ERROR - 刷新数据失败: object of type 'NoneType' has no len()
+2025-08-27 08:53:48,713 - app.ui.windows - ERROR - 刷新数据失败: object of type 'NoneType' has no len()
+2025-08-27 08:53:50,701 - app.ui.windows - ERROR - 刷新数据失败: object of type 'NoneType' has no len()
+2025-08-27 08:53:52,714 - app.ui.windows - ERROR - 刷新数据失败: object of type 'NoneType' has no len()
+2025-08-27 08:53:54,706 - app.ui.windows - ERROR - 刷新数据失败: object of type 'NoneType' has no len()
+2025-08-27 08:53:56,706 - app.ui.windows - ERROR - 刷新数据失败: object of type 'NoneType' has no len()
+2025-08-27 08:53:58,709 - app.ui.windows - ERROR - 刷新数据失败: object of type 'NoneType' has no len()
+2025-08-27 08:54:00,714 - app.ui.windows - ERROR - 刷新数据失败: object of type 'NoneType' has no len()
+2025-08-27 08:54:02,706 - app.ui.windows - ERROR - 刷新数据失败: object of type 'NoneType' has no len()
+2025-08-27 08:54:04,699 - app.ui.windows - ERROR - 刷新数据失败: object of type 'NoneType' has no len()
+2025-08-27 08:54:06,705 - app.ui.windows - ERROR - 刷新数据失败: object of type 'NoneType' has no len()
+2025-08-27 08:54:08,708 - app.ui.windows - ERROR - 刷新数据失败: object of type 'NoneType' has no len()
+2025-08-27 08:54:10,707 - app.ui.windows - ERROR - 刷新数据失败: object of type 'NoneType' has no len()
+2025-08-27 08:54:12,710 - app.ui.windows - ERROR - 刷新数据失败: object of type 'NoneType' has no len()
+2025-08-27 08:54:14,709 - app.ui.windows - ERROR - 刷新数据失败: object of type 'NoneType' has no len()
+2025-08-27 08:54:16,700 - app.ui.windows - ERROR - 刷新数据失败: object of type 'NoneType' has no len()
+2025-08-27 08:54:18,705 - app.ui.windows - ERROR - 刷新数据失败: object of type 'NoneType' has no len()
+2025-08-27 08:54:20,704 - app.ui.windows - ERROR - 刷新数据失败: object of type 'NoneType' has no len()
+2025-08-27 08:54:22,705 - app.ui.windows - ERROR - 刷新数据失败: object of type 'NoneType' has no len()
+2025-08-27 08:54:24,708 - app.ui.windows - ERROR - 刷新数据失败: object of type 'NoneType' has no len()
+2025-08-27 08:54:26,710 - app.ui.windows - ERROR - 刷新数据失败: object of type 'NoneType' has no len()
+2025-08-27 08:54:28,704 - app.ui.windows - ERROR - 刷新数据失败: object of type 'NoneType' has no len()
+2025-08-27 08:54:30,712 - app.ui.windows - ERROR - 刷新数据失败: object of type 'NoneType' has no len()
+2025-08-27 08:54:32,710 - app.ui.windows - ERROR - 刷新数据失败: object of type 'NoneType' has no len()
+2025-08-27 08:54:34,705 - app.ui.windows - ERROR - 刷新数据失败: object of type 'NoneType' has no len()
+2025-08-27 08:54:36,704 - app.ui.windows - ERROR - 刷新数据失败: object of type 'NoneType' has no len()
+2025-08-27 08:54:38,713 - app.ui.windows - ERROR - 刷新数据失败: object of type 'NoneType' has no len()
+2025-08-27 08:54:40,705 - app.ui.windows - ERROR - 刷新数据失败: object of type 'NoneType' has no len()
+2025-08-27 08:54:42,714 - app.ui.windows - ERROR - 刷新数据失败: object of type 'NoneType' has no len()
+2025-08-27 08:54:44,712 - app.ui.windows - ERROR - 刷新数据失败: object of type 'NoneType' has no len()
+2025-08-27 08:54:46,709 - app.ui.windows - ERROR - 刷新数据失败: object of type 'NoneType' has no len()
+2025-08-27 08:54:48,708 - app.ui.windows - ERROR - 刷新数据失败: object of type 'NoneType' has no len()
+2025-08-27 08:54:50,717 - app.ui.windows - ERROR - 刷新数据失败: object of type 'NoneType' has no len()
+2025-08-27 08:54:52,704 - app.ui.windows - ERROR - 刷新数据失败: object of type 'NoneType' has no len()
+2025-08-27 08:54:54,714 - app.ui.windows - ERROR - 刷新数据失败: object of type 'NoneType' has no len()
+2025-08-27 08:54:56,707 - app.ui.windows - ERROR - 刷新数据失败: object of type 'NoneType' has no len()
+2025-08-27 08:54:58,708 - app.ui.windows - ERROR - 刷新数据失败: object of type 'NoneType' has no len()
+2025-08-27 08:55:00,710 - app.ui.windows - ERROR - 刷新数据失败: object of type 'NoneType' has no len()
+2025-08-27 08:55:02,703 - app.ui.windows - ERROR - 刷新数据失败: object of type 'NoneType' has no len()
+2025-08-27 08:55:04,717 - app.ui.windows - ERROR - 刷新数据失败: object of type 'NoneType' has no len()
+2025-08-27 08:55:06,702 - app.ui.windows - ERROR - 刷新数据失败: object of type 'NoneType' has no len()
+2025-08-27 08:55:08,709 - app.ui.windows - ERROR - 刷新数据失败: object of type 'NoneType' has no len()
+2025-08-27 08:55:10,714 - app.ui.windows - ERROR - 刷新数据失败: object of type 'NoneType' has no len()
+2025-08-27 08:55:12,705 - app.ui.windows - ERROR - 刷新数据失败: object of type 'NoneType' has no len()
+2025-08-27 08:55:14,712 - app.ui.windows - ERROR - 刷新数据失败: object of type 'NoneType' has no len()
+2025-08-27 08:55:16,713 - app.ui.windows - ERROR - 刷新数据失败: object of type 'NoneType' has no len()
+2025-08-27 08:55:18,703 - app.ui.windows - ERROR - 刷新数据失败: object of type 'NoneType' has no len()
+2025-08-27 08:55:20,708 - app.ui.windows - ERROR - 刷新数据失败: object of type 'NoneType' has no len()
+2025-08-27 08:55:22,701 - app.ui.windows - ERROR - 刷新数据失败: object of type 'NoneType' has no len()
+2025-08-27 08:55:24,710 - app.ui.windows - ERROR - 刷新数据失败: object of type 'NoneType' has no len()
+2025-08-27 08:55:26,705 - app.ui.windows - ERROR - 刷新数据失败: object of type 'NoneType' has no len()
+2025-08-27 08:55:28,710 - app.ui.windows - ERROR - 刷新数据失败: object of type 'NoneType' has no len()
+2025-08-27 08:55:30,703 - app.ui.windows - ERROR - 刷新数据失败: object of type 'NoneType' has no len()
+2025-08-27 08:55:32,713 - app.ui.windows - ERROR - 刷新数据失败: object of type 'NoneType' has no len()
+2025-08-27 08:55:34,715 - app.ui.windows - ERROR - 刷新数据失败: object of type 'NoneType' has no len()
+2025-08-27 08:55:36,714 - app.ui.windows - ERROR - 刷新数据失败: object of type 'NoneType' has no len()
+2025-08-27 08:55:38,705 - app.ui.windows - ERROR - 刷新数据失败: object of type 'NoneType' has no len()
+2025-08-27 08:55:40,702 - app.ui.windows - ERROR - 刷新数据失败: object of type 'NoneType' has no len()
+2025-08-27 08:55:42,720 - app.ui.windows - ERROR - 刷新数据失败: object of type 'NoneType' has no len()
+2025-08-27 08:55:44,704 - app.ui.windows - ERROR - 刷新数据失败: object of type 'NoneType' has no len()
+2025-08-27 08:55:46,712 - app.ui.windows - ERROR - 刷新数据失败: object of type 'NoneType' has no len()
+2025-08-27 08:55:48,703 - app.ui.windows - ERROR - 刷新数据失败: object of type 'NoneType' has no len()
+2025-08-27 08:55:50,717 - app.ui.windows - ERROR - 刷新数据失败: object of type 'NoneType' has no len()
+2025-08-27 08:55:52,716 - app.ui.windows - ERROR - 刷新数据失败: object of type 'NoneType' has no len()
+2025-08-27 08:55:54,702 - app.ui.windows - ERROR - 刷新数据失败: object of type 'NoneType' has no len()
+2025-08-27 08:55:56,711 - app.ui.windows - ERROR - 刷新数据失败: object of type 'NoneType' has no len()
+2025-08-27 08:55:58,717 - app.ui.windows - ERROR - 刷新数据失败: object of type 'NoneType' has no len()
+2025-08-27 08:56:00,718 - app.ui.windows - ERROR - 刷新数据失败: object of type 'NoneType' has no len()
+2025-08-27 08:56:02,709 - app.ui.windows - ERROR - 刷新数据失败: object of type 'NoneType' has no len()
+2025-08-27 08:56:04,715 - app.ui.windows - ERROR - 刷新数据失败: object of type 'NoneType' has no len()
+2025-08-27 08:56:06,707 - app.ui.windows - ERROR - 刷新数据失败: object of type 'NoneType' has no len()
+2025-08-27 08:56:08,711 - app.ui.windows - ERROR - 刷新数据失败: object of type 'NoneType' has no len()
+2025-08-27 08:56:10,705 - app.ui.windows - ERROR - 刷新数据失败: object of type 'NoneType' has no len()
+2025-08-27 08:56:12,707 - app.ui.windows - ERROR - 刷新数据失败: object of type 'NoneType' has no len()
+2025-08-27 08:56:14,708 - app.ui.windows - ERROR - 刷新数据失败: object of type 'NoneType' has no len()
+2025-08-27 08:56:16,716 - app.ui.windows - ERROR - 刷新数据失败: object of type 'NoneType' has no len()
+2025-08-27 08:56:18,717 - app.ui.windows - ERROR - 刷新数据失败: object of type 'NoneType' has no len()
+2025-08-27 08:56:20,705 - app.ui.windows - ERROR - 刷新数据失败: object of type 'NoneType' has no len()
+2025-08-27 08:56:22,701 - app.ui.windows - ERROR - 刷新数据失败: object of type 'NoneType' has no len()
+2025-08-27 08:56:24,709 - app.ui.windows - ERROR - 刷新数据失败: object of type 'NoneType' has no len()
+2025-08-27 08:56:26,706 - app.ui.windows - ERROR - 刷新数据失败: object of type 'NoneType' has no len()
+2025-08-27 08:56:28,702 - app.ui.windows - ERROR - 刷新数据失败: object of type 'NoneType' has no len()
+2025-08-27 08:56:30,704 - app.ui.windows - ERROR - 刷新数据失败: object of type 'NoneType' has no len()
+2025-08-27 08:56:32,711 - app.ui.windows - ERROR - 刷新数据失败: object of type 'NoneType' has no len()
+2025-08-27 08:56:34,718 - app.ui.windows - ERROR - 刷新数据失败: object of type 'NoneType' has no len()
+2025-08-27 08:56:36,709 - app.ui.windows - ERROR - 刷新数据失败: object of type 'NoneType' has no len()
+2025-08-27 08:56:38,715 - app.ui.windows - ERROR - 刷新数据失败: object of type 'NoneType' has no len()
+2025-08-27 08:56:40,717 - app.ui.windows - ERROR - 刷新数据失败: object of type 'NoneType' has no len()
+2025-08-27 08:56:42,714 - app.ui.windows - ERROR - 刷新数据失败: object of type 'NoneType' has no len()
+2025-08-27 08:56:44,702 - app.ui.windows - ERROR - 刷新数据失败: object of type 'NoneType' has no len()
+2025-08-27 08:56:46,712 - app.ui.windows - ERROR - 刷新数据失败: object of type 'NoneType' has no len()
+2025-08-27 08:56:48,711 - app.ui.windows - ERROR - 刷新数据失败: object of type 'NoneType' has no len()
+2025-08-27 08:56:50,715 - app.ui.windows - ERROR - 刷新数据失败: object of type 'NoneType' has no len()
+2025-08-27 08:56:52,701 - app.ui.windows - ERROR - 刷新数据失败: object of type 'NoneType' has no len()
+2025-08-27 08:56:54,703 - app.ui.windows - ERROR - 刷新数据失败: object of type 'NoneType' has no len()
+2025-08-27 08:56:56,706 - app.ui.windows - ERROR - 刷新数据失败: object of type 'NoneType' has no len()
+2025-08-27 08:56:58,714 - app.ui.windows - ERROR - 刷新数据失败: object of type 'NoneType' has no len()
+2025-08-27 08:57:00,711 - app.ui.windows - ERROR - 刷新数据失败: object of type 'NoneType' has no len()
+2025-08-27 08:57:02,714 - app.ui.windows - ERROR - 刷新数据失败: object of type 'NoneType' has no len()
+2025-08-27 08:57:04,706 - app.ui.windows - ERROR - 刷新数据失败: object of type 'NoneType' has no len()
+2025-08-27 08:57:06,715 - app.ui.windows - ERROR - 刷新数据失败: object of type 'NoneType' has no len()
+2025-08-27 08:57:08,709 - app.ui.windows - ERROR - 刷新数据失败: object of type 'NoneType' has no len()
+2025-08-27 08:57:10,713 - app.ui.windows - ERROR - 刷新数据失败: object of type 'NoneType' has no len()
+2025-08-27 08:57:12,717 - app.ui.windows - ERROR - 刷新数据失败: object of type 'NoneType' has no len()
+2025-08-27 08:57:14,714 - app.ui.windows - ERROR - 刷新数据失败: object of type 'NoneType' has no len()
+2025-08-27 08:57:16,702 - app.ui.windows - ERROR - 刷新数据失败: object of type 'NoneType' has no len()
+2025-08-27 08:57:18,712 - app.ui.windows - ERROR - 刷新数据失败: object of type 'NoneType' has no len()
+2025-08-27 08:57:20,712 - app.ui.windows - ERROR - 刷新数据失败: object of type 'NoneType' has no len()
+2025-08-27 08:57:22,713 - app.ui.windows - ERROR - 刷新数据失败: object of type 'NoneType' has no len()
+2025-08-27 08:57:24,706 - app.ui.windows - ERROR - 刷新数据失败: object of type 'NoneType' has no len()
+2025-08-27 08:57:26,717 - app.ui.windows - ERROR - 刷新数据失败: object of type 'NoneType' has no len()
+2025-08-27 08:57:28,707 - app.ui.windows - ERROR - 刷新数据失败: object of type 'NoneType' has no len()
+2025-08-27 08:57:30,711 - app.ui.windows - ERROR - 刷新数据失败: object of type 'NoneType' has no len()
+2025-08-27 08:57:32,706 - app.ui.windows - ERROR - 刷新数据失败: object of type 'NoneType' has no len()
+2025-08-27 08:57:34,707 - app.ui.windows - ERROR - 刷新数据失败: object of type 'NoneType' has no len()
+2025-08-27 08:57:36,714 - app.ui.windows - ERROR - 刷新数据失败: object of type 'NoneType' has no len()
+2025-08-27 08:57:38,713 - app.ui.windows - ERROR - 刷新数据失败: object of type 'NoneType' has no len()
+2025-08-27 08:57:40,718 - app.ui.windows - ERROR - 刷新数据失败: object of type 'NoneType' has no len()
+2025-08-27 08:57:42,728 - app.ui.windows - ERROR - 刷新数据失败: object of type 'NoneType' has no len()
+2025-08-27 08:57:44,725 - app.ui.windows - ERROR - 刷新数据失败: object of type 'NoneType' has no len()
+2025-08-27 08:57:46,720 - app.ui.windows - ERROR - 刷新数据失败: object of type 'NoneType' has no len()
+2025-08-27 08:57:48,720 - app.ui.windows - ERROR - 刷新数据失败: object of type 'NoneType' has no len()
+2025-08-27 08:57:50,731 - app.ui.windows - ERROR - 刷新数据失败: object of type 'NoneType' has no len()
+2025-08-27 08:57:52,722 - app.ui.windows - ERROR - 刷新数据失败: object of type 'NoneType' has no len()
+2025-08-27 08:57:54,726 - app.ui.windows - ERROR - 刷新数据失败: object of type 'NoneType' has no len()
+2025-08-27 08:57:56,735 - app.ui.windows - ERROR - 刷新数据失败: object of type 'NoneType' has no len()
+2025-08-27 08:57:58,749 - app.ui.windows - ERROR - 刷新数据失败: object of type 'NoneType' has no len()
+2025-08-27 08:58:00,735 - app.ui.windows - ERROR - 刷新数据失败: object of type 'NoneType' has no len()
+2025-08-27 08:58:02,739 - app.ui.windows - ERROR - 刷新数据失败: object of type 'NoneType' has no len()
+2025-08-27 08:58:04,750 - app.ui.windows - ERROR - 刷新数据失败: object of type 'NoneType' has no len()
+2025-08-27 08:58:06,743 - app.ui.windows - ERROR - 刷新数据失败: object of type 'NoneType' has no len()
+2025-08-27 08:58:08,751 - app.ui.windows - ERROR - 刷新数据失败: object of type 'NoneType' has no len()
+2025-08-27 08:58:10,741 - app.ui.windows - ERROR - 刷新数据失败: object of type 'NoneType' has no len()
+2025-08-27 08:58:12,738 - app.ui.windows - ERROR - 刷新数据失败: object of type 'NoneType' has no len()
+2025-08-27 08:58:14,744 - app.ui.windows - ERROR - 刷新数据失败: object of type 'NoneType' has no len()
+2025-08-27 08:58:16,750 - app.ui.windows - ERROR - 刷新数据失败: object of type 'NoneType' has no len()
+2025-08-27 08:58:18,744 - app.ui.windows - ERROR - 刷新数据失败: object of type 'NoneType' has no len()
+2025-08-27 08:58:20,743 - app.ui.windows - ERROR - 刷新数据失败: object of type 'NoneType' has no len()
+2025-08-27 08:58:22,738 - app.ui.windows - ERROR - 刷新数据失败: object of type 'NoneType' has no len()
+2025-08-27 08:58:24,746 - app.ui.windows - ERROR - 刷新数据失败: object of type 'NoneType' has no len()
+2025-08-27 08:58:26,743 - app.ui.windows - ERROR - 刷新数据失败: object of type 'NoneType' has no len()
+2025-08-27 08:58:28,738 - app.ui.windows - ERROR - 刷新数据失败: object of type 'NoneType' has no len()
+2025-08-27 08:58:30,751 - app.ui.windows - ERROR - 刷新数据失败: object of type 'NoneType' has no len()
+2025-08-27 08:58:32,744 - app.ui.windows - ERROR - 刷新数据失败: object of type 'NoneType' has no len()
+2025-08-27 08:58:34,741 - app.ui.windows - ERROR - 刷新数据失败: object of type 'NoneType' has no len()
+2025-08-27 08:58:36,742 - app.ui.windows - ERROR - 刷新数据失败: object of type 'NoneType' has no len()
+2025-08-27 08:58:38,739 - app.ui.windows - ERROR - 刷新数据失败: object of type 'NoneType' has no len()
+2025-08-27 08:58:40,735 - app.ui.windows - ERROR - 刷新数据失败: object of type 'NoneType' has no len()
+2025-08-27 08:58:42,747 - app.ui.windows - ERROR - 刷新数据失败: object of type 'NoneType' has no len()
+2025-08-27 08:58:44,740 - app.ui.windows - ERROR - 刷新数据失败: object of type 'NoneType' has no len()
+2025-08-27 08:58:46,736 - app.ui.windows - ERROR - 刷新数据失败: object of type 'NoneType' has no len()
+2025-08-27 08:58:48,735 - app.ui.windows - ERROR - 刷新数据失败: object of type 'NoneType' has no len()
+2025-08-27 08:58:50,744 - app.ui.windows - ERROR - 刷新数据失败: object of type 'NoneType' has no len()
+2025-08-27 08:58:52,741 - app.ui.windows - ERROR - 刷新数据失败: object of type 'NoneType' has no len()
+2025-08-27 08:58:54,744 - app.ui.windows - ERROR - 刷新数据失败: object of type 'NoneType' has no len()
+2025-08-27 08:58:56,740 - app.ui.windows - ERROR - 刷新数据失败: object of type 'NoneType' has no len()
+2025-08-27 08:58:58,746 - app.ui.windows - ERROR - 刷新数据失败: object of type 'NoneType' has no len()
+2025-08-27 08:59:00,752 - app.ui.windows - ERROR - 刷新数据失败: object of type 'NoneType' has no len()
+2025-08-27 08:59:02,741 - app.ui.windows - ERROR - 刷新数据失败: object of type 'NoneType' has no len()
+2025-08-27 08:59:04,753 - app.ui.windows - ERROR - 刷新数据失败: object of type 'NoneType' has no len()
+2025-08-27 08:59:06,752 - app.ui.windows - ERROR - 刷新数据失败: object of type 'NoneType' has no len()
+2025-08-27 08:59:08,742 - app.ui.windows - ERROR - 刷新数据失败: object of type 'NoneType' has no len()
+2025-08-27 08:59:10,743 - app.ui.windows - ERROR - 刷新数据失败: object of type 'NoneType' has no len()
+2025-08-27 08:59:12,747 - app.ui.windows - ERROR - 刷新数据失败: object of type 'NoneType' has no len()
+2025-08-27 08:59:14,744 - app.ui.windows - ERROR - 刷新数据失败: object of type 'NoneType' has no len()
+2025-08-27 08:59:16,739 - app.ui.windows - ERROR - 刷新数据失败: object of type 'NoneType' has no len()
+2025-08-27 08:59:18,739 - app.ui.windows - ERROR - 刷新数据失败: object of type 'NoneType' has no len()
+2025-08-27 08:59:20,745 - app.ui.windows - ERROR - 刷新数据失败: object of type 'NoneType' has no len()
+2025-08-27 08:59:22,744 - app.ui.windows - ERROR - 刷新数据失败: object of type 'NoneType' has no len()
+2025-08-27 08:59:24,741 - app.ui.windows - ERROR - 刷新数据失败: object of type 'NoneType' has no len()
+2025-08-27 08:59:26,747 - app.ui.windows - ERROR - 刷新数据失败: object of type 'NoneType' has no len()
+2025-08-27 08:59:28,744 - app.ui.windows - ERROR - 刷新数据失败: object of type 'NoneType' has no len()
+2025-08-27 08:59:30,748 - app.ui.windows - ERROR - 刷新数据失败: object of type 'NoneType' has no len()
+2025-08-27 08:59:32,751 - app.ui.windows - ERROR - 刷新数据失败: object of type 'NoneType' has no len()
+2025-08-27 08:59:34,744 - app.ui.windows - ERROR - 刷新数据失败: object of type 'NoneType' has no len()
+2025-08-27 08:59:36,750 - app.ui.windows - ERROR - 刷新数据失败: object of type 'NoneType' has no len()
+2025-08-27 08:59:38,742 - app.ui.windows - ERROR - 刷新数据失败: object of type 'NoneType' has no len()
+2025-08-27 08:59:40,742 - app.ui.windows - ERROR - 刷新数据失败: object of type 'NoneType' has no len()
+2025-08-27 08:59:42,743 - app.ui.windows - ERROR - 刷新数据失败: object of type 'NoneType' has no len()
+2025-08-27 08:59:44,750 - app.ui.windows - ERROR - 刷新数据失败: object of type 'NoneType' has no len()
+2025-08-27 08:59:46,750 - app.ui.windows - ERROR - 刷新数据失败: object of type 'NoneType' has no len()
+2025-08-27 08:59:48,750 - app.ui.windows - ERROR - 刷新数据失败: object of type 'NoneType' has no len()
+2025-08-27 08:59:50,740 - app.ui.windows - ERROR - 刷新数据失败: object of type 'NoneType' has no len()
+2025-08-27 08:59:52,746 - app.ui.windows - ERROR - 刷新数据失败: object of type 'NoneType' has no len()
+2025-08-27 08:59:54,752 - app.ui.windows - ERROR - 刷新数据失败: object of type 'NoneType' has no len()
+2025-08-27 08:59:56,755 - app.ui.windows - ERROR - 刷新数据失败: object of type 'NoneType' has no len()
+2025-08-27 08:59:58,754 - app.ui.windows - ERROR - 刷新数据失败: object of type 'NoneType' has no len()
+2025-08-27 09:00:00,749 - app.ui.windows - ERROR - 刷新数据失败: object of type 'NoneType' has no len()
+2025-08-27 09:00:02,762 - app.ui.windows - ERROR - 刷新数据失败: object of type 'NoneType' has no len()
+2025-08-27 09:00:04,763 - app.ui.windows - ERROR - 刷新数据失败: object of type 'NoneType' has no len()
+2025-08-27 09:00:06,755 - app.ui.windows - ERROR - 刷新数据失败: object of type 'NoneType' has no len()
+2025-08-27 09:00:08,753 - app.ui.windows - ERROR - 刷新数据失败: object of type 'NoneType' has no len()
+2025-08-27 09:00:10,766 - app.ui.windows - ERROR - 刷新数据失败: object of type 'NoneType' has no len()
+2025-08-27 09:00:12,760 - app.ui.windows - ERROR - 刷新数据失败: object of type 'NoneType' has no len()
+2025-08-27 09:00:14,753 - app.ui.windows - ERROR - 刷新数据失败: object of type 'NoneType' has no len()
+2025-08-27 09:00:16,756 - app.ui.windows - ERROR - 刷新数据失败: object of type 'NoneType' has no len()
+2025-08-27 09:00:18,754 - app.ui.windows - ERROR - 刷新数据失败: object of type 'NoneType' has no len()
+2025-08-27 09:00:20,754 - app.ui.windows - ERROR - 刷新数据失败: object of type 'NoneType' has no len()
+2025-08-27 09:00:22,764 - app.ui.windows - ERROR - 刷新数据失败: object of type 'NoneType' has no len()
+2025-08-27 09:00:24,769 - app.ui.windows - ERROR - 刷新数据失败: object of type 'NoneType' has no len()
+2025-08-27 09:00:26,767 - app.ui.windows - ERROR - 刷新数据失败: object of type 'NoneType' has no len()
+2025-08-27 09:00:28,768 - app.ui.windows - ERROR - 刷新数据失败: object of type 'NoneType' has no len()
+2025-08-27 09:00:30,768 - app.ui.windows - ERROR - 刷新数据失败: object of type 'NoneType' has no len()
+2025-08-27 09:00:32,754 - app.ui.windows - ERROR - 刷新数据失败: object of type 'NoneType' has no len()
+2025-08-27 09:00:34,768 - app.ui.windows - ERROR - 刷新数据失败: object of type 'NoneType' has no len()
+2025-08-27 09:00:36,754 - app.ui.windows - ERROR - 刷新数据失败: object of type 'NoneType' has no len()
+2025-08-27 09:00:38,767 - app.ui.windows - ERROR - 刷新数据失败: object of type 'NoneType' has no len()
+2025-08-27 09:00:40,753 - app.ui.windows - ERROR - 刷新数据失败: object of type 'NoneType' has no len()
+2025-08-27 09:00:42,751 - app.ui.windows - ERROR - 刷新数据失败: object of type 'NoneType' has no len()
+2025-08-27 09:00:44,754 - app.ui.windows - ERROR - 刷新数据失败: object of type 'NoneType' has no len()
+2025-08-27 09:00:46,769 - app.ui.windows - ERROR - 刷新数据失败: object of type 'NoneType' has no len()
+2025-08-27 09:00:48,754 - app.ui.windows - ERROR - 刷新数据失败: object of type 'NoneType' has no len()
+2025-08-27 09:00:50,754 - app.ui.windows - ERROR - 刷新数据失败: object of type 'NoneType' has no len()
+2025-08-27 09:00:52,753 - app.ui.windows - ERROR - 刷新数据失败: object of type 'NoneType' has no len()
+2025-08-27 09:00:54,769 - app.ui.windows - ERROR - 刷新数据失败: object of type 'NoneType' has no len()
+2025-08-27 09:00:56,755 - app.ui.windows - ERROR - 刷新数据失败: object of type 'NoneType' has no len()
+2025-08-27 09:00:58,763 - app.ui.windows - ERROR - 刷新数据失败: object of type 'NoneType' has no len()
+2025-08-27 09:01:00,754 - app.ui.windows - ERROR - 刷新数据失败: object of type 'NoneType' has no len()
+2025-08-27 09:01:02,754 - app.ui.windows - ERROR - 刷新数据失败: object of type 'NoneType' has no len()
+2025-08-27 09:01:04,768 - app.ui.windows - ERROR - 刷新数据失败: object of type 'NoneType' has no len()
+2025-08-27 09:01:06,766 - app.ui.windows - ERROR - 刷新数据失败: object of type 'NoneType' has no len()
+2025-08-27 09:01:08,764 - app.ui.windows - ERROR - 刷新数据失败: object of type 'NoneType' has no len()
+2025-08-27 09:01:10,754 - app.ui.windows - ERROR - 刷新数据失败: object of type 'NoneType' has no len()
+2025-08-27 09:01:12,752 - app.ui.windows - ERROR - 刷新数据失败: object of type 'NoneType' has no len()
+2025-08-27 09:01:14,766 - app.ui.windows - ERROR - 刷新数据失败: object of type 'NoneType' has no len()
+2025-08-27 09:01:16,764 - app.ui.windows - ERROR - 刷新数据失败: object of type 'NoneType' has no len()
+2025-08-27 09:01:18,753 - app.ui.windows - ERROR - 刷新数据失败: object of type 'NoneType' has no len()
+2025-08-27 09:01:20,764 - app.ui.windows - ERROR - 刷新数据失败: object of type 'NoneType' has no len()
+2025-08-27 09:01:22,758 - app.ui.windows - ERROR - 刷新数据失败: object of type 'NoneType' has no len()
+2025-08-27 09:01:24,752 - app.ui.windows - ERROR - 刷新数据失败: object of type 'NoneType' has no len()
+2025-08-27 09:01:26,755 - app.ui.windows - ERROR - 刷新数据失败: object of type 'NoneType' has no len()
+2025-08-27 09:01:28,760 - app.ui.windows - ERROR - 刷新数据失败: object of type 'NoneType' has no len()
+2025-08-27 09:01:30,755 - app.ui.windows - ERROR - 刷新数据失败: object of type 'NoneType' has no len()
+2025-08-27 09:01:32,760 - app.ui.windows - ERROR - 刷新数据失败: object of type 'NoneType' has no len()
+2025-08-27 09:01:34,756 - app.ui.windows - ERROR - 刷新数据失败: object of type 'NoneType' has no len()
+2025-08-27 09:01:36,754 - app.ui.windows - ERROR - 刷新数据失败: object of type 'NoneType' has no len()
+2025-08-27 09:01:38,761 - app.ui.windows - ERROR - 刷新数据失败: object of type 'NoneType' has no len()
+2025-08-27 09:01:40,759 - app.ui.windows - ERROR - 刷新数据失败: object of type 'NoneType' has no len()
+2025-08-27 09:01:42,758 - app.ui.windows - ERROR - 刷新数据失败: object of type 'NoneType' has no len()
+2025-08-27 09:01:44,757 - app.ui.windows - ERROR - 刷新数据失败: object of type 'NoneType' has no len()
+2025-08-27 09:01:46,754 - app.ui.windows - ERROR - 刷新数据失败: object of type 'NoneType' has no len()
+2025-08-27 09:01:48,751 - app.ui.windows - ERROR - 刷新数据失败: object of type 'NoneType' has no len()
+2025-08-27 09:01:50,756 - app.ui.windows - ERROR - 刷新数据失败: object of type 'NoneType' has no len()
+2025-08-27 09:01:52,765 - app.ui.windows - ERROR - 刷新数据失败: object of type 'NoneType' has no len()
+2025-08-27 09:01:54,759 - app.ui.windows - ERROR - 刷新数据失败: object of type 'NoneType' has no len()
+2025-08-27 09:01:56,751 - app.ui.windows - ERROR - 刷新数据失败: object of type 'NoneType' has no len()
+2025-08-27 09:01:58,757 - app.ui.windows - ERROR - 刷新数据失败: object of type 'NoneType' has no len()
+2025-08-27 09:02:00,755 - app.ui.windows - ERROR - 刷新数据失败: object of type 'NoneType' has no len()
+2025-08-27 09:02:02,761 - app.ui.windows - ERROR - 刷新数据失败: object of type 'NoneType' has no len()
+2025-08-27 09:02:04,750 - app.ui.windows - ERROR - 刷新数据失败: object of type 'NoneType' has no len()
+2025-08-27 09:02:06,752 - app.ui.windows - ERROR - 刷新数据失败: object of type 'NoneType' has no len()
+2025-08-27 09:02:08,074 - app.main_gui - INFO - 启动 Spidermind GUI
+2025-08-27 09:02:08,201 - app.main_gui - INFO - 创建主窗口
+2025-08-27 09:02:08,230 - db.dao - INFO - 数据库连接池初始化成功，连接: mysql+pymysql://root:***@127.0.0.1:3306/Spidermind
+2025-08-27 09:02:08,231 - app.ui.windows - INFO - 数据库连接状态: 成功
+2025-08-27 09:02:08,424 - app.ui.windows - INFO - 样式表加载成功
+2025-08-27 09:02:08,427 - app.spiders_registry - INFO - 总共加载了 2 个爬虫配置
+2025-08-27 09:02:08,430 - app.ui.windows - INFO - 刷新爬虫列表: 找到 2 个爬虫
+2025-08-27 09:02:08,436 - app.ui.windows - ERROR - 刷新数据失败: object of type 'NoneType' has no len()
+2025-08-27 09:02:08,486 - app.main_gui - INFO - GUI 启动成功
+2025-08-27 09:02:08,755 - app.ui.windows - ERROR - 刷新数据失败: object of type 'NoneType' has no len()
+2025-08-27 09:02:10,252 - app.ui.windows - ERROR - 刷新数据失败: object of type 'NoneType' has no len()
+2025-08-27 09:02:10,750 - app.ui.windows - ERROR - 刷新数据失败: object of type 'NoneType' has no len()
+2025-08-27 09:02:10,995 - app.ui.windows - INFO - 选择爬虫: GitHub README 联系方式爬虫
+2025-08-27 09:02:12,258 - app.ui.windows - ERROR - 刷新数据失败: object of type 'NoneType' has no len()
+2025-08-27 09:02:12,281 - app.ui.windows - INFO - 启动爬虫: GitHub README 联系方式爬虫, 参数: ['--timeout', '30', '--retries', '3', '--threads', '1']
+2025-08-27 09:02:12,282 - app.run_subprocess - INFO - 爬虫进程启动成功: spiders.github_readme.runner, PID: 10936
+2025-08-27 09:02:12,283 - app.ui.windows - INFO - 爬虫启动成功: PID 10936
+2025-08-27 09:02:12,756 - app.ui.windows - ERROR - 刷新数据失败: object of type 'NoneType' has no len()
+2025-08-27 09:02:14,252 - app.ui.windows - ERROR - 刷新数据失败: object of type 'NoneType' has no len()
+2025-08-27 09:02:14,751 - app.ui.windows - ERROR - 刷新数据失败: object of type 'NoneType' has no len()
+2025-08-27 09:02:16,255 - app.ui.windows - ERROR - 刷新数据失败: object of type 'NoneType' has no len()
+2025-08-27 09:02:16,757 - app.ui.windows - ERROR - 刷新数据失败: object of type 'NoneType' has no len()
+2025-08-27 09:02:18,255 - app.ui.windows - ERROR - 刷新数据失败: object of type 'NoneType' has no len()
+2025-08-27 09:02:18,762 - app.ui.windows - ERROR - 刷新数据失败: object of type 'NoneType' has no len()
+2025-08-27 09:02:20,253 - app.ui.windows - ERROR - 刷新数据失败: object of type 'NoneType' has no len()
+2025-08-27 09:02:20,751 - app.ui.windows - ERROR - 刷新数据失败: object of type 'NoneType' has no len()
+2025-08-27 09:02:22,252 - app.ui.windows - ERROR - 刷新数据失败: object of type 'NoneType' has no len()
+2025-08-27 09:02:22,751 - app.ui.windows - ERROR - 刷新数据失败: object of type 'NoneType' has no len()
+2025-08-27 09:02:24,264 - app.ui.windows - ERROR - 刷新数据失败: object of type 'NoneType' has no len()
+2025-08-27 09:02:24,765 - app.ui.windows - ERROR - 刷新数据失败: object of type 'NoneType' has no len()
+2025-08-27 09:02:26,254 - app.ui.windows - ERROR - 刷新数据失败: object of type 'NoneType' has no len()
+2025-08-27 09:02:26,749 - app.ui.windows - ERROR - 刷新数据失败: object of type 'NoneType' has no len()
+2025-08-27 09:02:28,253 - app.ui.windows - ERROR - 刷新数据失败: object of type 'NoneType' has no len()
+2025-08-27 09:02:28,768 - app.ui.windows - ERROR - 刷新数据失败: object of type 'NoneType' has no len()
+2025-08-27 09:02:30,251 - app.ui.windows - ERROR - 刷新数据失败: object of type 'NoneType' has no len()
+2025-08-27 09:02:30,771 - app.ui.windows - ERROR - 刷新数据失败: object of type 'NoneType' has no len()
+2025-08-27 09:02:32,266 - app.ui.windows - ERROR - 刷新数据失败: object of type 'NoneType' has no len()
+2025-08-27 09:02:32,778 - app.ui.windows - ERROR - 刷新数据失败: object of type 'NoneType' has no len()
+2025-08-27 09:02:34,266 - app.ui.windows - ERROR - 刷新数据失败: object of type 'NoneType' has no len()
+2025-08-27 09:02:34,779 - app.ui.windows - ERROR - 刷新数据失败: object of type 'NoneType' has no len()
+2025-08-27 09:02:36,274 - app.ui.windows - ERROR - 刷新数据失败: object of type 'NoneType' has no len()
+2025-08-27 09:02:36,770 - app.ui.windows - ERROR - 刷新数据失败: object of type 'NoneType' has no len()
+2025-08-27 09:02:38,278 - app.ui.windows - ERROR - 刷新数据失败: object of type 'NoneType' has no len()
+2025-08-27 09:02:38,773 - app.ui.windows - ERROR - 刷新数据失败: object of type 'NoneType' has no len()
+2025-08-27 09:02:40,267 - app.ui.windows - ERROR - 刷新数据失败: object of type 'NoneType' has no len()
+2025-08-27 09:02:40,773 - app.ui.windows - ERROR - 刷新数据失败: object of type 'NoneType' has no len()
+2025-08-27 09:02:42,278 - app.ui.windows - ERROR - 刷新数据失败: object of type 'NoneType' has no len()
+2025-08-27 09:02:42,767 - app.ui.windows - ERROR - 刷新数据失败: object of type 'NoneType' has no len()
+2025-08-27 09:02:44,267 - app.ui.windows - ERROR - 刷新数据失败: object of type 'NoneType' has no len()
+2025-08-27 09:02:44,784 - app.ui.windows - ERROR - 刷新数据失败: object of type 'NoneType' has no len()
+2025-08-27 09:02:46,266 - app.ui.windows - ERROR - 刷新数据失败: object of type 'NoneType' has no len()
+2025-08-27 09:02:46,771 - app.ui.windows - ERROR - 刷新数据失败: object of type 'NoneType' has no len()
+2025-08-27 09:02:48,270 - app.ui.windows - ERROR - 刷新数据失败: object of type 'NoneType' has no len()
+2025-08-27 09:02:48,776 - app.ui.windows - ERROR - 刷新数据失败: object of type 'NoneType' has no len()
+2025-08-27 09:02:50,269 - app.ui.windows - ERROR - 刷新数据失败: object of type 'NoneType' has no len()
+2025-08-27 09:02:50,765 - app.ui.windows - ERROR - 刷新数据失败: object of type 'NoneType' has no len()
+2025-08-27 09:02:52,272 - app.ui.windows - ERROR - 刷新数据失败: object of type 'NoneType' has no len()
+2025-08-27 09:02:52,768 - app.ui.windows - ERROR - 刷新数据失败: object of type 'NoneType' has no len()
+2025-08-27 09:02:54,290 - app.ui.windows - ERROR - 刷新数据失败: object of type 'NoneType' has no len()
+2025-08-27 09:02:54,775 - app.ui.windows - ERROR - 刷新数据失败: object of type 'NoneType' has no len()
+2025-08-27 09:02:56,288 - app.ui.windows - ERROR - 刷新数据失败: object of type 'NoneType' has no len()
+2025-08-27 09:02:56,772 - app.ui.windows - ERROR - 刷新数据失败: object of type 'NoneType' has no len()
+2025-08-27 09:02:58,277 - app.ui.windows - ERROR - 刷新数据失败: object of type 'NoneType' has no len()
+2025-08-27 09:02:58,775 - app.ui.windows - ERROR - 刷新数据失败: object of type 'NoneType' has no len()
+2025-08-27 09:03:00,284 - app.ui.windows - ERROR - 刷新数据失败: object of type 'NoneType' has no len()
+2025-08-27 09:03:00,775 - app.ui.windows - ERROR - 刷新数据失败: object of type 'NoneType' has no len()
+2025-08-27 09:03:02,275 - app.ui.windows - ERROR - 刷新数据失败: object of type 'NoneType' has no len()
+2025-08-27 09:03:02,771 - app.ui.windows - ERROR - 刷新数据失败: object of type 'NoneType' has no len()
+2025-08-27 09:03:04,282 - app.ui.windows - ERROR - 刷新数据失败: object of type 'NoneType' has no len()
+2025-08-27 09:03:04,768 - app.ui.windows - ERROR - 刷新数据失败: object of type 'NoneType' has no len()
+2025-08-27 09:03:06,275 - app.ui.windows - ERROR - 刷新数据失败: object of type 'NoneType' has no len()
+2025-08-27 09:03:06,787 - app.ui.windows - ERROR - 刷新数据失败: object of type 'NoneType' has no len()
+2025-08-27 09:03:08,273 - app.ui.windows - ERROR - 刷新数据失败: object of type 'NoneType' has no len()
+2025-08-27 09:03:08,769 - app.ui.windows - ERROR - 刷新数据失败: object of type 'NoneType' has no len()
+2025-08-27 09:03:10,271 - app.ui.windows - ERROR - 刷新数据失败: object of type 'NoneType' has no len()
+2025-08-27 09:03:10,780 - app.ui.windows - ERROR - 刷新数据失败: object of type 'NoneType' has no len()
+2025-08-27 09:03:12,275 - app.ui.windows - ERROR - 刷新数据失败: object of type 'NoneType' has no len()
+2025-08-27 09:03:12,770 - app.ui.windows - ERROR - 刷新数据失败: object of type 'NoneType' has no len()
+2025-08-27 09:03:14,276 - app.ui.windows - ERROR - 刷新数据失败: object of type 'NoneType' has no len()
+2025-08-27 09:03:14,782 - app.ui.windows - ERROR - 刷新数据失败: object of type 'NoneType' has no len()
+2025-08-27 09:03:16,278 - app.ui.windows - ERROR - 刷新数据失败: object of type 'NoneType' has no len()
+2025-08-27 09:03:16,767 - app.ui.windows - ERROR - 刷新数据失败: object of type 'NoneType' has no len()
+2025-08-27 09:03:18,278 - app.ui.windows - ERROR - 刷新数据失败: object of type 'NoneType' has no len()
+2025-08-27 09:03:18,774 - app.ui.windows - ERROR - 刷新数据失败: object of type 'NoneType' has no len()
+2025-08-27 09:03:20,280 - app.ui.windows - ERROR - 刷新数据失败: object of type 'NoneType' has no len()
+2025-08-27 09:03:20,769 - app.ui.windows - ERROR - 刷新数据失败: object of type 'NoneType' has no len()
+2025-08-27 09:03:22,279 - app.ui.windows - ERROR - 刷新数据失败: object of type 'NoneType' has no len()
+2025-08-27 09:03:22,773 - app.ui.windows - ERROR - 刷新数据失败: object of type 'NoneType' has no len()
+2025-08-27 09:03:24,270 - app.ui.windows - ERROR - 刷新数据失败: object of type 'NoneType' has no len()
+2025-08-27 09:03:24,783 - app.ui.windows - ERROR - 刷新数据失败: object of type 'NoneType' has no len()
+2025-08-27 09:03:26,273 - app.ui.windows - ERROR - 刷新数据失败: object of type 'NoneType' has no len()
+2025-08-27 09:03:26,772 - app.ui.windows - ERROR - 刷新数据失败: object of type 'NoneType' has no len()
+2025-08-27 09:03:28,268 - app.ui.windows - ERROR - 刷新数据失败: object of type 'NoneType' has no len()
+2025-08-27 09:03:28,768 - app.ui.windows - ERROR - 刷新数据失败: object of type 'NoneType' has no len()
+2025-08-27 09:03:30,268 - app.ui.windows - ERROR - 刷新数据失败: object of type 'NoneType' has no len()
+2025-08-27 09:03:30,780 - app.ui.windows - ERROR - 刷新数据失败: object of type 'NoneType' has no len()
+2025-08-27 09:03:32,273 - app.ui.windows - ERROR - 刷新数据失败: object of type 'NoneType' has no len()
+2025-08-27 09:03:32,770 - app.ui.windows - ERROR - 刷新数据失败: object of type 'NoneType' has no len()
+2025-08-27 09:03:34,280 - app.ui.windows - ERROR - 刷新数据失败: object of type 'NoneType' has no len()
+2025-08-27 09:03:34,784 - app.ui.windows - ERROR - 刷新数据失败: object of type 'NoneType' has no len()
+2025-08-27 09:03:36,270 - app.ui.windows - ERROR - 刷新数据失败: object of type 'NoneType' has no len()
+2025-08-27 09:03:36,770 - app.ui.windows - ERROR - 刷新数据失败: object of type 'NoneType' has no len()
+2025-08-27 09:03:38,282 - app.ui.windows - ERROR - 刷新数据失败: object of type 'NoneType' has no len()
+2025-08-27 09:03:38,785 - app.ui.windows - ERROR - 刷新数据失败: object of type 'NoneType' has no len()
+2025-08-27 09:03:40,276 - app.ui.windows - ERROR - 刷新数据失败: object of type 'NoneType' has no len()
+2025-08-27 09:03:40,784 - app.ui.windows - ERROR - 刷新数据失败: object of type 'NoneType' has no len()
+2025-08-27 09:03:42,268 - app.ui.windows - ERROR - 刷新数据失败: object of type 'NoneType' has no len()
+2025-08-27 09:03:42,786 - app.ui.windows - ERROR - 刷新数据失败: object of type 'NoneType' has no len()
+2025-08-27 09:03:44,270 - app.ui.windows - ERROR - 刷新数据失败: object of type 'NoneType' has no len()
+2025-08-27 09:03:44,773 - app.ui.windows - ERROR - 刷新数据失败: object of type 'NoneType' has no len()
+2025-08-27 09:03:46,270 - app.ui.windows - ERROR - 刷新数据失败: object of type 'NoneType' has no len()
+2025-08-27 09:03:46,773 - app.ui.windows - ERROR - 刷新数据失败: object of type 'NoneType' has no len()
+2025-08-27 09:03:48,268 - app.ui.windows - ERROR - 刷新数据失败: object of type 'NoneType' has no len()
+2025-08-27 09:03:48,774 - app.ui.windows - ERROR - 刷新数据失败: object of type 'NoneType' has no len()
+2025-08-27 09:03:50,269 - app.ui.windows - ERROR - 刷新数据失败: object of type 'NoneType' has no len()
+2025-08-27 09:03:50,773 - app.ui.windows - ERROR - 刷新数据失败: object of type 'NoneType' has no len()
+2025-08-27 09:03:52,272 - app.ui.windows - ERROR - 刷新数据失败: object of type 'NoneType' has no len()
+2025-08-27 09:03:52,441 - app.ui.windows - ERROR - 刷新日志失败: object of type 'NoneType' has no len()
+2025-08-27 09:03:52,770 - app.ui.windows - ERROR - 刷新数据失败: object of type 'NoneType' has no len()
+2025-08-27 09:03:54,269 - app.ui.windows - ERROR - 刷新数据失败: object of type 'NoneType' has no len()
+2025-08-27 09:03:54,771 - app.ui.windows - ERROR - 刷新数据失败: object of type 'NoneType' has no len()
+2025-08-27 09:03:56,270 - app.ui.windows - ERROR - 刷新数据失败: object of type 'NoneType' has no len()
+2025-08-27 09:03:56,779 - app.ui.windows - ERROR - 刷新数据失败: object of type 'NoneType' has no len()
+2025-08-27 09:03:58,316 - app.ui.windows - ERROR - 刷新数据失败: object of type 'NoneType' has no len()
+2025-08-27 09:03:58,769 - app.ui.windows - ERROR - 刷新数据失败: object of type 'NoneType' has no len()
+2025-08-27 09:04:00,770 - app.ui.windows - ERROR - 刷新数据失败: object of type 'NoneType' has no len()
+2025-08-27 09:04:02,779 - app.ui.windows - ERROR - 刷新数据失败: object of type 'NoneType' has no len()
+2025-08-27 09:04:04,770 - app.ui.windows - ERROR - 刷新数据失败: object of type 'NoneType' has no len()
+2025-08-27 09:04:06,777 - app.ui.windows - ERROR - 刷新数据失败: object of type 'NoneType' has no len()
+2025-08-27 09:04:08,778 - app.ui.windows - ERROR - 刷新数据失败: object of type 'NoneType' has no len()
+2025-08-27 09:04:10,789 - app.ui.windows - ERROR - 刷新数据失败: object of type 'NoneType' has no len()
+2025-08-27 09:04:12,774 - app.ui.windows - ERROR - 刷新数据失败: object of type 'NoneType' has no len()
+2025-08-27 09:04:14,783 - app.ui.windows - ERROR - 刷新数据失败: object of type 'NoneType' has no len()
+2025-08-27 09:04:16,782 - app.ui.windows - ERROR - 刷新数据失败: object of type 'NoneType' has no len()
+2025-08-27 09:04:18,774 - app.ui.windows - ERROR - 刷新数据失败: object of type 'NoneType' has no len()
+2025-08-27 09:04:20,771 - app.ui.windows - ERROR - 刷新数据失败: object of type 'NoneType' has no len()
+2025-08-27 09:04:22,777 - app.ui.windows - ERROR - 刷新数据失败: object of type 'NoneType' has no len()
+2025-08-27 09:04:24,775 - app.ui.windows - ERROR - 刷新数据失败: object of type 'NoneType' has no len()
+2025-08-27 09:04:26,783 - app.ui.windows - ERROR - 刷新数据失败: object of type 'NoneType' has no len()
+2025-08-27 09:04:28,772 - app.ui.windows - ERROR - 刷新数据失败: object of type 'NoneType' has no len()
+2025-08-27 09:04:30,778 - app.ui.windows - ERROR - 刷新数据失败: object of type 'NoneType' has no len()
+2025-08-27 09:04:32,783 - app.ui.windows - ERROR - 刷新数据失败: object of type 'NoneType' has no len()
+2025-08-27 09:04:34,776 - app.ui.windows - ERROR - 刷新数据失败: object of type 'NoneType' has no len()
+2025-08-27 09:04:36,769 - app.ui.windows - ERROR - 刷新数据失败: object of type 'NoneType' has no len()
+2025-08-27 09:04:38,771 - app.ui.windows - ERROR - 刷新数据失败: object of type 'NoneType' has no len()
+2025-08-27 09:04:40,770 - app.ui.windows - ERROR - 刷新数据失败: object of type 'NoneType' has no len()
+2025-08-27 09:04:42,783 - app.ui.windows - ERROR - 刷新数据失败: object of type 'NoneType' has no len()
+2025-08-27 09:04:44,778 - app.ui.windows - ERROR - 刷新数据失败: object of type 'NoneType' has no len()
+2025-08-27 09:04:46,780 - app.ui.windows - ERROR - 刷新数据失败: object of type 'NoneType' has no len()
+2025-08-27 09:04:48,771 - app.ui.windows - ERROR - 刷新数据失败: object of type 'NoneType' has no len()
+2025-08-27 09:04:50,774 - app.ui.windows - ERROR - 刷新数据失败: object of type 'NoneType' has no len()
+2025-08-27 09:04:52,769 - app.ui.windows - ERROR - 刷新数据失败: object of type 'NoneType' has no len()
+2025-08-27 09:04:53,361 - app.main_gui - INFO - 启动 Spidermind GUI
+2025-08-27 09:04:53,493 - app.main_gui - INFO - 创建主窗口
+2025-08-27 09:04:53,523 - db.dao - INFO - 数据库连接池初始化成功，连接: mysql+pymysql://root:***@127.0.0.1:3306/Spidermind
+2025-08-27 09:04:53,524 - app.ui.windows - INFO - 数据库连接状态: 成功
+2025-08-27 09:04:53,842 - app.ui.windows - INFO - 样式表加载成功
+2025-08-27 09:04:53,845 - app.spiders_registry - INFO - 总共加载了 2 个爬虫配置
+2025-08-27 09:04:53,849 - app.ui.windows - INFO - 刷新爬虫列表: 找到 2 个爬虫
+2025-08-27 09:04:53,854 - app.ui.windows - ERROR - 刷新数据失败: object of type 'NoneType' has no len()
+2025-08-27 09:04:53,907 - app.main_gui - INFO - GUI 启动成功
+2025-08-27 09:04:54,770 - app.ui.windows - ERROR - 刷新数据失败: object of type 'NoneType' has no len()
+2025-08-27 09:04:55,545 - app.ui.windows - ERROR - 刷新数据失败: object of type 'NoneType' has no len()
+2025-08-27 09:04:56,769 - app.ui.windows - ERROR - 刷新数据失败: object of type 'NoneType' has no len()
+2025-08-27 09:04:57,546 - app.ui.windows - ERROR - 刷新数据失败: object of type 'NoneType' has no len()
+2025-08-27 09:04:58,773 - app.ui.windows - ERROR - 刷新数据失败: object of type 'NoneType' has no len()
+2025-08-27 09:04:59,540 - app.ui.windows - ERROR - 刷新数据失败: object of type 'NoneType' has no len()
+2025-08-27 09:05:00,769 - app.ui.windows - ERROR - 刷新数据失败: object of type 'NoneType' has no len()
+2025-08-27 09:05:01,541 - app.ui.windows - ERROR - 刷新数据失败: object of type 'NoneType' has no len()
+2025-08-27 09:05:02,774 - app.ui.windows - ERROR - 刷新数据失败: object of type 'NoneType' has no len()
+2025-08-27 09:05:03,535 - app.ui.windows - ERROR - 刷新数据失败: object of type 'NoneType' has no len()
+2025-08-27 09:05:04,747 - app.ui.windows - INFO - 选择爬虫: GitHub README 联系方式爬虫
+2025-08-27 09:05:04,772 - app.ui.windows - ERROR - 刷新数据失败: object of type 'NoneType' has no len()
+2025-08-27 09:05:05,535 - app.ui.windows - ERROR - 刷新数据失败: object of type 'NoneType' has no len()
+2025-08-27 09:05:06,000 - app.ui.windows - INFO - 启动爬虫: GitHub README 联系方式爬虫, 参数: ['--timeout', '30', '--retries', '3', '--threads', '1']
+2025-08-27 09:05:06,002 - app.run_subprocess - INFO - 爬虫进程启动成功: spiders.github_readme.runner, PID: 17452
+2025-08-27 09:05:06,004 - app.ui.windows - INFO - 爬虫启动成功: PID 17452
+2025-08-27 09:05:06,770 - app.ui.windows - ERROR - 刷新数据失败: object of type 'NoneType' has no len()
+2025-08-27 09:05:07,535 - app.ui.windows - ERROR - 刷新数据失败: object of type 'NoneType' has no len()
+2025-08-27 09:05:08,772 - app.ui.windows - ERROR - 刷新数据失败: object of type 'NoneType' has no len()
+2025-08-27 09:05:09,539 - app.ui.windows - ERROR - 刷新数据失败: object of type 'NoneType' has no len()
+2025-08-27 09:05:10,772 - app.ui.windows - ERROR - 刷新数据失败: object of type 'NoneType' has no len()
+2025-08-27 09:05:11,536 - app.ui.windows - ERROR - 刷新数据失败: object of type 'NoneType' has no len()
+2025-08-27 09:05:12,771 - app.ui.windows - ERROR - 刷新数据失败: object of type 'NoneType' has no len()
+2025-08-27 09:05:13,538 - app.ui.windows - ERROR - 刷新数据失败: object of type 'NoneType' has no len()
+2025-08-27 09:05:13,932 - app.ui.windows - ERROR - 刷新日志失败: object of type 'NoneType' has no len()
+2025-08-27 09:05:14,782 - app.ui.windows - ERROR - 刷新数据失败: object of type 'NoneType' has no len()
+2025-08-27 09:05:15,545 - app.ui.windows - ERROR - 刷新数据失败: object of type 'NoneType' has no len()
+2025-08-27 09:05:16,769 - app.ui.windows - ERROR - 刷新数据失败: object of type 'NoneType' has no len()
+2025-08-27 09:05:18,769 - app.ui.windows - ERROR - 刷新数据失败: object of type 'NoneType' has no len()
+2025-08-27 09:05:20,783 - app.ui.windows - ERROR - 刷新数据失败: object of type 'NoneType' has no len()
+2025-08-27 09:05:22,770 - app.ui.windows - ERROR - 刷新数据失败: object of type 'NoneType' has no len()
+2025-08-27 09:05:24,791 - app.ui.windows - ERROR - 刷新数据失败: object of type 'NoneType' has no len()
+2025-08-27 09:05:27,945 - app.main_gui - INFO - 启动 Spidermind GUI
+2025-08-27 09:05:28,108 - app.main_gui - INFO - 创建主窗口
+2025-08-27 09:05:28,148 - db.dao - INFO - 数据库连接池初始化成功，连接: mysql+pymysql://root:***@127.0.0.1:3306/Spidermind
+2025-08-27 09:05:28,148 - app.ui.windows - INFO - 数据库连接状态: 成功
+2025-08-27 09:05:28,416 - app.ui.windows - INFO - 样式表加载成功
+2025-08-27 09:05:28,419 - app.spiders_registry - INFO - 总共加载了 2 个爬虫配置
+2025-08-27 09:05:28,421 - app.ui.windows - INFO - 刷新爬虫列表: 找到 2 个爬虫
+2025-08-27 09:05:28,427 - app.ui.windows - ERROR - 刷新数据失败: object of type 'NoneType' has no len()
+2025-08-27 09:05:28,476 - app.main_gui - INFO - GUI 启动成功
+2025-08-27 09:05:30,160 - app.ui.windows - ERROR - 刷新数据失败: object of type 'NoneType' has no len()
+2025-08-27 09:05:32,167 - app.ui.windows - ERROR - 刷新数据失败: object of type 'NoneType' has no len()
+2025-08-27 09:05:34,167 - app.ui.windows - ERROR - 刷新数据失败: object of type 'NoneType' has no len()
+2025-08-27 09:05:36,167 - app.ui.windows - ERROR - 刷新数据失败: object of type 'NoneType' has no len()
+2025-08-27 09:05:38,162 - app.ui.windows - ERROR - 刷新数据失败: object of type 'NoneType' has no len()
+2025-08-27 09:05:40,169 - app.ui.windows - ERROR - 刷新数据失败: object of type 'NoneType' has no len()
+2025-08-27 09:05:42,165 - app.ui.windows - ERROR - 刷新数据失败: object of type 'NoneType' has no len()
+2025-08-27 09:05:44,168 - app.ui.windows - ERROR - 刷新数据失败: object of type 'NoneType' has no len()
+2025-08-27 09:05:46,173 - app.ui.windows - ERROR - 刷新数据失败: object of type 'NoneType' has no len()
+2025-08-27 09:05:48,169 - app.ui.windows - ERROR - 刷新数据失败: object of type 'NoneType' has no len()
+2025-08-27 09:05:50,171 - app.ui.windows - ERROR - 刷新数据失败: object of type 'NoneType' has no len()
+2025-08-27 09:05:52,162 - app.ui.windows - ERROR - 刷新数据失败: object of type 'NoneType' has no len()
+2025-08-27 09:05:54,162 - app.ui.windows - ERROR - 刷新数据失败: object of type 'NoneType' has no len()
+2025-08-27 09:05:56,162 - app.ui.windows - ERROR - 刷新数据失败: object of type 'NoneType' has no len()
+2025-08-27 09:05:58,159 - app.ui.windows - ERROR - 刷新数据失败: object of type 'NoneType' has no len()
+2025-08-27 09:06:00,161 - app.ui.windows - ERROR - 刷新数据失败: object of type 'NoneType' has no len()
+2025-08-27 09:06:02,168 - app.ui.windows - ERROR - 刷新数据失败: object of type 'NoneType' has no len()
+2025-08-27 09:06:04,170 - app.ui.windows - ERROR - 刷新数据失败: object of type 'NoneType' has no len()
+2025-08-27 09:06:06,168 - app.ui.windows - ERROR - 刷新数据失败: object of type 'NoneType' has no len()
+2025-08-27 09:06:08,169 - app.ui.windows - ERROR - 刷新数据失败: object of type 'NoneType' has no len()
+2025-08-27 09:06:10,160 - app.ui.windows - ERROR - 刷新数据失败: object of type 'NoneType' has no len()
+2025-08-27 09:06:12,168 - app.ui.windows - ERROR - 刷新数据失败: object of type 'NoneType' has no len()
+2025-08-27 09:06:14,165 - app.ui.windows - ERROR - 刷新数据失败: object of type 'NoneType' has no len()
+2025-08-27 09:06:16,166 - app.ui.windows - ERROR - 刷新数据失败: object of type 'NoneType' has no len()
+2025-08-27 09:06:18,171 - app.ui.windows - ERROR - 刷新数据失败: object of type 'NoneType' has no len()
+2025-08-27 09:06:20,171 - app.ui.windows - ERROR - 刷新数据失败: object of type 'NoneType' has no len()
+2025-08-27 09:06:22,164 - app.ui.windows - ERROR - 刷新数据失败: object of type 'NoneType' has no len()
+2025-08-27 09:06:24,169 - app.ui.windows - ERROR - 刷新数据失败: object of type 'NoneType' has no len()
+2025-08-27 09:06:26,165 - app.ui.windows - ERROR - 刷新数据失败: object of type 'NoneType' has no len()
+2025-08-27 09:06:28,170 - app.ui.windows - ERROR - 刷新数据失败: object of type 'NoneType' has no len()
+2025-08-27 09:06:36,340 - app.main_gui - INFO - 启动 Spidermind GUI
+2025-08-27 09:06:36,504 - app.main_gui - INFO - 创建主窗口
+2025-08-27 09:06:36,548 - db.dao - INFO - 数据库连接池初始化成功，连接: mysql+pymysql://root:***@127.0.0.1:3306/Spidermind
+2025-08-27 09:06:36,549 - app.ui.windows - INFO - 数据库连接状态: 成功
+2025-08-27 09:06:36,812 - app.ui.windows - INFO - 样式表加载成功
+2025-08-27 09:06:36,815 - app.spiders_registry - INFO - 总共加载了 2 个爬虫配置
+2025-08-27 09:06:36,818 - app.ui.windows - INFO - 刷新爬虫列表: 找到 2 个爬虫
+2025-08-27 09:06:36,823 - app.ui.windows - ERROR - 刷新数据失败: object of type 'NoneType' has no len()
+2025-08-27 09:06:36,824 - app.ui.windows - ERROR - 详细错误信息: Traceback (most recent call last):
+  File "D:\Spidermind\app\ui\windows.py", line 209, in _refresh_data
+    self.log_view.update_logs(logs)
+  File "D:\Spidermind\app\ui\views\log_view.py", line 199, in update_logs
+    self.log_table.update_logs(logs)
+  File "D:\Spidermind\app\ui\views\log_view.py", line 82, in update_logs
+    if len(url) > 50:
+TypeError: object of type 'NoneType' has no len()
+
+2025-08-27 09:06:36,871 - app.main_gui - INFO - GUI 启动成功
+2025-08-27 09:06:38,570 - app.ui.windows - ERROR - 刷新数据失败: object of type 'NoneType' has no len()
+2025-08-27 09:06:38,571 - app.ui.windows - ERROR - 详细错误信息: Traceback (most recent call last):
+  File "D:\Spidermind\app\ui\windows.py", line 209, in _refresh_data
+    self.log_view.update_logs(logs)
+  File "D:\Spidermind\app\ui\views\log_view.py", line 199, in update_logs
+    self.log_table.update_logs(logs)
+  File "D:\Spidermind\app\ui\views\log_view.py", line 82, in update_logs
+    if len(url) > 50:
+TypeError: object of type 'NoneType' has no len()
+
+2025-08-27 09:06:40,579 - app.ui.windows - ERROR - 刷新数据失败: object of type 'NoneType' has no len()
+2025-08-27 09:06:40,580 - app.ui.windows - ERROR - 详细错误信息: Traceback (most recent call last):
+  File "D:\Spidermind\app\ui\windows.py", line 209, in _refresh_data
+    self.log_view.update_logs(logs)
+  File "D:\Spidermind\app\ui\views\log_view.py", line 199, in update_logs
+    self.log_table.update_logs(logs)
+  File "D:\Spidermind\app\ui\views\log_view.py", line 82, in update_logs
+    if len(url) > 50:
+TypeError: object of type 'NoneType' has no len()
+
+2025-08-27 09:06:42,573 - app.ui.windows - ERROR - 刷新数据失败: object of type 'NoneType' has no len()
+2025-08-27 09:06:42,573 - app.ui.windows - ERROR - 详细错误信息: Traceback (most recent call last):
+  File "D:\Spidermind\app\ui\windows.py", line 209, in _refresh_data
+    self.log_view.update_logs(logs)
+  File "D:\Spidermind\app\ui\views\log_view.py", line 199, in update_logs
+    self.log_table.update_logs(logs)
+  File "D:\Spidermind\app\ui\views\log_view.py", line 82, in update_logs
+    if len(url) > 50:
+TypeError: object of type 'NoneType' has no len()
+
+2025-08-27 09:06:44,572 - app.ui.windows - ERROR - 刷新数据失败: object of type 'NoneType' has no len()
+2025-08-27 09:06:44,572 - app.ui.windows - ERROR - 详细错误信息: Traceback (most recent call last):
+  File "D:\Spidermind\app\ui\windows.py", line 209, in _refresh_data
+    self.log_view.update_logs(logs)
+  File "D:\Spidermind\app\ui\views\log_view.py", line 199, in update_logs
+    self.log_table.update_logs(logs)
+  File "D:\Spidermind\app\ui\views\log_view.py", line 82, in update_logs
+    if len(url) > 50:
+TypeError: object of type 'NoneType' has no len()
+
+2025-08-27 09:06:46,576 - app.ui.windows - ERROR - 刷新数据失败: object of type 'NoneType' has no len()
+2025-08-27 09:06:46,576 - app.ui.windows - ERROR - 详细错误信息: Traceback (most recent call last):
+  File "D:\Spidermind\app\ui\windows.py", line 209, in _refresh_data
+    self.log_view.update_logs(logs)
+  File "D:\Spidermind\app\ui\views\log_view.py", line 199, in update_logs
+    self.log_table.update_logs(logs)
+  File "D:\Spidermind\app\ui\views\log_view.py", line 82, in update_logs
+    if len(url) > 50:
+TypeError: object of type 'NoneType' has no len()
+
+2025-08-27 09:06:48,571 - app.ui.windows - ERROR - 刷新数据失败: object of type 'NoneType' has no len()
+2025-08-27 09:06:48,572 - app.ui.windows - ERROR - 详细错误信息: Traceback (most recent call last):
+  File "D:\Spidermind\app\ui\windows.py", line 209, in _refresh_data
+    self.log_view.update_logs(logs)
+  File "D:\Spidermind\app\ui\views\log_view.py", line 199, in update_logs
+    self.log_table.update_logs(logs)
+  File "D:\Spidermind\app\ui\views\log_view.py", line 82, in update_logs
+    if len(url) > 50:
+TypeError: object of type 'NoneType' has no len()
+
+2025-08-27 09:06:50,578 - app.ui.windows - ERROR - 刷新数据失败: object of type 'NoneType' has no len()
+2025-08-27 09:06:50,578 - app.ui.windows - ERROR - 详细错误信息: Traceback (most recent call last):
+  File "D:\Spidermind\app\ui\windows.py", line 209, in _refresh_data
+    self.log_view.update_logs(logs)
+  File "D:\Spidermind\app\ui\views\log_view.py", line 199, in update_logs
+    self.log_table.update_logs(logs)
+  File "D:\Spidermind\app\ui\views\log_view.py", line 82, in update_logs
+    if len(url) > 50:
+TypeError: object of type 'NoneType' has no len()
+
+2025-08-27 09:06:52,571 - app.ui.windows - ERROR - 刷新数据失败: object of type 'NoneType' has no len()
+2025-08-27 09:06:52,571 - app.ui.windows - ERROR - 详细错误信息: Traceback (most recent call last):
+  File "D:\Spidermind\app\ui\windows.py", line 209, in _refresh_data
+    self.log_view.update_logs(logs)
+  File "D:\Spidermind\app\ui\views\log_view.py", line 199, in update_logs
+    self.log_table.update_logs(logs)
+  File "D:\Spidermind\app\ui\views\log_view.py", line 82, in update_logs
+    if len(url) > 50:
+TypeError: object of type 'NoneType' has no len()
+
+2025-08-27 09:06:54,577 - app.ui.windows - ERROR - 刷新数据失败: object of type 'NoneType' has no len()
+2025-08-27 09:06:54,577 - app.ui.windows - ERROR - 详细错误信息: Traceback (most recent call last):
+  File "D:\Spidermind\app\ui\windows.py", line 209, in _refresh_data
+    self.log_view.update_logs(logs)
+  File "D:\Spidermind\app\ui\views\log_view.py", line 199, in update_logs
+    self.log_table.update_logs(logs)
+  File "D:\Spidermind\app\ui\views\log_view.py", line 82, in update_logs
+    if len(url) > 50:
+TypeError: object of type 'NoneType' has no len()
+
+2025-08-27 09:06:56,578 - app.ui.windows - ERROR - 刷新数据失败: object of type 'NoneType' has no len()
+2025-08-27 09:06:56,579 - app.ui.windows - ERROR - 详细错误信息: Traceback (most recent call last):
+  File "D:\Spidermind\app\ui\windows.py", line 209, in _refresh_data
+    self.log_view.update_logs(logs)
+  File "D:\Spidermind\app\ui\views\log_view.py", line 199, in update_logs
+    self.log_table.update_logs(logs)
+  File "D:\Spidermind\app\ui\views\log_view.py", line 82, in update_logs
+    if len(url) > 50:
+TypeError: object of type 'NoneType' has no len()
+
+2025-08-27 09:06:58,573 - app.ui.windows - ERROR - 刷新数据失败: object of type 'NoneType' has no len()
+2025-08-27 09:06:58,574 - app.ui.windows - ERROR - 详细错误信息: Traceback (most recent call last):
+  File "D:\Spidermind\app\ui\windows.py", line 209, in _refresh_data
+    self.log_view.update_logs(logs)
+  File "D:\Spidermind\app\ui\views\log_view.py", line 199, in update_logs
+    self.log_table.update_logs(logs)
+  File "D:\Spidermind\app\ui\views\log_view.py", line 82, in update_logs
+    if len(url) > 50:
+TypeError: object of type 'NoneType' has no len()
+
+2025-08-27 09:07:00,577 - app.ui.windows - ERROR - 刷新数据失败: object of type 'NoneType' has no len()
+2025-08-27 09:07:00,578 - app.ui.windows - ERROR - 详细错误信息: Traceback (most recent call last):
+  File "D:\Spidermind\app\ui\windows.py", line 209, in _refresh_data
+    self.log_view.update_logs(logs)
+  File "D:\Spidermind\app\ui\views\log_view.py", line 199, in update_logs
+    self.log_table.update_logs(logs)
+  File "D:\Spidermind\app\ui\views\log_view.py", line 82, in update_logs
+    if len(url) > 50:
+TypeError: object of type 'NoneType' has no len()
+
+2025-08-27 09:07:02,569 - app.ui.windows - ERROR - 刷新数据失败: object of type 'NoneType' has no len()
+2025-08-27 09:07:02,569 - app.ui.windows - ERROR - 详细错误信息: Traceback (most recent call last):
+  File "D:\Spidermind\app\ui\windows.py", line 209, in _refresh_data
+    self.log_view.update_logs(logs)
+  File "D:\Spidermind\app\ui\views\log_view.py", line 199, in update_logs
+    self.log_table.update_logs(logs)
+  File "D:\Spidermind\app\ui\views\log_view.py", line 82, in update_logs
+    if len(url) > 50:
+TypeError: object of type 'NoneType' has no len()
+
+2025-08-27 09:07:04,565 - app.ui.windows - ERROR - 刷新数据失败: object of type 'NoneType' has no len()
+2025-08-27 09:07:04,566 - app.ui.windows - ERROR - 详细错误信息: Traceback (most recent call last):
+  File "D:\Spidermind\app\ui\windows.py", line 209, in _refresh_data
+    self.log_view.update_logs(logs)
+  File "D:\Spidermind\app\ui\views\log_view.py", line 199, in update_logs
+    self.log_table.update_logs(logs)
+  File "D:\Spidermind\app\ui\views\log_view.py", line 82, in update_logs
+    if len(url) > 50:
+TypeError: object of type 'NoneType' has no len()
+
+2025-08-27 09:07:06,566 - app.ui.windows - ERROR - 刷新数据失败: object of type 'NoneType' has no len()
+2025-08-27 09:07:06,566 - app.ui.windows - ERROR - 详细错误信息: Traceback (most recent call last):
+  File "D:\Spidermind\app\ui\windows.py", line 209, in _refresh_data
+    self.log_view.update_logs(logs)
+  File "D:\Spidermind\app\ui\views\log_view.py", line 199, in update_logs
+    self.log_table.update_logs(logs)
+  File "D:\Spidermind\app\ui\views\log_view.py", line 82, in update_logs
+    if len(url) > 50:
+TypeError: object of type 'NoneType' has no len()
+
+2025-08-27 09:07:19,189 - app.main_gui - INFO - 启动 Spidermind GUI
+2025-08-27 09:07:19,382 - app.main_gui - INFO - 创建主窗口
+2025-08-27 09:07:19,431 - db.dao - INFO - 数据库连接池初始化成功，连接: mysql+pymysql://root:***@127.0.0.1:3306/Spidermind
+2025-08-27 09:07:19,433 - app.ui.windows - INFO - 数据库连接状态: 成功
+2025-08-27 09:07:19,692 - app.ui.windows - INFO - 样式表加载成功
+2025-08-27 09:07:19,695 - app.spiders_registry - INFO - 总共加载了 2 个爬虫配置
+2025-08-27 09:07:19,698 - app.ui.windows - INFO - 刷新爬虫列表: 找到 2 个爬虫
+2025-08-27 09:07:19,754 - app.main_gui - INFO - GUI 启动成功
+2025-08-27 09:07:22,267 - app.ui.windows - INFO - 选择爬虫: GitHub README 联系方式爬虫
+2025-08-27 09:07:23,153 - app.ui.windows - INFO - 启动爬虫: GitHub README 联系方式爬虫, 参数: ['--timeout', '30', '--retries', '3', '--threads', '1']
+2025-08-27 09:07:23,154 - app.run_subprocess - INFO - 爬虫进程启动成功: spiders.github_readme.runner, PID: 10992
+2025-08-27 09:07:23,155 - app.ui.windows - INFO - 爬虫启动成功: PID 10992
+2025-08-27 09:07:38,844 - app.ui.windows - INFO - 手动刷新日志: 获取到 36 条记录
+2025-08-27 09:07:39,499 - app.ui.windows - INFO - 手动刷新日志: 获取到 36 条记录
+2025-08-27 09:07:40,372 - app.ui.windows - INFO - 手动刷新日志: 获取到 36 条记录
+2025-08-27 09:07:41,020 - app.ui.windows - INFO - 手动刷新日志: 获取到 36 条记录
+2025-08-27 09:07:41,732 - app.ui.windows - INFO - 手动刷新日志: 获取到 36 条记录
+2025-08-27 09:07:43,075 - app.ui.windows - INFO - 手动刷新日志: 获取到 36 条记录
+2025-08-27 09:07:58,218 - app.ui.windows - INFO - 手动刷新日志: 获取到 36 条记录
+2025-08-27 09:07:59,612 - app.ui.windows - INFO - 手动刷新日志: 获取到 36 条记录

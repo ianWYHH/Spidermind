@@ -159,6 +159,40 @@ if HAS_PYDANTIC:
                 "temperature": self.QWEN_TEMPERATURE,
                 "provider": self.QWEN_PROVIDER
             }
+        
+        def get_github_tokens_config(self) -> Dict[str, Any]:
+            """获取GitHub令牌配置"""
+            tokens_file = Path(self.GITHUB_TOKENS_FILE)
+            
+            if not tokens_file.exists():
+                raise ValueError(f"GitHub令牌文件不存在: {tokens_file}")
+            
+            try:
+                with open(tokens_file, 'r', encoding='utf-8') as f:
+                    config = json.load(f)
+                
+                # 验证配置格式
+                if 'tokens' not in config:
+                    raise ValueError("配置文件中缺少'tokens'字段")
+                
+                if not isinstance(config['tokens'], list) or len(config['tokens']) == 0:
+                    raise ValueError("'tokens'必须是非空列表")
+                
+                # 设置默认值
+                return {
+                    "tokens": config['tokens'],
+                    "api_base": config.get('api_base', 'https://api.github.com'),
+                    "per_request_sleep_seconds": config.get('per_request_sleep_seconds', 0.1),
+                    "rate_limit_backoff_seconds": config.get('rate_limit_backoff_seconds', 2.0),
+                    "retry_limit": config.get('retry_limit', 3),
+                    "retry_delay_seconds": config.get('retry_delay_seconds', 1.0),
+                    "max_concurrent_requests": config.get('max_concurrent_requests', 10)
+                }
+                
+            except json.JSONDecodeError as e:
+                raise ValueError(f"GitHub令牌文件JSON格式错误: {e}")
+            except Exception as e:
+                raise ValueError(f"读取GitHub令牌文件失败: {e}")
 
     # 全局设置实例
     settings = Settings()
@@ -183,5 +217,39 @@ else:
                 "temperature": float(os.getenv('QWEN_TEMPERATURE', '0.1')),
                 "provider": os.getenv('QWEN_PROVIDER', 'qwen')
             }
+        
+        def get_github_tokens_config(self) -> Dict[str, Any]:
+            """获取GitHub令牌配置"""
+            tokens_file = Path(self.GITHUB_TOKENS_FILE)
+            
+            if not tokens_file.exists():
+                raise ValueError(f"GitHub令牌文件不存在: {tokens_file}")
+            
+            try:
+                with open(tokens_file, 'r', encoding='utf-8') as f:
+                    config = json.load(f)
+                
+                # 验证配置格式
+                if 'tokens' not in config:
+                    raise ValueError("配置文件中缺少'tokens'字段")
+                
+                if not isinstance(config['tokens'], list) or len(config['tokens']) == 0:
+                    raise ValueError("'tokens'必须是非空列表")
+                
+                # 设置默认值
+                return {
+                    "tokens": config['tokens'],
+                    "api_base": config.get('api_base', 'https://api.github.com'),
+                    "per_request_sleep_seconds": config.get('per_request_sleep_seconds', 0.1),
+                    "rate_limit_backoff_seconds": config.get('rate_limit_backoff_seconds', 2.0),
+                    "retry_limit": config.get('retry_limit', 3),
+                    "retry_delay_seconds": config.get('retry_delay_seconds', 1.0),
+                    "max_concurrent_requests": config.get('max_concurrent_requests', 10)
+                }
+                
+            except json.JSONDecodeError as e:
+                raise ValueError(f"GitHub令牌文件JSON格式错误: {e}")
+            except Exception as e:
+                raise ValueError(f"读取GitHub令牌文件失败: {e}")
     
     settings = SimpleSettings()

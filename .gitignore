@@ -11,3 +11,6 @@ __pycache__/
 .env
 config/database.json
 config\tokens.github.json
+config/tokens.github.json
+config/tokens.github.json
+config/tokens.github.json
